@@ -1,0 +1,224 @@
+Non-linear optimization
+
+Laurent Poirrier
+
+Texts:
+Nocedal/Wright: Numerical Optimization
+Boyd/Vandenberghe: Convex Optimization
+
+=LEC1=
+_Chapter 0: Introduction_
+
+Mathematical Optimization or Mathematic Programming
+ Informally: Find a best solution to the model of a problem
+  *best* according to a given objective/criterion
+
+Applications
+ Operations Research
+  Scheduling + Planning
+  Supply Chain Management
+  Vehicular Routing
+  Power Grid Optimization
+ Statistics & Machine Learning
+  Curve Fitting
+  Classification, Clustering, SVM, ...
+  Deep Learning
+ Finance
+ Optimal Control
+ Biology
+
+
+(OPT) min f(x)
+ s.t. g_i(x) ≤ 0, for i ∈ {1, 2, 3, ..., m}
+ x ∈ R
+
+Remarks:
+ a. max f(x) = -(min -f(x))
+ b. {x ∈ Rⁿ: g(x) ≥ 0} = {x ∈ Rⁿ: -g(x) ≤ 0}
+ c. {x ∈ Rⁿ: g(x) ≥ b} = {x ∈ Rⁿ: -g(x) - b ≤ 0}
+
+A. Classification of Solutions
+ defn Open Ball:
+  the open ball of radius δ around x_bar is B_δ(x_bar) = {x ∈ Rⁿ: ‖x - x_bar‖ ≤ δ}
+
+ defn Minimizer:
+  Consider f: D → R. The point x* ∈ D is
+   a global minimizer for f on D if 
+    f(x*) ≤ f(x), ∀x ∈ D
+
+   a strict global minimizer for f on D if 
+    f(x*) < f(x), ∀x ∈ D, x ≠ x*
+   
+   a local minimizer for f on D if
+    ∃δ > 0: f(x*) ≤ f(x), ∀x ∈ B_δ(x*) ∩ D
+
+   a strict local minimizer for f on D if
+    ∃δ > 0: f(x*) < f(x), ∀x ∈ B_δ(x*) ∩ D, x ≠ x*
+
+B. Classification of Problems - 1
+ a. if f(x) = 0 ∀x ∈ Rⁿ ⇒ (OPT) is a feasibility problem
+ b. if we have m = 0 constractins ⇒ (OPT) is an unconstrained optimization problem
+
+C. Classification of Problems - 2
+ Q: why do we need f and g?
+ A: in the absence of hypotheses on f and g, (OPT) is unsolvable
+
+ Note: "Black box" optimization framework
+ All that is given is an oracle function that can compute values of f(x) for any x 
+  (and possibly some extensions to compute derivatives)
+
+ Example: solve 
+  min f(x)
+  s.t. x ∈ R
+  f(x) := 0 when x = λ
+  f(x) := 1 otherwise
+
+  "guess lambda"
+
+
+=LEC2=
+ Example: consider
+  min f(x)
+  s.t. g(x) ≤ 0, for i ∈ [1, m]
+       h(x) ≤ 0
+  h(x) when x in Zⁿ, do: 0
+  h(x), do: 1
+
+  in other words, we only want integral solutions
+ 
+ defn Discrete Optimization
+  When the constraints of (OPT) restrict to a lattice, we have a discrete optimization problem
+
+
+ defn Continuous
+  A function f: D → R is continuous over D 
+  if ∀ε > 0, ∃δ > 0 s.t. |x - y| < δ ⇒ |f(x) - f(y)| < ε, ∀x, y ∈ D
+
+ defn Smooth
+  A function f: D → R is Cᵏ smooth over D (f ∈ Cᵏ(D)) 
+  if all its kth derivatives are continuous over D
+
+ f(x) when x >= 2, do: 1
+ f(x), do: -1
+  f(x) is discontinous
+
+ g(x), do: abs(x - 2)
+  g(x) ∈ C⁰
+
+ h(x) when x >= 2, do: 1/2 (x-2) ** 2
+ h(x), do: 1/2 (2-x) ** 2
+  h(x) ∈ C¹
+
+ defn Gradient
+  Let f ∈ C¹(D) for D ⊆ Rⁿ. The gradient is
+   ∇f: D → Rⁿ
+   if satisfies ∇f ∈ C⁰(D) and is given by ∇f(x) = (δf/δx_1(x), ..., δf/δx_n(x))ᵀ
+
+ defn Hessian
+  Let f ∈ C²(D) for D ⊆ Rⁿ. Its Hessian is
+   ∇²f: D → Rⁿ
+   It satisfies ∇²f ∈ C⁰(D) and is given by ∇²f = 
+     | δf(x)/δx_1δx_1 ... δf(x)/δx_nδx_1 |
+     | ...            ...            ... |
+     | δf(x)/δx_1δx_n ...  δf(x)/δx_nδx_n|
+
+ defn Linear
+  A function f: D → R, D ⊆ Rⁿ is linear 
+  if ∃c ∈ Rⁿ where f(x) = cᵀx, ∀x ∈ D
+  Then ∇f(x) = c and ∇²f(x) = [0] for all x ∈ D
+
+ remark: if f, g_i are linear, then (OPT) is a linear programming function
+
+_CH 1 - Linear Algebra_
+ A vector and matrix norm
+
+ defn Norm
+  A norm ‖.‖ on Rⁿ assigns a scalar ‖x‖ to every x ∈ Rⁿ s.t.
+   1) ‖x‖ ≥ 0, ∀x ∈ Rⁿ
+   2) ‖cx‖ = |c|‖x‖, ∀c ∈ R, ∀x ∈ Rⁿ
+   3) ‖x‖ = 0 ⇔ x = 0 
+   4) ‖x + y‖ ≤ ‖x‖ + ‖y‖ ∀x, y ∈ Rⁿ
+
+  Lᵏ norm ‖x‖ₖ = (∑(x_i)ᵏ)^1/k 
+   in particular:
+    Manhattan Norm: L₁ = ‖x‖₁ = ∑|x_i|
+    Euclidean Norm: L₂ = ‖x‖₂ = √(∑x_i²)
+    Infinite Norm: L_inf = ‖x‖_inf = max(|x_i|)
+
+  Schwartz inequality: ∀x,y ∈ Rⁿ
+   |xᵀy| ≤ ‖x‖₂ ⋅ ‖y‖₂
+   equality when x = λy, for some λ ∈ R
+
+  Pythagorean theorem: If x, y ∈ Rⁿ are orthogonal, then ‖x + y‖₂² = ‖x‖₂² + ‖y‖₂²
+
+ defn Matrix Norm
+  Given a vector norm ‖.‖, the induced matrix norm associates a scalar ‖A‖ to all A ∈ Rⁿˣⁿ
+   ‖A‖ = max ‖A.x‖, when ‖x‖ = 1
+
+=LEC3=
+  Property of Matrix norm:
+   ‖A‖₂ = max ‖A.x‖₂ = max |yᵀAx|
+         ‖x‖₂ = 1     ‖x‖₂, ‖y‖₂ = 1 
+   Proof: Schwartz inequality to |yᵀAx|
+  Property:
+   ‖A‖₂ = ‖Aᵀ‖₂
+   proof: swap x and y in above property
+
+  Properties: Let A ∈ Rⁿˣⁿ, following are equaivalent
+   a) A is non-singular
+   b) Aᵀ is non-singular
+   c) ∀x ∈ Rⁿ, if x ≠ 0, Ax ≠ 0
+   d) ∀b ∈ Rⁿ, ∃x ∈ Rⁿ s.t. Ax = b, and x is unique
+   e) the columns of A are linearly independent
+   f) the rows of A are linearly independent
+   g) ∃B ∈ Rⁿˣⁿ such that AB = I = BA, where B is unique (B is the inverse of A)
+   h) for all A, B ∈ Rⁿˣⁿ, (AB)~ = B~A~ if B~ exists (A~ = inverse of A)
+
+ defn Eigenvalue
+  The characteristic polynomial Φ: R → R of A ∈ Rⁿˣⁿ is Φ(λ) = det(A - λI)
+  It has n complex roots, the eigenvalues of A
+  Given an eigenvalue λ of A, x ∈ Rⁿ is its corresponding eigenvector of A if Ax = λx
+
+  Properties: Given A ∈ Rⁿˣⁿ
+  a) λ is an eigenvalue iff ∃ a corresponding eigenvector x
+  b) A is singular iff it has a zero eigenvalue
+  c) if A is triangular, then its eigenvalues are its diagonal elements
+  d) if S ∈ Rⁿˣⁿ is non-singular, and B = SAS~, then A and B have the same eigenvalues
+  e) if the eigenvalues of A are λ_1, ..., λ_n (not necessarily distinct)
+     - the eigenvalues of A + cI are c+λ_1, ..., c + λ_n
+     - the eigenvalues of Aᵏ are λ_1ᵏ, ..., λ_nᵏ
+     - the eigenvalues of A~ are 1/λ_1, ..., 1/λ_n
+     - the eigenvalues of Aᵀ are λ_1, ..., λ_n
+
+ defn Spectral Radius
+  the spectral radius ρ(A) of A ∈ Rⁿˣⁿ is the maximum of the magnitudes of its eigenvalues
+
+  Property: 
+   For any induced norm ‖.‖, ρ(A) ≤ ‖Aᵏ‖^1/k, for k = 1, 2, ...
+   
+   proof: 
+    By definition, ‖Aᵏ‖ = max ‖Aᵏy‖ = max ‖Aᵏy‖/‖y‖
+                         ‖y‖=1       y≠0
+    In particular, let λ be any eigenvalue of A, and x its eigenvector
+    ‖Aᵏ‖ ≥ ‖Aᵏx‖/‖x‖ = ‖Aᵏ⁻¹Ax‖/‖x‖ = ‖Aᵏ⁻¹λx‖/‖x‖ = ... = ‖λᵏx‖/‖x‖ = (|λᵏ|‖x‖)/‖x‖ = |λᵏ|
+    So for any eigenvalue, ‖Aᵏ‖ ≥ |λᵏ| ⇒ ‖Aᵏ‖^1/k ≥ λ ⇒ ρ(A) ≤ ‖Aᵏ‖^1/k, QED
+
+  Property: 
+   For any induced norm ‖.‖, lim k→∞ ‖Aᵏ‖^1/k = ρ(A)
+   Also, lim k→∞ Aᵏ = 0 iff ρ(A) < 1
+
+   proof: exercise!
+
+ Symmetric Matrices
+  Properties: Let A ∈ Rⁿˣⁿ be a symmetric matrix
+   a) its eigenvalues are real
+   b) its eigenvalues are n mutually orthogonal real nonzero vectors
+   c) if the eigenvectors x_1, ..., x_n are normalized s.t. ‖x‖₂ = 1, with corresponding λ_1, ..., λ_n, then A = ∑λ_ix_ix_iᵀ
+
+   proof: exercise!
+
+=LEC4=
+ Let A ∈ Rⁿˣⁿ be a symmetric matrix, then ‖A‖₂ = ρ(A)
+
+  proof: from before, ρ(A) ≤ ‖Aᵏ‖^1\k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
+  Then, simply need to prove ρ(A) ≥ ‖A‖₂
