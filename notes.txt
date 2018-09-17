@@ -1,6 +1,6 @@
 Non-linear optimization
 
-Laurent Poirrier
+Prof. Laurent Poirrier
 
 Texts:
 Nocedal/Wright: Numerical Optimization
@@ -9,72 +9,69 @@ Boyd/Vandenberghe: Convex Optimization
 =LEC1=
 _Chapter 0: Introduction_
 
-Mathematical Optimization or Mathematic Programming
- Informally: Find a best solution to the model of a problem
-  *best* according to a given objective/criterion
-
-Applications
- Operations Research
-  Scheduling + Planning
-  Supply Chain Management
-  Vehicular Routing
-  Power Grid Optimization
- Statistics & Machine Learning
-  Curve Fitting
-  Classification, Clustering, SVM, ...
-  Deep Learning
- Finance
- Optimal Control
- Biology
-
-
-(OPT) min f(x)
- s.t. g_i(x) ≤ 0, for i ∈ {1, 2, 3, ..., m}
- x ∈ R
-
-Remarks:
- a. max f(x) = -(min -f(x))
- b. {x ∈ Rⁿ: g(x) ≥ 0} = {x ∈ Rⁿ: -g(x) ≤ 0}
- c. {x ∈ Rⁿ: g(x) ≥ b} = {x ∈ Rⁿ: -g(x) - b ≤ 0}
-
-A. Classification of Solutions
- defn Open Ball:
-  the open ball of radius δ around x_bar is B_δ(x_bar) = {x ∈ Rⁿ: ‖x - x_bar‖ ≤ δ}
-
- defn Minimizer:
-  Consider f: D → R. The point x* ∈ D is
-   a global minimizer for f on D if 
-    f(x*) ≤ f(x), ∀x ∈ D
-
-   a strict global minimizer for f on D if 
-    f(x*) < f(x), ∀x ∈ D, x ≠ x*
-   
-   a local minimizer for f on D if
-    ∃δ > 0: f(x*) ≤ f(x), ∀x ∈ B_δ(x*) ∩ D
-
-   a strict local minimizer for f on D if
-    ∃δ > 0: f(x*) < f(x), ∀x ∈ B_δ(x*) ∩ D, x ≠ x*
-
-B. Classification of Problems - 1
- a. if f(x) = 0 ∀x ∈ Rⁿ ⇒ (OPT) is a feasibility problem
- b. if we have m = 0 constractins ⇒ (OPT) is an unconstrained optimization problem
-
-C. Classification of Problems - 2
- Q: why do we need f and g?
- A: in the absence of hypotheses on f and g, (OPT) is unsolvable
-
- Note: "Black box" optimization framework
- All that is given is an oracle function that can compute values of f(x) for any x 
-  (and possibly some extensions to compute derivatives)
+ Mathematical Optimization or Mathematic Programming
+  Informally: Find a best solution to the model of a problem
+   *best* according to a given objective/criterion
+ 
+ Applications
+  Operations Research
+   Scheduling + Planning
+   Supply Chain Management
+   Vehicular Routing
+   Power Grid Optimization
+  Statistics & Machine Learning
+   Curve Fitting
+   Classification, Clustering, SVM, ...
+   Deep Learning
+  Finance
+  Optimal Control
+  Biology
+ 
+ 
+ (OPT) min f(x)
+  s.t. g_i(x) ≤ 0, for i ∈ {1, 2, 3, ..., m}
+  x ∈ R
+ 
+ Remarks:
+  a. max f(x) = -(min -f(x))
+  b. {x ∈ Rⁿ: g(x) ≥ 0} = {x ∈ Rⁿ: -g(x) ≤ 0}
+  c. {x ∈ Rⁿ: g(x) ≥ b} = {x ∈ Rⁿ: -g(x) - b ≤ 0}
+ 
+ A. Classification of Solutions
+  defn Open Ball:
+   the open ball of radius δ around x_bar is B_δ(x_bar) = {x ∈ Rⁿ: ‖x - x_bar‖ ≤ δ}
+ 
+  defn Minimizer:
+   Consider f: D → R. The point x* ∈ D is
+    a global minimizer for f on D if 
+     f(x*) ≤ f(x), ∀x ∈ D
+ 
+    a strict global minimizer for f on D if 
+     f(x*) < f(x), ∀x ∈ D, x ≠ x*
+    
+    a local minimizer for f on D if
+     ∃δ > 0: f(x*) ≤ f(x), ∀x ∈ B_δ(x*) ∩ D
+ 
+    a strict local minimizer for f on D if
+     ∃δ > 0: f(x*) < f(x), ∀x ∈ B_δ(x*) ∩ D, x ≠ x*
+ 
+ B. Classification of Problems - 1
+  a. if f(x) = 0 ∀x ∈ Rⁿ ⇒ (OPT) is a feasibility problem
+  b. if we have m = 0 constractins ⇒ (OPT) is an unconstrained optimization problem
+ 
+ C. Classification of Problems - 2
+  Q: why do we need f and g?
+  A: in the absence of hypotheses on f and g, (OPT) is unsolvable
+ 
+  Note: "Black box" optimization framework
+  All that is given is an oracle function that can compute values of f(x) for any x 
+   (and possibly some extensions to compute derivatives)
 
  Example: solve 
   min f(x)
   s.t. x ∈ R
   f(x) := 0 when x = λ
   f(x) := 1 otherwise
-
-  "guess lambda"
-
 
 =LEC2=
  Example: consider
@@ -162,7 +159,7 @@ _CH 1 - Linear Algebra_
    Proof: Schwartz inequality to |yᵀAx|
   Property:
    ‖A‖₂ = ‖Aᵀ‖₂
-   proof: swap x and y in above property
+   pf: swap x and y in above property
 
   Properties: Let A ∈ Rⁿˣⁿ, following are equaivalent
    a) A is non-singular
@@ -172,7 +169,7 @@ _CH 1 - Linear Algebra_
    e) the columns of A are linearly independent
    f) the rows of A are linearly independent
    g) ∃B ∈ Rⁿˣⁿ such that AB = I = BA, where B is unique (B is the inverse of A)
-   h) for all A, B ∈ Rⁿˣⁿ, (AB)~ = B~A~ if B~ exists (A~ = inverse of A)
+   h) for all A, B ∈ Rⁿˣⁿ, (AB)~ = B~A~ if B~ exists (M~ = inverse of matrix M)
 
  defn Eigenvalue
   The characteristic polynomial Φ: R → R of A ∈ Rⁿˣⁿ is Φ(λ) = det(A - λI)
@@ -196,7 +193,7 @@ _CH 1 - Linear Algebra_
   Property: 
    For any induced norm ‖.‖, ρ(A) ≤ ‖Aᵏ‖^1/k, for k = 1, 2, ...
    
-   proof: 
+   pf: 
     By definition, ‖Aᵏ‖ = max ‖Aᵏy‖ = max ‖Aᵏy‖/‖y‖
                          ‖y‖=1       y≠0
     In particular, let λ be any eigenvalue of A, and x its eigenvector
@@ -207,7 +204,7 @@ _CH 1 - Linear Algebra_
    For any induced norm ‖.‖, lim k→∞ ‖Aᵏ‖^1/k = ρ(A)
    Also, lim k→∞ Aᵏ = 0 iff ρ(A) < 1
 
-   proof: exercise!
+   pf: exercise!
 
  Symmetric Matrices
   Properties: Let A ∈ Rⁿˣⁿ be a symmetric matrix
@@ -215,10 +212,70 @@ _CH 1 - Linear Algebra_
    b) its eigenvalues are n mutually orthogonal real nonzero vectors
    c) if the eigenvectors x_1, ..., x_n are normalized s.t. ‖x‖₂ = 1, with corresponding λ_1, ..., λ_n, then A = ∑λ_ix_ix_iᵀ
 
-   proof: exercise!
+   pf: exercise!
 
 =LEC4=
- Let A ∈ Rⁿˣⁿ be a symmetric matrix, then ‖A‖₂ = ρ(A)
+  Property: 
+   Let A ∈ Rⁿˣⁿ be a symmetric matrix, then ‖A‖₂ = ρ(A)
 
-  proof: from before, ρ(A) ≤ ‖Aᵏ‖^1\k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
-  Then, simply need to prove ρ(A) ≥ ‖A‖₂
+   pf: 
+    from before, ρ(A) ≤ ‖Aᵏ‖^1\k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
+    Now, need to prove ρ(A) ≥ ‖A‖₂
+    As the eigenvectors xᵢ, i = 1...n of C are mutually orthogonal
+    we can write any y ∈ Rⁿ as y = ∑ βᵢxᵢ, i=1...n, for some βᵢ ∈ R
+
+    By Pythagoras' theorem, ‖y‖₂² = ∑ βᵢ² . ‖x‖₂²; i=1...n
+    So, Ay = A ∑βᵢxᵢ = ∑βᵢAxᵢ = ∑βᵢλᵢxᵢ
+    Again using Pythagoras', ‖Ay‖₂² = ‖∑βᵢλᵢxᵢ‖₂² 
+     = ∑βᵢ²λᵢ²‖x‖₂² 
+     = ∑|λᵢ|² . |βᵢ|² . ‖x‖₂²
+     ≤ ∑ρ(A)²|βᵢ|²‖x‖₂²       # by definition of spectral radius, λᵢ ≤ ρ(A)
+     = ρ(A)² ∑|βᵢ|²‖x‖₂²
+     = ρ(A)² ‖y‖₂²
+
+    ‖Ay‖₂ ≤ ρ(A) ‖y‖₂
+    ⇒ ‖A‖₂ = max ‖Ay‖₂/‖y‖₂ ≤ (ρ(A)‖y‖₂)/‖y‖₂
+             y≠0
+    ⇒ ‖A‖₂ ≤ ρ(A) 
+    QED
+
+  Property:
+   Let A ∈ Rⁿˣⁿ be symmetric, with eigenvalues λ₁ ≤ ... ≤ λₙ ∈ R
+   Then ∀y ∈ Rⁿ: λ₁‖y‖₂² ≤ yᵀAy ≤ λₙ‖y‖₂²
+
+   pf:
+    write y as ∑βᵢxᵢ, i=1...n, where βᵢ ∈ R, xᵢ are orthogonal eigenvectors of A
+    firstly: 
+    yᵀAy = (∑βᵢxᵢ)ᵀ(∑βᵢλᵢxᵢ) = ∑βᵢ²λᵢ‖xᵢ‖₂²
+    wlog, assume ‖xᵢ‖₂ = 1 by normalization, so yᵀAy = ∑λᵢβᵢ²
+
+    secondly:
+    ‖y‖₂² = ∑βᵢ²‖xᵢ‖² = ∑βᵢ²
+
+    ∑λ₁βᵢ² ≤ ∑λᵢβᵢ² ≤ ∑λₙβᵢ² for any i = 1...n  # notice the subscript of λ
+    ⇒ ∑λ₁‖y‖₂² ≤ yᵀAy ≤ ∑λₙ‖y‖₂² 
+    QED
+
+  Property:
+   Let A ∈ Rⁿˣⁿ be symmetric, then ‖Aᵏ‖₂ = ‖A‖₂ᵏ for any natural number k
+
+   pf:
+    As A is symmetric, A = Aᵀ
+    (Aᵏ)ᵀ = (A ... A)ᵏ = Aᵀ ... Aᵀ = A ... A = Aᵏ
+    As Aᵏ is symmetric, ‖Aᵏ‖₂ = ρ(Aᵏ)
+    The eigenvalues of Aᵏ are λ₁ᵏ, ..., λₙᵏ when λ₁, ..., λₙ are the eigenvalues of A
+    So, ρ(Aᵏ) = ρ(A)ᵏ
+    as ρ(A) = ‖A‖₂ ⇒ ‖A‖₂ᵏ = ‖Aᵏ‖₂
+
+  Property:
+   Let A ∈ Rⁿˣⁿ, then ‖A‖₂² = ‖AᵀA‖₂ = ‖AAᵀ‖₂
+
+   pf: 
+    According to Schwartz inequality: xᵀy ≤ ‖x‖₂ . ‖y‖₂
+    ‖Ax‖₂² = (Ax)ᵀ(Ax) = (xᵀAᵀ)(Ax) = xᵀ . AᵀAx
+    ≤ ‖x‖₂ . ‖AᵀAx‖₂ 
+    ≤ ‖x‖₂ . ‖AᵀA‖₂ . ‖x‖₂, ∀x ∈ Rⁿ
+
+    Remark:
+     ‖A‖² = max ‖Ax‖₂²/‖x‖₂² ≤ ‖AᵀA‖₂
+           x∈Rⁿ
