@@ -1,0 +1,6 @@
+# uncommon notation and abbreviations are listed here
+
+M`: Inverse of matrix M
+M~: Transpose of matrix (or vector) M
+pd: symmetric positive definite
+psd: symmetric positive semidefinite
