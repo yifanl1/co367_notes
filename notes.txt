@@ -391,7 +391,57 @@ _CH2-Convexity_
       ≤ ‖λx‖ + ‖(1 - λ)y‖      # by definition of a norm
       = λ‖x‖ + (1 - λ)‖y‖ 
       = λf(x) + (1 - λ)f(y)
-   h. Let C ⊆ Rⁿ be convex, and let f: C → R be differentiable over C.
-      f is convex iff
-       f(z) ≥ f(x) + (z - x)~∇f(x) ∀x, z ∈ C
-      pf: requires calculus
+
+=LEC7= 2018-09-21
+ Taylor's theorem for univariate functions
+  f(x + h) = ∑[hⁱ/i! dᵢ(f(x))] + ϕ(h) for i = 0..k, where dᵢ(f) is the ith derivative of f
+  Φ(h) = hᵏ⁺¹/(k + 1)! dₖ₊₁(f(x + λh)), 0 ≤ λ ≤ 1 is the residual function
+  In particular, lim h→0 Φ(h)/hᵏ = 0
+
+ Taylor's theorem for multivariate functions
+  1st order (k = 1)
+   f(x + h) = f(x) + h~∇f(x) + Φ(h)
+   Φ(h) = 1/2 h~∇²f(x + λh)h, 0 ≤ λ ≤ 1
+   with lim h→0 Φ(h)/‖h‖ = 0
+
+  2nd order
+   f(x + h) = f(x) + h~∇f(x) + 1/2h~∇²f(x)h + Φ(h)
+   with lim h→0 Φ(h)/‖h‖² = 0
+
+ Mean Value theorem
+  Let f: D → R, D ⊆ R, f ∈ C¹(D)
+  then ∀x,y ∈ D, ∃z ∈ [x, y] f(y) = f(x) + ∇f(z)(y-x),
+   pf: by zeroth order Taylor expansion
+
+ defn Directional Derivative
+  The directional derivative of f in the direction of y is 
+   ∇_y f(x) = lim α→0 (f(x + αy) - f(x))/α
+
+  In particular, ∇_eᵢ f(x) = δf/δxᵢ(x) and ∇f = (∇_e₁f(x) ... ∇_eₙf(x))~
+  "direction" -> draw out the function!
+
+ Thm:
+  If f ∈ C¹, then ∇_hf = h~∇f
+
+  pf:
+   ∇_hf 
+   = lim α→0 (f(x + αh) - f(x))/α 
+   = lim α→0 (f(x) + αh~∇f(x) + Φ(αh) - f(x)) / α
+   = lim α→0 (αh~∇f(x) + Φ(αh)) / α
+   = lim α→0 αh~∇f(x) / α + lim α→0 Φ(αh) / α
+   = h~∇f(x) + lim α→0 Φ(αh) / α  # see definition of residual above
+   = h~∇f(x)
+
+  Property:
+   Let C ⊆ Rⁿ be convex, and let f: C → R be differentiable over C.
+    f is convex iff
+     f(z) ≥ f(x) + (z-x)~∇f(x) ∀x,z ∈ C
+    pf:
+     (->) As C is convex, x + (z-x)α = αz + (1-α)x ∈ C, ∀0 ≤ α ≤ 1
+      lim→0 (f(x+α(z-x)) - f(x))/α = ∇_z-x f(x) = (z-x)~∇f(x)
+
+      By convexity of f, f(x+α(z-x)) ≤ αf(z) + (1-α)f(x), ∀0 ≤ α ≤ 1
+      f(x+α(z-x)) - f(x) ≤ αf(z) - αf(x)
+      (f(x+α(z-x)) - f(x))/α ≤ f(z) - f(x)
+      taking lim α→0:
+      (z-x)~∇f(x) ≤ f(z) - f(x)
