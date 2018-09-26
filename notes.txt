@@ -496,3 +496,53 @@ _CH3-Optimality Conditions_
  defn Critical/Stationary
   All x such that ∇f(x) = 0 are called critical or stationary points
   All local minimizers are critical points, but the converse is not true.
+
+=LEC9= 2018-09-26
+ Note: δ²f/δxᵢδxⱼ = δ²f/δxⱼδxᵢ, so ∇²f is symmetric
+
+ Thm: [Second Order necessary conditions for optimality]
+  Let f: Rⁿ → R be C²-smooth
+  If x* is a local minimizer, then ∇f(x*) = 0, ∇²f(x*) is psd
+
+  pf:
+   Let z ∈ Rⁿ\{0}, need to prove z~∇²f(x*)z ≥ 0
+   Let B_δ(x*) be f(x*) ≤ f(x), ∀x ∈ B_δ(x*)        # the ball
+   Let y = hz/‖z‖ with 0 < h < δ
+
+   f(x* + y) - f(x*) ≥ 0
+   f(x*) + y~∇f(x*) + 1/2 y~∇²f(x*)y + ϕ(y) - f(x*) ≥ 0 where lim y → 0 ϕ(y)/‖y‖² = 0, y ≠ 0
+   by 1st order condition: y~∇f(x*) = 0
+   1/2 y~∇²f(x*)y + ϕ(y) ≥ 0
+   1/2 h²/‖z‖² z~∇²f(x*)z + ϕ(hz/‖z‖) ≥ 0
+   z~∇²f(x*)z + 2‖z‖²/h² ϕ(hz/‖z‖) ≥ 0
+   z~∇²f(x*)z + 2‖z‖² lim h → 0 ϕ(hz/‖z‖)/h² ≥ 0
+   z~∇²f(x*)z ≥ 0 ∀z QED
+ 
+ Thm: [Second Order sufficient conditions for local optimality]
+  Let f: Rⁿ → R, with f ∈ C²(B_δ(x*)). x* ∈ Rⁿ, δ > 0
+  If ∇f(x*) = 0 and ∇²f(x*) is pd, then x* is a strict local minimizer
+
+  pf:
+   By Taylor 2-order: ∀h ∈ B_δ(x*), f(x* + h) = f(x*) + h~∇f(x*) + 1/2h~∇²f(x*)h + ϕ(h)
+   with lim h→0 ϕ(h)/‖h‖² = 0, h ≠ 0
+
+   Let 0 < λ₁ < ... < λₙ be the eigenvalues of ∇²f(x*)
+   ∃r > 0: ∀h∈B_r(x*), |ϕ(h)/‖h‖²| ≤ λ₁/4
+   ⇒ |ϕ(h)| ≤ ‖h‖²λ₁/4
+
+   Notice that ‖y‖²λ₁ ≤ y~∇²f(x*)y ≤ ‖y‖²λ₂
+   f(x*+h) = f(x*) + 1/2h~∇²f(x*)h + ϕ(h)
+           ≥ f(x*) + 1/2‖h‖²λ₁ - 1/4‖h‖²λ₁ 
+           = f(x*) + 1/4‖h‖²λ₁             # ‖h‖² > 0, λ₁ > 0
+           > f(x*) ∀ h ∈ B_r(x*)
+   so x* is a strict local minimizer over B_r(x*), as required. QED
+
+ Summary of necessary + sufficient optimality conditions
+  a. ∇f(x*) = 0, ∇²f(x*) pd ⇒ x* is a strict local minimizer
+  b. x* is a strict local minimizer ⇒ x* is a local minimizer
+  c. x* is a local minimizer ⇒ ∇f(x*) = 0, ∇²f(x*) psd
+  
+  The converses of each statement are untrue!
+   a. f(x) = x⁴, x* = 0, hessian not pd
+   b. f(x) = 1, x* = 0, obviously not strict!
+   c. f(x) = x³, x* = 0, obviously not minimizer
