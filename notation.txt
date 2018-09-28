@@ -4,3 +4,4 @@ M`: Inverse of matrix M
 M~: Transpose of matrix (or vector) M
 pd: symmetric positive definite
 psd: symmetric positive semidefinite
+L: set of real numbers between 0 and 1

@@ -102,8 +102,8 @@ _CH0-Introduction_
  g(x), do: abs(x - 2)
   g(x) ∈ C⁰
 
- h(x) when x >= 2, do: 1/2 (x-2) ** 2
- h(x), do: 1/2 (2-x) ** 2
+ h(x) when x >= 2, do: 1/2 (x-2) ^ 2
+ h(x), do: 1/2 (2-x) ^ 2
   h(x) ∈ C¹
 
  defn Gradient
@@ -350,13 +350,13 @@ _CH1-Linear Algebra_
 _CH2-Convexity_
  defn Convex
   A set C ⊆ Rⁿ is convex if 
-   λx + (1 - λy) ∈ C, ∀x,y ∈ C, ∀λ ≤ 1, λ ≥ 0
+   λx + (1 - λy) ∈ C, ∀x,y ∈ C, ∀λ ∈ L
 
 =LEC6= 2018-09-19
   A function f: D → R is convex if
-   f(λx + (1 - λ)y) ≤ λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ≤ 1, λ ≥ 0
+   f(λx + (1 - λ)y) ≤ λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ L
   f is strictly convex if strict inequality holds
-   f(λx + (1 - λ)y) < λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ≤ 1, λ ≥ 0
+   f(λx + (1 - λ)y) < λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ L
 
   Properties:
    - for any collection {cᵢ : i ∈ I} of convex sets, their intersection ∩cᵢ is convex
@@ -437,10 +437,10 @@ _CH2-Convexity_
     f is convex iff
      f(z) ≥ f(x) + (z-x)~∇f(x) ∀x,z ∈ C
     pf:
-     (->) As C is convex, x + (z-x)α = αz + (1-α)x ∈ C, ∀0 ≤ α ≤ 1
+     (->) As C is convex, x + (z-x)α = αz + (1-α)x ∈ C, ∀α ∈ L
       lim→0 (f(x+α(z-x)) - f(x))/α = ∇_z-x f(x) = (z-x)~∇f(x)
 
-      By convexity of f, f(x+α(z-x)) ≤ αf(z) + (1-α)f(x), ∀0 ≤ α ≤ 1
+      By convexity of f, f(x+α(z-x)) ≤ αf(z) + (1-α)f(x), ∀α ∈ L
       f(x+α(z-x)) - f(x) ≤ αf(z) - αf(x)
       (f(x+α(z-x)) - f(x))/α ≤ f(z) - f(x)
       taking lim α→0:
@@ -465,7 +465,7 @@ _CH2-Convexity_
    a. ∇²f(x) psd ∀x ∈ D ⇒ f convex over D
     pf:
      for all x, y ∈ D, by 1st order Taylor
-     f(y) = f(x) + (y - x)~∇f(x) + 1/2 (y-x)~∇²f(x + α(y-x))(y-x) for some 0 ≤ α ≤ 1
+     f(y) = f(x) + (y - x)~∇f(x) + 1/2 (y-x)~∇²f(x + α(y-x))(y-x) for some α ∈ L
    b. ∇²f(x) pd ∀x ∈ D ⇒ f strictly convex over D
     pf:
      similar to a, with y ≠ x, strict inequality.
@@ -473,7 +473,7 @@ _CH2-Convexity_
     pf:
      f is convex over Rⁿ. Assume by contradiction, ∃x,z ∈ Rⁿ where z~∇²f(x) < 0
      because ∇²f is continuous, can find a z small enough that 
-      z~∇²f(x + αz)z < 0 ∀0 ≤ α ≤ 1 (1)
+      z~∇²f(x + αz)z < 0 ∀α ∈ L (1)
      By Taylor:
       f(x + z) = f(x) + z~∇f(x) + 1/2z~∇²f(x + βz)z for some 0 ≤ β ≤ 1
                < f(x) + z~∇f(x)       #by (1)
@@ -523,18 +523,18 @@ _CH3-Optimality Conditions_
   If ∇f(x*) = 0 and ∇²f(x*) is pd, then x* is a strict local minimizer
 
   pf:
-   By Taylor 2-order: ∀h ∈ B_δ(x*), f(x* + h) = f(x*) + h~∇f(x*) + 1/2h~∇²f(x*)h + ϕ(h)
+   By Taylor 2-order: ∀h ∈ B_δ(0), f(x* + h) = f(x*) + h~∇f(x*) + 1/2h~∇²f(x*)h + ϕ(h)
    with lim h→0 ϕ(h)/‖h‖² = 0, h ≠ 0
 
    Let 0 < λ₁ < ... < λₙ be the eigenvalues of ∇²f(x*)
-   ∃r > 0: ∀h∈B_r(x*), |ϕ(h)/‖h‖²| ≤ λ₁/4
+   ∃r > 0: ∀h∈B_r(0), |ϕ(h)/‖h‖²| ≤ λ₁/4
    ⇒ |ϕ(h)| ≤ ‖h‖²λ₁/4
 
    Notice that ‖y‖²λ₁ ≤ y~∇²f(x*)y ≤ ‖y‖²λ₂
    f(x*+h) = f(x*) + 1/2h~∇²f(x*)h + ϕ(h)
            ≥ f(x*) + 1/2‖h‖²λ₁ - 1/4‖h‖²λ₁ 
            = f(x*) + 1/4‖h‖²λ₁             # ‖h‖² > 0, λ₁ > 0
-           > f(x*) ∀ h ∈ B_r(x*)
+           > f(x*) ∀ h ∈ B_r(0)
    so x* is a strict local minimizer over B_r(x*), as required. QED
 
  Summary of necessary + sufficient optimality conditions
@@ -544,5 +544,57 @@ _CH3-Optimality Conditions_
   
   The converses of each statement are untrue!
    a. f(x) = x⁴, x* = 0, hessian not pd
-   b. f(x) = 1, x* = 0, obviously not strict!
+   b. f(x) = 1, x* = 0, obviously not strict
    c. f(x) = x³, x* = 0, obviously not minimizer
+
+=LEC10= 2018-09-28
+ Thm: Let C ⊆ Rⁿ be a convex set, and f: C → R be a convex function
+  A local minimixer of f is also a global minimizer
+  If f is strictly convex, then there is at most one global minimizer
+ 
+  pf:
+   Suppose x* is a local minizizer, and y* is a global minimizer, with f(y*) < f(x*)
+   By convexity of f:
+    f(αy* + (1-α)x*) 
+    ≤ αf(y*) + (1-α)f(x*) 
+    = f(x*) - α(f(x*) - f(y*))
+    < f(x*) ∀α ∈ L
+   Thus, ∀r > 0, ∃z ≠ x* s.t. ‖z - x*‖ < r and f(z) < f(x*)
+   For instance, z = αy* + (1-α)x* with α = r/2 ‖y* - x*‖
+   Thus, x* is not a local minimizer, contradiction
+   So, f(y*) ≥ f(x*)
+
+ Thm:
+  ∀A ∈ Rⁿˣⁿ symmetric, ∃D, Q ∈ Rⁿˣⁿ such that
+   a. D is diagonal, its diagonal entries are eigenvalues of A
+   b. Q is orthogonal (Q` = Q~)
+   c. A = QDQ
+
+  pf:
+   Let λ₁, ..., λₙ be the eigenvalues of A, and x₁, ..., xₙ be their corresponding eigenvectors
+   Then 
+    Axᵢ = λᵢxᵢ, i = 1..n
+    A[x₁ x₂ ... xₙ] = [λ₁x₁ λ₂x₂ ... λₙxₙ] = [x₁ ... xₙ] diag(λ₁, ..., λₙ)
+   As A is symmetric, the xᵢ vectors are mutually orthogonal, xᵢ.xⱼ when i ≠ j
+   Let Q = [x₁ ... xₙ], then Q~Q = I, assuming wlog ‖xᵢ‖ = 1
+   Let D = diag(λ₁, ..., λₙ), we get AQ = QD ⇒ A = QDQ` = QDQ~
+ 
+ Thm:
+  Let A ∈ Rⁿˣⁿ be symmetric
+  A is psd iff it can be factored as A = GG~ for some G = Rⁿˣᵖ
+
+  pf:
+   (⇒) Assuming A = QDQ~ (by previous thm), where Q~ = Q` and D is diagonal
+   Denote √D = diag(√(D₁₁), ... ,√(Dₙₙ)) and let G = Q√D
+   THen GG~ = Q√D(Q√D)~ = Q√D√D~Q~ = QDQ~ = A 
+
+   (⇐) Assume A = GG~
+   Knowing that ∀M ∈ Rᵐˣⁿ, M~M is psd". Let M = G~.
+
+ Observations:
+  a. If √D = |d 0|, then G = Q√D = |Q₁₁ Q₁₂| |d 0| = |Q₁₁d 0|
+             |0 0|                 |Q₂₁ Q₂₂| |0 0|   |Q₂₁d 0|
+     So g = [Q₁₁d Q₂₁d]~ a;sp satosfoes gg~ = A
+
+  b. If A is pd, then √D is invertible. Since Q is always invertible, we get that G = Q√D ∈ Rⁿˣⁿ is also invertible.
+
