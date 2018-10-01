@@ -598,3 +598,61 @@ _CH3-Optimality Conditions_
 
   b. If A is pd, then √D is invertible. Since Q is always invertible, we get that G = Q√D ∈ Rⁿˣⁿ is also invertible.
 
+=LEC11= 2018-10-01
+ 
+ defn Bounded
+  A set S ⊆ Rⁿ is bounded if S ⊆ B_δ(0)
+ 
+ defn Closed
+  A set S is closde if for any sequence x₁, x₂, ... ∈ S such that lim i → ∞ xᵢ exists then lim i → ∞ xᵢ ∈ S
+  
+ defn Compact
+  A set is compact if it is bounded and closed
+ 
+ Thm [existence of a global minimizer]
+  If S ⊂ Rⁿ is nonempty and compact and f: S → R is continuous, then ∃y, z ∈ S where f(y) ≤ f(x) ≤ f(z), ∀x ∈ S
+
+ Thm
+  If f is continuous, then its level sets are closed
+  pf:
+   Let S = {x ∈ Rⁿ: f(x) ≤ α} be any level set, for any sequence x₁, ... ∈ S, we have f(xᵢ) ≤ α. 
+   By continuity of f, f(lim i→∞ xᵢ) = lim i→∞ f(xᵢ) ≤ α, thus lim i→∞ xᵢ ∈ S
+
+ Thm
+  If f: Rⁿ → R is continuous and has at least one bounded, nonempty level set, then f has a global minizer
+  pf:
+   Let S be the corresponding level set defined as {x ∈ Rⁿ: f(x) ≤ α}, and is given as bounded and nonempty
+   By previous theorem, S is closed, so it is compact
+   So, f must have a global minimizer over S: ∃y ∈ S: f(y) ≤ f(x)
+   Consider all points x ∈ Rⁿ\S, we have f(x) > α ≥ f(y)
+   Therefore, f(y) ≤ f(x) ∀x ∈ Rⁿ
+
+ Functions w/o global minimizers:
+  f(x) = 2x       #all level sets are unbounded
+  f(x) = e^x      #all level sets are empty or unbounded
+  
+ defn Coercive
+  A function f: Rⁿ → R is coercive if all its level sets are bounded
+
+ note: unless f(x) = ∞ ∀x, if f is coercive, then it has a global minimizer
+
+ Thm
+  Let f: Rⁿ → R be a continuous function. f is coercive iff ∀r, ∃m > 0 such that ‖x‖ ≥ m ⇒ f(x) ≥ r
+  pf:
+   (⇐) consider S = {x ∈ Rⁿ: f(x) ≤ α}, by assumption, letting r = α + 1, we get ∃m > 0: ‖x‖ ≥ m ⇒ f(x) ≥ α + 1
+   So, S ⊂ B_m(0), i.e. S is bounded.
+
+   (⇒) For any given r, consider T = {x ∈ Rⁿ: f(x) ≤ r}
+   By assumption, T is bounded, so ∃δ: T ⊆ B_delta(0)
+   For all x: ‖x‖ ≥ δ + 1, x ∉ T, so f(x) > r
+   Letting m = δ + 1, exactly the statement we want.
+
+ Example:
+  Let A ∈ Rᵐˣⁿ be of rank n. Show that f(x) = ‖Ax - b‖, with b ∈ Rᵐ is coercive.
+  f(x) = ‖Ax - b‖ ≥ ‖Ax‖ - ‖b‖, by triangle inequality of norms
+
+  f(x) ≥ ‖Ax‖ - ‖b‖ = √((Ax)~(Ax)) - ‖b‖ = √(x~A~Ax) - ‖b‖   #A~A is pd because A is full columnspace
+  ≥ √(λ₁‖x‖²) - ‖b‖    # λ₁ is the smallest eigenvalue of A~A
+  = √λ₁ ‖x‖ - ‖b‖
+  ‖x‖ ≤ (f(x) + ‖b‖)/√λ₁
+  So given r > 0, we have an f(x) > r, ∀‖x‖ ≥ r + ‖b‖/√λ₁
