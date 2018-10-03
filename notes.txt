@@ -109,7 +109,7 @@ _CH0-Introduction_
  defn Gradient
   Let f ∈ C¹(D) for D ⊆ Rⁿ. The gradient is
    ∇f: D → Rⁿ
-   if satisfies ∇f ∈ C⁰(D) and is given by ∇f(x) = (δf/δx_1(x), ..., δf/δx_n(x))~
+   if satisfies ∇f ∈ C⁰(D) and is given by ∇f(x) = [δf/δx_1(x), ..., δf/δx_n(x)]~
 
  defn Hessian
   Let f ∈ C²(D) for D ⊆ Rⁿ. Its Hessian is
@@ -210,7 +210,7 @@ _CH1-Linear Algebra_
   Properties: Let A ∈ Rⁿˣⁿ be a symmetric matrix
    a) its eigenvalues are real
    b) its eigenvalues are n mutually orthogonal real nonzero vectors
-   c) if the eigenvectors x_1, ..., x_n are normalized s.t. ‖x‖₂ = 1, with corresponding λ_1, ..., λ_n, then A = ∑λ_ix_ix_i~
+   c) if the eigenvectors x₁, ..., xₙ are normalized s.t. ‖x‖₂ = 1, with corresponding λ₁, ..., λₙ, then A = ∑λᵢxᵢxᵢ~
 
    pf: exercise!
 
@@ -350,13 +350,13 @@ _CH1-Linear Algebra_
 _CH2-Convexity_
  defn Convex
   A set C ⊆ Rⁿ is convex if 
-   λx + (1 - λy) ∈ C, ∀x,y ∈ C, ∀λ ∈ L
+   λx + (1 - λy) ∈ C, ∀x,y ∈ C, ∀λ ∈ [0, 1]
 
 =LEC6= 2018-09-19
   A function f: D → R is convex if
-   f(λx + (1 - λ)y) ≤ λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ L
+   f(λx + (1 - λ)y) ≤ λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ [0, 1]
   f is strictly convex if strict inequality holds
-   f(λx + (1 - λ)y) < λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ L
+   f(λx + (1 - λ)y) < λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ [0, 1]
 
   Properties:
    - for any collection {cᵢ : i ∈ I} of convex sets, their intersection ∩cᵢ is convex
@@ -432,25 +432,25 @@ _CH2-Convexity_
    = h~∇f(x) + lim α→0 Φ(αh) / α  # see definition of residual above
    = h~∇f(x)
 
-  Property:
-   Let C ⊆ Rⁿ be convex, and let f: C → R be differentiable over C.
-    f is convex iff
-     f(z) ≥ f(x) + (z-x)~∇f(x) ∀x,z ∈ C
-    pf:
-     (->) As C is convex, x + (z-x)α = αz + (1-α)x ∈ C, ∀α ∈ L
-      lim→0 (f(x+α(z-x)) - f(x))/α = ∇_z-x f(x) = (z-x)~∇f(x)
+ Property:
+  Let C ⊆ Rⁿ be convex, and let f: C → R be differentiable over C.
+   f is convex iff
+    f(z) ≥ f(x) + (z-x)~∇f(x) ∀x,z ∈ C
+   pf:
+    (->) As C is convex, x + (z-x)α = αz + (1-α)x ∈ C, ∀α ∈ [0, 1]
+     lim→0 (f(x+α(z-x)) - f(x))/α = ∇_z-x f(x) = (z-x)~∇f(x)
 
-      By convexity of f, f(x+α(z-x)) ≤ αf(z) + (1-α)f(x), ∀α ∈ L
-      f(x+α(z-x)) - f(x) ≤ αf(z) - αf(x)
-      (f(x+α(z-x)) - f(x))/α ≤ f(z) - f(x)
-      taking lim α→0:
-      (z-x)~∇f(x) ≤ f(z) - f(x)
+     By convexity of f, f(x+α(z-x)) ≤ αf(z) + (1-α)f(x), ∀α ∈ [0, 1]
+     f(x+α(z-x)) - f(x) ≤ αf(z) - αf(x)
+     (f(x+α(z-x)) - f(x))/α ≤ f(z) - f(x)
+     taking lim α→0:
+     (z-x)~∇f(x) ≤ f(z) - f(x)
 
 =LEC8= 2018-09-24
-     (<-) if f(z) ≥ f(x) + (z-x)~∇f(x), ∀x,z ∈ C
+    (<-) if f(z) ≥ f(x) + (z-x)~∇f(x), ∀x,z ∈ C
      Let a,b ∈ C be any points in the domain of f, let c = αa + (1 - α)b
-      (1) f(a) ≥ f(c) + (a - c)~∇f(c)
-      (2) f(b) ≥ f(c) + (b - c)~∇f(c)
+     (1) f(a) ≥ f(c) + (a - c)~∇f(c)
+     (2) f(b) ≥ f(c) + (b - c)~∇f(c)
 
      multiply (1) by α and (2) by (1 - α), then add them:
       αf(a) + (1 - α)f(b) ≥ α(f(c) + (a - c)~∇f(c)) + (1 - α)(f(c) + (b - c)~∇f(c))
@@ -465,7 +465,7 @@ _CH2-Convexity_
    a. ∇²f(x) psd ∀x ∈ D ⇒ f convex over D
     pf:
      for all x, y ∈ D, by 1st order Taylor
-     f(y) = f(x) + (y - x)~∇f(x) + 1/2 (y-x)~∇²f(x + α(y-x))(y-x) for some α ∈ L
+     f(y) = f(x) + (y - x)~∇f(x) + 1/2 (y-x)~∇²f(x + α(y-x))(y-x) for some α ∈ [0, 1]
    b. ∇²f(x) pd ∀x ∈ D ⇒ f strictly convex over D
     pf:
      similar to a, with y ≠ x, strict inequality.
@@ -473,7 +473,7 @@ _CH2-Convexity_
     pf:
      f is convex over Rⁿ. Assume by contradiction, ∃x,z ∈ Rⁿ where z~∇²f(x) < 0
      because ∇²f is continuous, can find a z small enough that 
-      z~∇²f(x + αz)z < 0 ∀α ∈ L (1)
+      z~∇²f(x + αz)z < 0 ∀α ∈ [0, 1] (1)
      By Taylor:
       f(x + z) = f(x) + z~∇f(x) + 1/2z~∇²f(x + βz)z for some 0 ≤ β ≤ 1
                < f(x) + z~∇f(x)       #by (1)
@@ -558,7 +558,7 @@ _CH3-Optimality Conditions_
     f(αy* + (1-α)x*) 
     ≤ αf(y*) + (1-α)f(x*) 
     = f(x*) - α(f(x*) - f(y*))
-    < f(x*) ∀α ∈ L
+    < f(x*) ∀α ∈ [0, 1]
    Thus, ∀r > 0, ∃z ≠ x* s.t. ‖z - x*‖ < r and f(z) < f(x*)
    For instance, z = αy* + (1-α)x* with α = r/2 ‖y* - x*‖
    Thus, x* is not a local minimizer, contradiction
@@ -599,7 +599,6 @@ _CH3-Optimality Conditions_
   b. If A is pd, then √D is invertible. Since Q is always invertible, we get that G = Q√D ∈ Rⁿˣⁿ is also invertible.
 
 =LEC11= 2018-10-01
- 
  defn Bounded
   A set S ⊆ Rⁿ is bounded if S ⊆ B_δ(0)
  
@@ -656,3 +655,55 @@ _CH3-Optimality Conditions_
   = √λ₁ ‖x‖ - ‖b‖
   ‖x‖ ≤ (f(x) + ‖b‖)/√λ₁
   So given r > 0, we have an f(x) > r, ∀‖x‖ ≥ r + ‖b‖/√λ₁
+
+=LEC12= 2018-10-03
+ A quadratic function takes the form q(x) = x~Ax + b~x + c, for A ∈ Rⁿˣⁿ, b ∈ Rⁿ, c ∈ R 
+ wlog, assume A is symmetric
+ 
+ Thm 
+  Let A ∈ Rⁿˣⁿ and let G be symmetric part of A, i.e. G = (A + A~)/2 
+  a. G is symmetric
+  pf
+   G~ = [(A + A~)/2]~ = 1/2(A~ + A) = (A + A~)/2 = G
+  b. q(x) = x~Gx + bx + c ∀x∈Rⁿ
+   Observe that x~Ax is scalar, so (x~Ax)~ = x~Ax. 
+   Then, x~Ax = 1/2(x~Ax) + 1/2(x~A~x)
+   = 1/2(x~(A + A~)x) = x~Gx
+
+ defn Range
+  The range or column space of A ∈ Rᵐˣⁿ is Range(A) = {Ax: x ∈ Rⁿ}
+ defn Null Space
+  The null space or kernel of A ∈ Rᵐˣⁿ is Null(A) = {x ∈ Rⁿ: Ax = 0}
+
+ Thm
+  Let C ∈ Rᵐˣⁿ, if y ∈ Range(C~) and z ∈ Null(C), then y~z = 0
+  pf: Since y ∈ Range(C~), ∃x ∈ Rⁿ: y = C~x. Then y~z = (C~x)~z = x~Cz = x~0 = 0
+
+ Thm
+  Let C ∈ Rᵐˣⁿ. ∀w ∈ Rⁿ, ∃y ∈ Range(C~) and z ∈ Null(C) unique such that w = y + z
+  pf
+   Let w = y + z + b, y ∈ Range(C~), z ∈ Null(C), be ∈ Range(C~)⟂ ∩ Null(C)⟂
+   The decomposition is unique since Range(C~) ⟂ Null(C) ⟂ b
+   Consider Cb ∈ Rᵐ. C~(Cb) ∈ Range(C~), so b ⟂ C~(Cb)
+   Thus, 0 = b~(C~(Cb)) = (Cb)~(Cb) = ‖Cb‖₂²
+   So Cb = 0, then b ∈ Null(C). We get b ∈ Null(C) ∩ Null(C)⟂, thus b must be 0.
+
+ derivatives of q(x)
+  a. δ/δxₖ b~x = bₖ, ∇b~x = b
+  b. δ/δxₖ x~Ax 
+   = δ/δxₖ ∑Aᵢⱼxᵢxⱼ 
+   = δ/δxₖ (∑Aₖⱼxₖxⱼ + ∑Aᵢₖxᵢxₖ + Aₖₖxₖ²), where j ≠ k, i ≠ k
+   = δ/δxₖ (2∑Aₖⱼxₖxⱼ + Aₖₖxₖ²)
+   = 2∑Aₖⱼxⱼ + 2Aₖₖxₖ
+   = 2∑Aₖⱼxⱼ
+   = kth row of 2Ax
+   ∇x~Ax = 2Ax
+  c. ∇²bx = 0
+  d. δ²/δxₖδxₗ x~Ax = δ/δxₗ(2∑Aₖⱼxⱼ) = 2Aₖₗ
+   ∇²x~Ax = 2A
+
+  Thm
+   Given A ∈ Rⁿˣⁿ symmetric, b ∈ Rⁿ, c ∈ R, let q(x) = x~Ax + bx + c
+   a. if A is pd, the q(x) has a unique global minimum x* = 1/2A`b
+   b. if A is psd and b ∈ Range(A), then q(x) has a global minimizer
+   c. otherwise, q(x) has no global minimizer
