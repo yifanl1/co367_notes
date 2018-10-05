@@ -1,0 +1,177 @@
+
+_CH3-Optimality Conditions_
+ Thm: [First order necessary conditions for optimality]
+  Let f: Rⁿ → R be C¹-smooth
+  If x* is a local minimizer, then ∇f(x*) = 0
+
+  pf:
+   let B_δ(x*) be such that f(x*) ≤ f(x) ∀x ∈ B_δ(x*)
+   ∀i, ∀-δ < h < δ, f(x* + h.eᵢ) - f(x*) ≥ 0
+   So, (f(x* + h.eᵢ) - f(x*))/h ≥ 0 if h > 0
+       "                     " ≤ 0 if h < 0
+   Because f ∈ C¹ lim h → 0 (f(x* + h.eᵢ) - f(x*))/h exists
+   If its both >= 0 and <= 0, so = 0
+   δf/δxᵢ(x*) = 0 ∀i, so ∇f(x*) = 0
+
+ defn Critical/Stationary
+  All x such that ∇f(x) = 0 are called critical or stationary points
+  All local minimizers are critical points, but the converse is not true.
+
+=LEC9= 2018-09-26
+ Note: δ²f/δxᵢδxⱼ = δ²f/δxⱼδxᵢ, so ∇²f is symmetric
+
+ Thm: [Second Order necessary conditions for optimality]
+  Let f: Rⁿ → R be C²-smooth
+  If x* is a local minimizer, then ∇f(x*) = 0, ∇²f(x*) is psd
+
+  pf:
+   Let z ∈ Rⁿ\{0}, need to prove z~∇²f(x*)z ≥ 0
+   Let B_δ(x*) be f(x*) ≤ f(x), ∀x ∈ B_δ(x*)        # the ball
+   Let y = hz/‖z‖ with 0 < h < δ
+
+   f(x* + y) - f(x*) ≥ 0
+   f(x*) + y~∇f(x*) + 1/2 y~∇²f(x*)y + ϕ(y) - f(x*) ≥ 0 where lim y → 0 ϕ(y)/‖y‖² = 0, y ≠ 0
+   by 1st order condition: y~∇f(x*) = 0
+   1/2 y~∇²f(x*)y + ϕ(y) ≥ 0
+   1/2 h²/‖z‖² z~∇²f(x*)z + ϕ(hz/‖z‖) ≥ 0
+   z~∇²f(x*)z + 2‖z‖²/h² ϕ(hz/‖z‖) ≥ 0
+   z~∇²f(x*)z + 2‖z‖² lim h → 0 ϕ(hz/‖z‖)/h² ≥ 0
+   z~∇²f(x*)z ≥ 0 ∀z QED
+ 
+ Thm: [Second Order sufficient conditions for local optimality]
+  Let f: Rⁿ → R, with f ∈ C²(B_δ(x*)). x* ∈ Rⁿ, δ > 0
+  If ∇f(x*) = 0 and ∇²f(x*) is pd, then x* is a strict local minimizer
+
+  pf:
+   By Taylor 2-order: ∀h ∈ B_δ(0), f(x* + h) = f(x*) + h~∇f(x*) + 1/2h~∇²f(x*)h + ϕ(h)
+   with lim h→0 ϕ(h)/‖h‖² = 0, h ≠ 0
+
+   Let 0 < λ₁ < ... < λₙ be the eigenvalues of ∇²f(x*)
+   ∃r > 0: ∀h∈B_r(0), |ϕ(h)/‖h‖²| ≤ λ₁/4
+   ⇒ |ϕ(h)| ≤ ‖h‖²λ₁/4
+
+   Notice that ‖y‖²λ₁ ≤ y~∇²f(x*)y ≤ ‖y‖²λ₂
+   f(x*+h) = f(x*) + 1/2h~∇²f(x*)h + ϕ(h)
+           ≥ f(x*) + 1/2‖h‖²λ₁ - 1/4‖h‖²λ₁ 
+           = f(x*) + 1/4‖h‖²λ₁             # ‖h‖² > 0, λ₁ > 0
+           > f(x*) ∀ h ∈ B_r(0)
+   so x* is a strict local minimizer over B_r(x*), as required. QED
+
+ Summary of necessary + sufficient optimality conditions
+  a. ∇f(x*) = 0, ∇²f(x*) pd ⇒ x* is a strict local minimizer
+  b. x* is a strict local minimizer ⇒ x* is a local minimizer
+  c. x* is a local minimizer ⇒ ∇f(x*) = 0, ∇²f(x*) psd
+  
+  The converses of each statement are untrue!
+   a. f(x) = x⁴, x* = 0, hessian not pd
+   b. f(x) = 1, x* = 0, obviously not strict
+   c. f(x) = x³, x* = 0, obviously not minimizer
+
+=LEC10= 2018-09-28
+ Thm: Let C ⊆ Rⁿ be a convex set, and f: C → R be a convex function
+  A local minimixer of f is also a global minimizer
+  If f is strictly convex, then there is at most one global minimizer
+ 
+  pf:
+   Suppose x* is a local minizizer, and y* is a global minimizer, with f(y*) < f(x*)
+   By convexity of f:
+    f(αy* + (1-α)x*) 
+    ≤ αf(y*) + (1-α)f(x*) 
+    = f(x*) - α(f(x*) - f(y*))
+    < f(x*) ∀α ∈ [0, 1]
+   Thus, ∀r > 0, ∃z ≠ x* s.t. ‖z - x*‖ < r and f(z) < f(x*)
+   For instance, z = αy* + (1-α)x* with α = r/2 ‖y* - x*‖
+   Thus, x* is not a local minimizer, contradiction
+   So, f(y*) ≥ f(x*)
+
+ Thm:
+  ∀A ∈ Rⁿˣⁿ symmetric, ∃D, Q ∈ Rⁿˣⁿ such that
+   a. D is diagonal, its diagonal entries are eigenvalues of A
+   b. Q is orthogonal (Q` = Q~)
+   c. A = QDQ
+
+  pf:
+   Let λ₁, ..., λₙ be the eigenvalues of A, and x₁, ..., xₙ be their corresponding eigenvectors
+   Then 
+    Axᵢ = λᵢxᵢ, i = 1..n
+    A[x₁ x₂ ... xₙ] = [λ₁x₁ λ₂x₂ ... λₙxₙ] = [x₁ ... xₙ] diag(λ₁, ..., λₙ)
+   As A is symmetric, the xᵢ vectors are mutually orthogonal, xᵢ.xⱼ when i ≠ j
+   Let Q = [x₁ ... xₙ], then Q~Q = I, assuming wlog ‖xᵢ‖ = 1
+   Let D = diag(λ₁, ..., λₙ), we get AQ = QD ⇒ A = QDQ` = QDQ~
+ 
+ Thm:
+  Let A ∈ Rⁿˣⁿ be symmetric
+  A is psd iff it can be factored as A = GG~ for some G = Rⁿˣᵖ
+
+  pf:
+   (⇒) Assuming A = QDQ~ (by previous thm), where Q~ = Q` and D is diagonal
+   Denote √D = diag(√(D₁₁), ... ,√(Dₙₙ)) and let G = Q√D
+   THen GG~ = Q√D(Q√D)~ = Q√D√D~Q~ = QDQ~ = A 
+
+   (⇐) Assume A = GG~
+   Knowing that ∀M ∈ Rᵐˣⁿ, M~M is psd". Let M = G~.
+
+ Observations:
+  a. If √D = |d 0|, then G = Q√D = |Q₁₁ Q₁₂| |d 0| = |Q₁₁d 0|
+             |0 0|                 |Q₂₁ Q₂₂| |0 0|   |Q₂₁d 0|
+     So g = [Q₁₁d Q₂₁d]~ also satisfies gg~ = A
+
+  b. If A is pd, then √D is invertible. Since Q is always invertible, we get that G = Q√D ∈ Rⁿˣⁿ is also invertible.
+
+=LEC11= 2018-10-01
+ defn Bounded
+  A set S ⊆ Rⁿ is bounded if S ⊆ B_δ(0)
+ 
+ defn Closed
+  A set S is closde if for any sequence x₁, x₂, ... ∈ S such that lim i → ∞ xᵢ exists then lim i → ∞ xᵢ ∈ S
+  
+ defn Compact
+  A set is compact if it is bounded and closed
+ 
+ Thm [existence of a global minimizer]
+  If S ⊂ Rⁿ is nonempty and compact and f: S → R is continuous, then ∃y, z ∈ S where f(y) ≤ f(x) ≤ f(z), ∀x ∈ S
+
+ Thm
+  If f is continuous, then its level sets are closed
+  pf:
+   Let S = {x ∈ Rⁿ: f(x) ≤ α} be any level set, for any sequence x₁, ... ∈ S, we have f(xᵢ) ≤ α. 
+   By continuity of f, f(lim i→∞ xᵢ) = lim i→∞ f(xᵢ) ≤ α, thus lim i→∞ xᵢ ∈ S
+
+ Thm
+  If f: Rⁿ → R is continuous and has at least one bounded, nonempty level set, then f has a global minizer
+  pf:
+   Let S be the corresponding level set defined as {x ∈ Rⁿ: f(x) ≤ α}, and is given as bounded and nonempty
+   By previous theorem, S is closed, so it is compact
+   So, f must have a global minimizer over S: ∃y ∈ S: f(y) ≤ f(x)
+   Consider all points x ∈ Rⁿ\S, we have f(x) > α ≥ f(y)
+   Therefore, f(y) ≤ f(x) ∀x ∈ Rⁿ
+
+ Functions w/o global minimizers:
+  f(x) = 2x       #all level sets are unbounded
+  f(x) = e^x      #all level sets are empty or unbounded
+  
+ defn Coercive
+  A function f: Rⁿ → R is coercive if all its level sets are bounded
+
+ note: unless f(x) = ∞ ∀x, if f is coercive, then it has a global minimizer
+
+ Thm
+  Let f: Rⁿ → R be a continuous function. f is coercive iff ∀r, ∃m > 0 such that ‖x‖ ≥ m ⇒ f(x) ≥ r
+  pf:
+   (⇐) consider S = {x ∈ Rⁿ: f(x) ≤ α}, by assumption, letting r = α + 1, we get ∃m > 0: ‖x‖ ≥ m ⇒ f(x) ≥ α + 1
+   So, S ⊂ B_m(0), i.e. S is bounded.
+
+   (⇒) For any given r, consider T = {x ∈ Rⁿ: f(x) ≤ r}
+   By assumption, T is bounded, so ∃δ: T ⊆ B_delta(0)
+   For all x: ‖x‖ ≥ δ + 1, x ∉ T, so f(x) > r
+   Letting m = δ + 1, exactly the statement we want.
+
+ Example:
+  Let A ∈ Rᵐˣⁿ be of rank n. Show that f(x) = ‖Ax - b‖, with b ∈ Rᵐ is coercive.
+  f(x) = ‖Ax - b‖ ≥ ‖Ax‖ - ‖b‖, by triangle inequality of norms
+
+  f(x) ≥ ‖Ax‖ - ‖b‖ = √((Ax)~(Ax)) - ‖b‖ = √(x~A~Ax) - ‖b‖   #A~A is pd because A is full columnspace
+  ≥ √(λ₁‖x‖²) - ‖b‖    # λ₁ is the smallest eigenvalue of A~A
+  = √λ₁ ‖x‖ - ‖b‖
+  ‖x‖ ≤ (f(x) + ‖b‖)/√λ₁
+  So given r > 0, we have an f(x) > r, ∀‖x‖ ≥ r + ‖b‖/√λ₁

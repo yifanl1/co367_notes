@@ -1,0 +1,221 @@
+
+_CH1-Linear Algebra_
+ A vector and matrix norm
+
+ defn Norm
+  A norm ‖.‖ on Rⁿ assigns a scalar ‖x‖ to every x ∈ Rⁿ s.t.
+   1) ‖x‖ ≥ 0, ∀x ∈ Rⁿ
+   2) ‖cx‖ = |c|‖x‖, ∀c ∈ R, ∀x ∈ Rⁿ
+   3) ‖x‖ = 0 ⇔ x = 0 
+   4) ‖x + y‖ ≤ ‖x‖ + ‖y‖ ∀x, y ∈ Rⁿ
+
+  Lᵏ norm ‖x‖ₖ = (∑(x_i)ᵏ)^1/k 
+   in particular:
+    Manhattan Norm: L₁ = ‖x‖₁ = ∑|x_i|
+    Euclidean Norm: L₂ = ‖x‖₂ = √(∑x_i²)
+    Infinite Norm: L_inf = ‖x‖_inf = max(|x_i|)
+
+  Schwartz inequality: ∀x,y ∈ Rⁿ
+   |x~y| ≤ ‖x‖₂ ⋅ ‖y‖₂
+   equality when x = λy, for some λ ∈ R
+
+  Pythagorean theorem: If x, y ∈ Rⁿ are orthogonal, then ‖x + y‖₂² = ‖x‖₂² + ‖y‖₂²
+
+ defn Matrix Norm
+  Given a vector norm ‖.‖, the induced matrix norm associates a scalar ‖A‖ to all A ∈ Rⁿˣⁿ
+   ‖A‖ = max ‖A.x‖, when ‖x‖ = 1
+
+=LEC3= 2018-09-12
+  Property of Matrix norm:
+   ‖A‖₂ = max ‖A.x‖₂ = max |y~Ax|
+         ‖x‖₂ = 1     ‖x‖₂, ‖y‖₂ = 1 
+   Proof: Schwartz inequality to |y~Ax|
+  Property:
+   ‖A‖₂ = ‖A~‖₂
+   pf: swap x and y in above property
+
+  Properties: Let A ∈ Rⁿˣⁿ, following are equaivalent
+   a) A is non-singular
+   b) A~ is non-singular
+   c) ∀x ∈ Rⁿ, if x ≠ 0, Ax ≠ 0
+   d) ∀b ∈ Rⁿ, ∃x ∈ Rⁿ s.t. Ax = b, and x is unique
+   e) the columns of A are linearly independent
+   f) the rows of A are linearly independent
+   g) ∃B ∈ Rⁿˣⁿ such that AB = I = BA, where B is unique (B is the inverse of A)
+   h) for all A, B ∈ Rⁿˣⁿ, (AB)` = B`A` if B` exists
+
+ defn Eigenvalue
+  The characteristic polynomial Φ: R → R of A ∈ Rⁿˣⁿ is Φ(λ) = det(A - λI)
+  It has n complex roots, the eigenvalues of A
+  Given an eigenvalue λ of A, x ∈ Rⁿ is its corresponding eigenvector of A if Ax = λx
+
+  Properties: Given A ∈ Rⁿˣⁿ
+  a) λ is an eigenvalue iff ∃ a corresponding eigenvector x
+  b) A is singular iff it has a zero eigenvalue
+  c) if A is triangular, then its eigenvalues are its diagonal elements
+  d) if S ∈ Rⁿˣⁿ is non-singular, and B = SAS`, then A and B have the same eigenvalues
+  e) if the eigenvalues of A are λ_1, ..., λ_n (not necessarily distinct)
+     - the eigenvalues of A + cI are c+λ_1, ..., c + λ_n
+     - the eigenvalues of Aᵏ are λ_1ᵏ, ..., λ_nᵏ
+     - the eigenvalues of A` are 1/λ_1, ..., 1/λ_n
+     - the eigenvalues of A~ are λ_1, ..., λ_n
+
+ defn Spectral Radius
+  the spectral radius ρ(A) of A ∈ Rⁿˣⁿ is the maximum of the magnitudes of its eigenvalues
+
+  Property: 
+   For any induced norm ‖.‖, ρ(A) ≤ ‖Aᵏ‖^1/k, for k = 1, 2, ...
+   
+   pf: 
+    By definition, ‖Aᵏ‖ = max ‖Aᵏy‖ = max ‖Aᵏy‖/‖y‖
+                         ‖y‖=1       y≠0
+    In particular, let λ be any eigenvalue of A, and x its eigenvector
+    ‖Aᵏ‖ ≥ ‖Aᵏx‖/‖x‖ = ‖Aᵏ⁻¹Ax‖/‖x‖ = ‖Aᵏ⁻¹λx‖/‖x‖ = ... = ‖λᵏx‖/‖x‖ = (|λᵏ|‖x‖)/‖x‖ = |λᵏ|
+    So for any eigenvalue, ‖Aᵏ‖ ≥ |λᵏ| ⇒ ‖Aᵏ‖^1/k ≥ λ ⇒ ρ(A) ≤ ‖Aᵏ‖^1/k, QED
+
+  Property: 
+   For any induced norm ‖.‖, lim k→∞ ‖Aᵏ‖^1/k = ρ(A)
+   Also, lim k→∞ Aᵏ = 0 iff ρ(A) < 1
+
+   pf: exercise!
+
+ Symmetric Matrices
+  Properties: Let A ∈ Rⁿˣⁿ be a symmetric matrix
+   a) its eigenvalues are real
+   b) its eigenvectors are n mutually orthogonal real nonzero vectors
+   c) if the eigenvectors x₁, ..., xₙ are normalized s.t. ‖x‖₂ = 1, with corresponding λ₁, ..., λₙ, then A = ∑λᵢxᵢxᵢ~
+
+   pf: exercise!
+
+=LEC4= 2018-09-14
+  Property: 
+   Let A ∈ Rⁿˣⁿ be a symmetric matrix, then ‖A‖₂ = ρ(A)
+
+   pf: 
+    from before, ρ(A) ≤ ‖Aᵏ‖^1\k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
+    Now, need to prove ρ(A) ≥ ‖A‖₂
+    As the eigenvectors xᵢ, i = 1...n of C are mutually orthogonal
+    we can write any y ∈ Rⁿ as y = ∑ βᵢxᵢ, i=1...n, for some βᵢ ∈ R
+
+    By Pythagoras' theorem, ‖y‖₂² = ∑ βᵢ² . ‖x‖₂²; i=1...n
+    So, Ay = A ∑βᵢxᵢ = ∑βᵢAxᵢ = ∑βᵢλᵢxᵢ
+    Again using Pythagoras', ‖Ay‖₂² = ‖∑βᵢλᵢxᵢ‖₂² 
+     = ∑βᵢ²λᵢ²‖x‖₂² 
+     = ∑|λᵢ|² . |βᵢ|² . ‖x‖₂²
+     ≤ ∑ρ(A)²|βᵢ|²‖x‖₂²       # by definition of spectral radius, λᵢ ≤ ρ(A)
+     = ρ(A)² ∑|βᵢ|²‖x‖₂²
+     = ρ(A)² ‖y‖₂²
+
+    ‖Ay‖₂ ≤ ρ(A) ‖y‖₂
+    ⇒ ‖A‖₂ = max ‖Ay‖₂/‖y‖₂ ≤ (ρ(A)‖y‖₂)/‖y‖₂
+             y≠0
+    ⇒ ‖A‖₂ ≤ ρ(A) 
+    QED
+
+  Property:
+   Let A ∈ Rⁿˣⁿ be symmetric, with eigenvalues λ₁ ≤ ... ≤ λₙ ∈ R
+   Then ∀y ∈ Rⁿ: λ₁‖y‖₂² ≤ y~Ay ≤ λₙ‖y‖₂²
+
+   pf:
+    write y as ∑βᵢxᵢ, i=1...n, where βᵢ ∈ R, xᵢ are orthogonal eigenvectors of A
+    firstly: 
+    y~Ay = (∑βᵢxᵢ)~(∑βᵢλᵢxᵢ) = ∑βᵢ²λᵢ‖xᵢ‖₂²
+    wlog, assume ‖xᵢ‖₂ = 1 by normalization, so y~Ay = ∑λᵢβᵢ²
+
+    secondly:
+    ‖y‖₂² = ∑βᵢ²‖xᵢ‖² = ∑βᵢ²
+
+    ∑λ₁βᵢ² ≤ ∑λᵢβᵢ² ≤ ∑λₙβᵢ² for any i = 1...n  # notice the subscript of λ
+    ⇒ ∑λ₁‖y‖₂² ≤ y~Ay ≤ ∑λₙ‖y‖₂² 
+    QED
+
+  Property:
+   Let A ∈ Rⁿˣⁿ be symmetric, then ‖Aᵏ‖₂ = ‖A‖₂ᵏ for any natural number k
+
+   pf:
+    As A is symmetric, A = A~
+    (Aᵏ)~ = (A ... A)ᵏ = A~ ... A~ = A ... A = Aᵏ
+    As Aᵏ is symmetric, ‖Aᵏ‖₂ = ρ(Aᵏ)
+    The eigenvalues of Aᵏ are λ₁ᵏ, ..., λₙᵏ when λ₁, ..., λₙ are the eigenvalues of A
+    So, ρ(Aᵏ) = ρ(A)ᵏ
+    as ρ(A) = ‖A‖₂ ⇒ ‖A‖₂ᵏ = ‖Aᵏ‖₂
+
+  Property:
+   Let A ∈ Rⁿˣⁿ, then ‖A‖₂² = ‖A~A‖₂ = ‖AA~‖₂
+
+   pf: 
+    According to Schwartz inequality: x~y ≤ ‖x‖₂ . ‖y‖₂
+    ‖Ax‖₂² = (Ax)~(Ax) = (x~A~)(Ax) = x~ . A~Ax
+    ≤ ‖x‖₂ . ‖A~Ax‖₂ 
+    ≤ ‖x‖₂ . ‖A~A‖₂ . ‖x‖₂, ∀x ∈ Rⁿ
+
+    Remark:
+     ‖A‖₂² = max ‖Ax‖₂²/‖x‖₂² ≤ ‖A~A‖₂
+            x∈Rⁿ
+
+=LEC5= 2018-09-17
+     ‖A~A‖ = max |y~A~Ax|    
+            ‖y‖=1,‖x‖=1
+          ≤ max ‖y~A~‖₂ . ‖Ax‖₂
+            ‖y‖=1,‖x‖=1
+          = (max ‖y~A~‖₂) (max ‖Ax‖₂)
+            ‖y‖=1        ‖x‖=1
+          = ‖A‖₂²
+     So, we have ‖A‖₂² = ‖A~A‖
+     For ‖A‖₂² = ‖AA~‖, repeat steps with A and A~ swapped
+
+  Property:
+   ‖A`‖₂ is 1/λ₁ where λ₁ is the smallest magnitude eigenvalue of A
+
+   pf:
+    Remark that ‖A`‖₂ = ρ(A`), and the eigenvalues of A` are the inverses of the eigenvalues of A
+    inverse of smallest = largest
+
+ defn Positive Definite Matrix
+  A symmetric matrix A ∈ Rⁿˣⁿ is 
+   positive definite if x~Ax > 0 for all x ∈ Rⁿ, x≠0
+   positive semidefinite if x~Ax ≥ 0 for all x ∈ Rⁿ
+
+  Property:
+   For any A ∈ Rᵐˣⁿ (not necessaily square), A~A is psd, and A~A is pd iff rank(A) = n
+
+   pf:
+    A~A is square and symmetric: 
+     trivial
+    A~A is psd: 
+     for any x ∈ Rⁿ, x~(A~A)x = (Ax)~(Ax) = ‖Ax‖₂² ≥ 0
+    A~A is pd iff rank(A) = n:
+     x~A~Ax > 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⇔ ‖Ax‖₂² > 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⇔ ‖Ax‖₂ > 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⇔ Ax ≠ 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⇔ rank(A) = n            by fundamental theory of linear algebra
+
+  Corollary:
+   If A ∈ Rⁿˣⁿ is square, A~A is pd iff A is nonsingular
+
+  Properties:
+   1. A square symmetric matrix is psd iff all its eigenvalues are ≥ 0 
+   2. A square symmetric matrix is pd iff all its eigenvalues are > 0 
+
+   pf (For statement 1):
+    Let λ be an eigenvalue of psd matrix A, and let x be its corresponding nonzero eigenvector
+    x~Ax ≥ 0, so x~λx = λ‖x‖₂² ≥ 0 
+    ⇒ λ ≥ 0
+
+    Let λ₁, ..., λₙ ≥ 0 be the eigenvalues of A, 
+     and let x₁, ..., xₙ be the n (nonzero, real, mutually orthogonal) eigenvectors
+    As such, ∀y ∈ Rⁿ, y is a linear combination of (x₁, ..., xₙ)
+    y = ∑βᵢxᵢ, i=1..n
+    y~Ay = (∑βᵢxᵢ)~A(∑βᵢxᵢ)
+    = (∑βᵢxᵢ)~(∑βᵢAxᵢ)
+    = (∑βᵢxᵢ)~(∑βᵢλᵢxᵢ)
+    = ∑βᵢ²λᵢ‖xᵢ‖₂² ≥ 0
+    
+    For statement 2, do it yourself
+
+  Property:
+   The inverse of a pd matrix is also pd
+   
+   pf:
+    Let λ₁, ..., λₙ > 0 be the eigenvalues of A, then clearly their inverses (the eigenvalues of A`) must also be positive

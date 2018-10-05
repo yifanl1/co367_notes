@@ -1,0 +1,132 @@
+
+_CH2-Convexity_
+ defn Convex
+  A set C ⊆ Rⁿ is convex if 
+   λx + (1 - λy) ∈ C, ∀x,y ∈ C, ∀λ ∈ [0, 1]
+
+=LEC6= 2018-09-19
+  A function f: D → R is convex if
+   f(λx + (1 - λ)y) ≤ λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ [0, 1]
+  f is strictly convex if strict inequality holds
+   f(λx + (1 - λ)y) < λf(x) + (1 - λ)f(y) ∀x,y ∈ D, ∀λ ∈ [0, 1]
+
+  Properties:
+   - for any collection {cᵢ : i ∈ I} of convex sets, their intersection ∩cᵢ is convex
+   - the vector (Minkowski) sum {x + y : x ∈ C₁, y ∈ C₂} of convex sets C₁, C₂ is convex
+   - the image of a convex set under a linear transformation is convex
+
+ defn Level Set
+  Let f: C → R be a function, with a convex domain C
+  the level sets of f are {x ∈ C: f(x) ≤ α} ∀α ∈ R
+
+ defn Epigraph
+  f as before
+  the epigraph of f is a subset of Rⁿ⁺¹ given by epi(f) = {(x, α) : x ∈ C, α ∈ R, f(x) ≤ α}
+
+  Properties
+   a. if f: C → R is convex, then its level sets are convex
+    The converse of a is not true
+     the level sets of f(x) = √|a| are {x: -α² ≤ x ≤ α²}
+     however, f(x) is not convex: let x = 0, y = 1, λ = 0.5
+     f(0.5) = √0.5, 0.5f(0) + 0.5f(1) = 0.5
+     √0.5 > 0.5!
+   b. f: C → R is convex iff its epigraph is a convex set
+   c. any linear function is convex (not necessarily strictly)
+   d. if f is a convex function, g(x) = λf(x) is convex ∀λ ≥ 0
+   e. the sum of two convex functions is a convex function
+   f. the max of two convex functions is a convex (piecewise) function
+   g. Any vector norm is convex
+    pf:
+     Let f(x) = ‖x‖, then for any x,y ∈ Rⁿ, λ ∈ [0, 1]:
+      f(λx + (1 - λ)y) 
+      = ‖λx + (1 - λ)y‖ 
+      ≤ ‖λx‖ + ‖(1 - λ)y‖      # by definition of a norm
+      = λ‖x‖ + (1 - λ)‖y‖ 
+      = λf(x) + (1 - λ)f(y)
+
+=LEC7= 2018-09-21
+ Taylor's theorem for univariate functions
+  f(x + h) = ∑[hⁱ/i! dᵢ(f(x))] + ϕ(h) for i = 0..k, where dᵢ(f) is the ith derivative of f
+  Φ(h) = hᵏ⁺¹/(k + 1)! dₖ₊₁(f(x + λh)), λ ∈ [0, 1] is the residual function
+  In particular, lim h→0 Φ(h)/hᵏ = 0
+
+ Taylor's theorem for multivariate functions
+  1st order (k = 1)
+   f(x + h) = f(x) + h~∇f(x) + Φ(h)
+   Φ(h) = 1/2 h~∇²f(x + λh)h, λ ∈ [0, 1]
+   with lim h→0 Φ(h)/‖h‖ = 0
+
+  2nd order
+   f(x + h) = f(x) + h~∇f(x) + 1/2h~∇²f(x)h + Φ(h)
+   with lim h→0 Φ(h)/‖h‖² = 0
+
+ Mean Value theorem
+  Let f: D → R, D ⊆ R, f ∈ C¹(D)
+  then ∀x,y ∈ D, ∃z ∈ [x, y] f(y) = f(x) + ∇f(z)(y-x),
+   pf: by zeroth order Taylor expansion
+
+ defn Directional Derivative
+  The directional derivative of f in the direction of y is 
+   ∇_y f(x) = lim α→0 (f(x + αy) - f(x))/α
+
+  In particular, ∇_eᵢ f(x) = δf/δxᵢ(x) and ∇f = (∇_e₁f(x) ... ∇_eₙf(x))~
+  "direction" -> draw out the function!
+
+ Thm:
+  If f ∈ C¹, then ∇_hf = h~∇f
+
+  pf:
+   ∇_hf 
+   = lim α→0 (f(x + αh) - f(x))/α 
+   = lim α→0 (f(x) + αh~∇f(x) + Φ(αh) - f(x)) / α
+   = lim α→0 (αh~∇f(x) + Φ(αh)) / α
+   = lim α→0 αh~∇f(x) / α + lim α→0 Φ(αh) / α
+   = h~∇f(x) + lim α→0 Φ(αh) / α  # see definition of residual above
+   = h~∇f(x)
+
+ Property:
+  Let C ⊆ Rⁿ be convex, and let f: C → R be differentiable over C.
+   f is convex iff
+    f(z) ≥ f(x) + (z-x)~∇f(x) ∀x,z ∈ C
+   pf:
+    (->) As C is convex, x + (z-x)α = αz + (1-α)x ∈ C, ∀α ∈ [0, 1]
+     lim→0 (f(x+α(z-x)) - f(x))/α = ∇_z-x f(x) = (z-x)~∇f(x)
+
+     By convexity of f, f(x+α(z-x)) ≤ αf(z) + (1-α)f(x), ∀α ∈ [0, 1]
+     f(x+α(z-x)) - f(x) ≤ αf(z) - αf(x)
+     (f(x+α(z-x)) - f(x))/α ≤ f(z) - f(x)
+     taking lim α→0:
+     (z-x)~∇f(x) ≤ f(z) - f(x)
+
+=LEC8= 2018-09-24
+    (<-) if f(z) ≥ f(x) + (z-x)~∇f(x), ∀x,z ∈ C
+     Let a,b ∈ C be any points in the domain of f, let c = αa + (1 - α)b
+     (1) f(a) ≥ f(c) + (a - c)~∇f(c)
+     (2) f(b) ≥ f(c) + (b - c)~∇f(c)
+
+     multiply (1) by α and (2) by (1 - α), then add them:
+      αf(a) + (1 - α)f(b) ≥ α(f(c) + (a - c)~∇f(c)) + (1 - α)(f(c) + (b - c)~∇f(c))
+      αf(a) + (1 - α)f(b) ≥ f(c) + α((a - c)~∇f(c)) + (1 - α)((b - c)~∇f(c))
+      αf(a) + (1 - α)f(b) ≥ f(c) + (αa - αc + b - αb - c + αc) ~∇f(c))
+      αf(a) + (1 - α)f(b) ≥ f(c) + (αa + b - αb - c) ~∇f(c)) # by definition, c = αa + (1 - α)b
+      αf(a) + (1 - α)f(b) ≥ f(c)
+      αf(a) + (1 - α)f(b) ≥ f(αa + (1 - α)b)
+     Therefore, f is convex over C.
+  
+  Properties: Let f: Rⁿ → R, f ∈ C²(D)
+   a. ∇²f(x) psd ∀x ∈ D ⇒ f convex over D
+    pf:
+     for all x, y ∈ D, by 1st order Taylor
+     f(y) = f(x) + (y - x)~∇f(x) + 1/2 (y-x)~∇²f(x + α(y-x))(y-x) for some α ∈ [0, 1]
+   b. ∇²f(x) pd ∀x ∈ D ⇒ f strictly convex over D
+    pf:
+     similar to a, with y ≠ x, strict inequality.
+   c. D = Rⁿ and f convex over D ⇒ ∇²f(x) psd ∀x ∈ D
+    pf:
+     f is convex over Rⁿ. Assume by contradiction, ∃x,z ∈ Rⁿ where z~∇²f(x) < 0
+     because ∇²f is continuous, can find a z small enough that 
+      z~∇²f(x + αz)z < 0 ∀α ∈ [0, 1] (1)
+     By Taylor:
+      f(x + z) = f(x) + z~∇f(x) + 1/2z~∇²f(x + βz)z for some 0 ≤ β ≤ 1
+               < f(x) + z~∇f(x)       #by (1)
+     Which contradicts convexity

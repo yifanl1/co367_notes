@@ -209,7 +209,7 @@ _CH1-Linear Algebra_
  Symmetric Matrices
   Properties: Let A ∈ Rⁿˣⁿ be a symmetric matrix
    a) its eigenvalues are real
-   b) its eigenvalues are n mutually orthogonal real nonzero vectors
+   b) its eigenvectors are n mutually orthogonal real nonzero vectors
    c) if the eigenvectors x₁, ..., xₙ are normalized s.t. ‖x‖₂ = 1, with corresponding λ₁, ..., λₙ, then A = ∑λᵢxᵢxᵢ~
 
    pf: exercise!
@@ -385,7 +385,7 @@ _CH2-Convexity_
    f. the max of two convex functions is a convex (piecewise) function
    g. Any vector norm is convex
     pf:
-     Let f(x) = ‖x‖, then for any x,y ∈ Rⁿ, 0 ≤ λ ≤ 1:
+     Let f(x) = ‖x‖, then for any x,y ∈ Rⁿ, λ ∈ [0, 1]:
       f(λx + (1 - λ)y) 
       = ‖λx + (1 - λ)y‖ 
       ≤ ‖λx‖ + ‖(1 - λ)y‖      # by definition of a norm
@@ -395,13 +395,13 @@ _CH2-Convexity_
 =LEC7= 2018-09-21
  Taylor's theorem for univariate functions
   f(x + h) = ∑[hⁱ/i! dᵢ(f(x))] + ϕ(h) for i = 0..k, where dᵢ(f) is the ith derivative of f
-  Φ(h) = hᵏ⁺¹/(k + 1)! dₖ₊₁(f(x + λh)), 0 ≤ λ ≤ 1 is the residual function
+  Φ(h) = hᵏ⁺¹/(k + 1)! dₖ₊₁(f(x + λh)), λ ∈ [0, 1] is the residual function
   In particular, lim h→0 Φ(h)/hᵏ = 0
 
  Taylor's theorem for multivariate functions
   1st order (k = 1)
    f(x + h) = f(x) + h~∇f(x) + Φ(h)
-   Φ(h) = 1/2 h~∇²f(x + λh)h, 0 ≤ λ ≤ 1
+   Φ(h) = 1/2 h~∇²f(x + λh)h, λ ∈ [0, 1]
    with lim h→0 Φ(h)/‖h‖ = 0
 
   2nd order
@@ -594,7 +594,7 @@ _CH3-Optimality Conditions_
  Observations:
   a. If √D = |d 0|, then G = Q√D = |Q₁₁ Q₁₂| |d 0| = |Q₁₁d 0|
              |0 0|                 |Q₂₁ Q₂₂| |0 0|   |Q₂₁d 0|
-     So g = [Q₁₁d Q₂₁d]~ a;sp satosfoes gg~ = A
+     So g = [Q₁₁d Q₂₁d]~ also satisfies gg~ = A
 
   b. If A is pd, then √D is invertible. Since Q is always invertible, we get that G = Q√D ∈ Rⁿˣⁿ is also invertible.
 
@@ -657,6 +657,7 @@ _CH3-Optimality Conditions_
   So given r > 0, we have an f(x) > r, ∀‖x‖ ≥ r + ‖b‖/√λ₁
 
 =LEC12= 2018-10-03
+_CH4-Quadratic Functions_
  A quadratic function takes the form q(x) = x~Ax + b~x + c, for A ∈ Rⁿˣⁿ, b ∈ Rⁿ, c ∈ R 
  wlog, assume A is symmetric
  
@@ -707,3 +708,57 @@ _CH3-Optimality Conditions_
    a. if A is pd, the q(x) has a unique global minimum x* = 1/2A`b
    b. if A is psd and b ∈ Range(A), then q(x) has a global minimizer
    c. otherwise, q(x) has no global minimizer
+
+=LEC13= 2018-10-05
+ Thm: 
+  Given A ∈ Rᵐˣⁿ symmetric, be Rⁿ, c ∈ R, let q(x) = x~Ax + b~x + c
+  a. if A is pd, q(x) has a unique global minimizer x* = -1/2 A`b
+  b. if A is psd and b ∈ Range(A), q(x) has a global minimizer x*.
+  c. otherwise, q(x) → -∞ for some ‖x‖ → ∞
+
+  pf:
+   Necessary conditions: x* local minimizer
+   so ∇q(x*) = 0, ∇²q(x*) psd
+   so 2Ax* + b = 0, A is psd
+
+   a. Assume A is pd, thus, A` exists. There is a unique critical point 2Ax* + b = 0 ⇒ x* = -1/2A`b
+    So, x* is a local minimizer because ∇²q(x*) = A is pd (and thus psd)
+
+    q(x* + h) = (x* + h)~A(x* + h) + b~(x* + h) + c
+    = x*~Ax* + x*~Ah + h~Ax* + h~Ah + b~x* + b~h + c # note that x*~Ah = (x*~Ah)~ = h~A~x* = h~Ax* when A is symmetric
+    = q(x*) + 2h~Ax* + h~Ah + b~h
+    = q(x*) + 2h~A(-1/2A`b) + h~Ah + b~h
+    = q(x*) - h~b + h~Ah + b~h
+    = q(x*) + h~Ah
+    as A is psd, h~Ah ≥ 0
+    so q(x*) ≤ q(x* + h) ∀h ∈ Rⁿ
+
+   b. b ∈ Range(A) ⇒ -1/2b ∈ Range(A), so Ax* = -1/2b for some x*
+    So x* satisfies 2Ax* + b = 0, and as given, A is psd.
+    proof as before
+    q(x* + h) = q(x*) + 2h~Ax* + h~Ah + b~h
+    = q(x*) + 2h~(-1/2b) + h~Ah + b~h
+    = q(x*) + h~Ah
+    A is psd, h~Ah ≥ 0 ∀h ∈ Rⁿ 
+    so x* is a global minimizer for q.
+  c. Assume A is psd, but b ∉ Range(A)
+   let b = y + z, uniquely with y ∈ Range(A~) = Range(A), z ∈ Null(A), z ≠ 0, since b ∉ Range(A)
+   For any λ ∈ R, q(λz) = λ²z~Az + λb~z + c = 0 + λ(y + z)~z + c
+    = λy~z + λz~z + c = λ‖z‖₂² + c
+   for λ → -∞, q(λz) → -∞
+
+   Assume A is not psd, then ∃v ∈ Rⁿ: v~Av < 0
+   Let w ∈ Rⁿ with w = v if b~v ≥ 0, w = -v if b~v < 0. We have w~Aw < 0 and b~w ≥ 0.
+   For any λ ∈ R, q(λw) = λ²w~Aw + λb~w + 0
+   Taking λ → -∞, q(λz) → -∞
+
+_CH5-Least Squares_
+ Given a₁, ..., aₘ ∈ Rᵏ, b₁, ..., bₘ ∈ R, Find a function h: Rᵏ → R: h(aᵢ) ≈ bᵢ ∀i
+ 
+ defn Least Square:
+  minimize ∑(h(aᵢ) - bᵢ)²
+  Determine the best h among a family of functions, parametrized by x∈R
+  min ∑(hₓ(aᵢ) - bᵢ)²
+   x ∈ Rⁿ
+
+ Let f(x) = ∑(hₓ(aᵢ) - bᵢ)², min f(x)

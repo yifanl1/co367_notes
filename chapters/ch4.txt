@@ -1,0 +1,96 @@
+
+=LEC12= 2018-10-03
+_CH4-Quadratic Functions_
+ A quadratic function takes the form q(x) = x~Ax + b~x + c, for A ∈ Rⁿˣⁿ, b ∈ Rⁿ, c ∈ R 
+ wlog, assume A is symmetric
+ 
+ Thm 
+  Let A ∈ Rⁿˣⁿ and let G be symmetric part of A, i.e. G = (A + A~)/2 
+  a. G is symmetric
+  pf
+   G~ = [(A + A~)/2]~ = 1/2(A~ + A) = (A + A~)/2 = G
+  b. q(x) = x~Gx + bx + c ∀x∈Rⁿ
+   Observe that x~Ax is scalar, so (x~Ax)~ = x~Ax. 
+   Then, x~Ax = 1/2(x~Ax) + 1/2(x~A~x)
+   = 1/2(x~(A + A~)x) = x~Gx
+
+ defn Range
+  The range or column space of A ∈ Rᵐˣⁿ is Range(A) = {Ax: x ∈ Rⁿ}
+ defn Null Space
+  The null space or kernel of A ∈ Rᵐˣⁿ is Null(A) = {x ∈ Rⁿ: Ax = 0}
+
+ Thm
+  Let C ∈ Rᵐˣⁿ, if y ∈ Range(C~) and z ∈ Null(C), then y~z = 0
+  pf: Since y ∈ Range(C~), ∃x ∈ Rⁿ: y = C~x. Then y~z = (C~x)~z = x~Cz = x~0 = 0
+
+ Thm
+  Let C ∈ Rᵐˣⁿ. ∀w ∈ Rⁿ, ∃y ∈ Range(C~) and z ∈ Null(C) unique such that w = y + z
+  pf
+   Let w = y + z + b, y ∈ Range(C~), z ∈ Null(C), be ∈ Range(C~)⟂ ∩ Null(C)⟂
+   The decomposition is unique since Range(C~) ⟂ Null(C) ⟂ b
+   Consider Cb ∈ Rᵐ. C~(Cb) ∈ Range(C~), so b ⟂ C~(Cb)
+   Thus, 0 = b~(C~(Cb)) = (Cb)~(Cb) = ‖Cb‖₂²
+   So Cb = 0, then b ∈ Null(C). We get b ∈ Null(C) ∩ Null(C)⟂, thus b must be 0.
+
+ derivatives of q(x)
+  a. δ/δxₖ b~x = bₖ, ∇b~x = b
+  b. δ/δxₖ x~Ax 
+   = δ/δxₖ ∑Aᵢⱼxᵢxⱼ 
+   = δ/δxₖ (∑Aₖⱼxₖxⱼ + ∑Aᵢₖxᵢxₖ + Aₖₖxₖ²), where j ≠ k, i ≠ k
+   = δ/δxₖ (2∑Aₖⱼxₖxⱼ + Aₖₖxₖ²)
+   = 2∑Aₖⱼxⱼ + 2Aₖₖxₖ
+   = 2∑Aₖⱼxⱼ
+   = kth row of 2Ax
+   ∇x~Ax = 2Ax
+  c. ∇²bx = 0
+  d. δ²/δxₖδxₗ x~Ax = δ/δxₗ(2∑Aₖⱼxⱼ) = 2Aₖₗ
+   ∇²x~Ax = 2A
+
+  Thm
+   Given A ∈ Rⁿˣⁿ symmetric, b ∈ Rⁿ, c ∈ R, let q(x) = x~Ax + bx + c
+   a. if A is pd, the q(x) has a unique global minimum x* = 1/2A`b
+   b. if A is psd and b ∈ Range(A), then q(x) has a global minimizer
+   c. otherwise, q(x) has no global minimizer
+
+=LEC13= 2018-10-05
+ Thm: 
+  Given A ∈ Rᵐˣⁿ symmetric, be Rⁿ, c ∈ R, let q(x) = x~Ax + b~x + c
+  a. if A is pd, q(x) has a unique global minimizer x* = -1/2 A`b
+  b. if A is psd and b ∈ Range(A), q(x) has a global minimizer x*.
+  c. otherwise, q(x) → -∞ for some ‖x‖ → ∞
+
+  pf:
+   Necessary conditions: x* local minimizer
+   so ∇q(x*) = 0, ∇²q(x*) psd
+   so 2Ax* + b = 0, A is psd
+
+   a. Assume A is pd, thus, A` exists. There is a unique critical point 2Ax* + b = 0 ⇒ x* = -1/2A`b
+    So, x* is a local minimizer because ∇²q(x*) = A is pd (and thus psd)
+
+    q(x* + h) = (x* + h)~A(x* + h) + b~(x* + h) + c
+    = x*~Ax* + x*~Ah + h~Ax* + h~Ah + b~x* + b~h + c # note that x*~Ah = (x*~Ah)~ = h~A~x* = h~Ax* when A is symmetric
+    = q(x*) + 2h~Ax* + h~Ah + b~h
+    = q(x*) + 2h~A(-1/2A`b) + h~Ah + b~h
+    = q(x*) - h~b + h~Ah + b~h
+    = q(x*) + h~Ah
+    as A is psd, h~Ah ≥ 0
+    so q(x*) ≤ q(x* + h) ∀h ∈ Rⁿ
+
+   b. b ∈ Range(A) ⇒ -1/2b ∈ Range(A), so Ax* = -1/2b for some x*
+    So x* satisfies 2Ax* + b = 0, and as given, A is psd.
+    proof as before
+    q(x* + h) = q(x*) + 2h~Ax* + h~Ah + b~h
+    = q(x*) + 2h~(-1/2b) + h~Ah + b~h
+    = q(x*) + h~Ah
+    A is psd, h~Ah ≥ 0 ∀h ∈ Rⁿ 
+    so x* is a global minimizer for q.
+  c. Assume A is psd, but b ∉ Range(A)
+   let b = y + z, uniquely with y ∈ Range(A~) = Range(A), z ∈ Null(A), z ≠ 0, since b ∉ Range(A)
+   For any λ ∈ R, q(λz) = λ²z~Az + λb~z + c = 0 + λ(y + z)~z + c
+    = λy~z + λz~z + c = λ‖z‖₂² + c
+   for λ → -∞, q(λz) → -∞
+
+   Assume A is not psd, then ∃v ∈ Rⁿ: v~Av < 0
+   Let w ∈ Rⁿ with w = v if b~v ≥ 0, w = -v if b~v < 0. We have w~Aw < 0 and b~w ≥ 0.
+   For any λ ∈ R, q(λw) = λ²w~Aw + λb~w + 0
+   Taking λ → -∞, q(λz) → -∞
