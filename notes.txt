@@ -762,3 +762,53 @@ _CH5-Least Squares_
    x ∈ Rⁿ
 
  Let f(x) = ∑(hₓ(aᵢ) - bᵢ)², min f(x)
+
+ =LEC14= 2018-10-15
+  a.
+   Linear least squares
+    hₓ(aᵢ) = x₁aᵢ₁ + ... + xₖaᵢₖ
+   in 1 dimension, draw line hₓ(a) = ax through origin
+  
+   to get a line/hyperplane that does not contain the origin
+    Let n = k + 1, a_i,k+1 = 1 ∀i
+    then hₓ(aᵢ) = x₁aᵢ₁ + ... + xₖaᵢₖ + xₖ₊₁
+
+    f(x) = ∑aᵢ~x + bᵢ)² = (Ax - b)~(Ax - b) = ‖Ax - b‖₂²
+    = x~A~Ax - x~A~b - b~Ax + b~b
+    = x~(A~A)x - (2A~b)~x + b~b, thus f(x) is a quadratic function
+
+   If rank(A) = n, we see that ‖Ax - b‖₂ is coercive, so it has a global minimizer. 
+   Also if rank(A) = n, A~A is pd, f(x) has a global minimizer x* = -1/2(A~A)`(-2A~b) = (A~A)`A~b
+
+  b.
+   Nonlinear least squares
+
+   Let g: Rⁿ → Rᵐ, with gᵢ(x) = hₓ(aᵢ) - b
+   We have f(x) = ∑(g(x))² = g(x)~g(x)
+
+   defn Jacobian Matrix
+    The Jacobian Matrix of g is given by 
+     J(x) = [∇g₁(x)~ ... ∇gₘ(x)~]~
+
+   δ/δxₖ f(x) = δ/δxₖ∑(gᵢ(x))²
+    = ∑2 gᵢ(x) δ/δxₖgᵢ(x) = 2eₖ~J(x)~gᵢ(x). Thus, ∇f(x) = 2J(x)~g(x)
+   
+   Note that if g(x*) = 0, then ∇f(x*) = 0, and x* is a global minimizer
+   δ²/δxₖδxⱼg(x) = δ/δxⱼ 2(∑gᵢ(x) δ/δxₖgᵢ(x)) = 2∑(δ/δxⱼgᵢ(x) δ/δxₖgᵢ(x) + gᵢ(x)δ²/δxₖδxⱼgᵢ(x))
+   ∇²f(x) = 2∑gᵢ(x)∇²gᵢ(x) + 2J(x)~J(x)
+
+_CH6-Descent Algorithms_
+ General framework
+  Choose x⁰ ∈ Rⁿ
+  for k = 0, 1, ...
+   Choose a search direction pᵏ ∈ Rⁿ
+   Choose a step length αᵏ > 0
+
+   Note: Objective f(xᵏ⁻¹) should be much smaller than f(xᵏ), and xᵏ converges very fast
+
+ Steepest descent pᵏ = -∇f(xᵏ)
+
+ Thm:
+  Let f ∈ C¹(Bₜ(xᵏ)), t > 0 and ∇f(xᵏ) ≠ 0
+  Consider the optimization problem min{f(xᵏ + εp)}, for some 0 < ε < t
+  Let p& be a minimizer, then lim p*(ε) = -∇f(xᵏ)/‖∇f(xᵏ)‖
