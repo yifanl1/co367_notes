@@ -811,4 +811,81 @@ _CH6-Descent Algorithms_
  Thm:
   Let f ∈ C¹(Bₜ(xᵏ)), t > 0 and ∇f(xᵏ) ≠ 0
   Consider the optimization problem min{f(xᵏ + εp)}, for some 0 < ε < t
-  Let p& be a minimizer, then lim p*(ε) = -∇f(xᵏ)/‖∇f(xᵏ)‖
+  Let p* be a minimizer, then lim ε → 0 p*ε = -∇f(xᵏ)/‖∇f(xᵏ)‖
+
+=LEC15= 2018-10-17
+
+ Lemma: Let lim ε → 0, ε > 0 ϕ(εh)/ε = 0
+  For any K > 0, there exists ε small enough s.t. |ϕ(εh)| ≤ εK
+
+  pf
+   For any K > 0, there exists γ > 0 s.t. |ϕ(εh)/ε| ≤ K, ∀0 < ε < γ
+   Therefore |ϕ(εh)| ≤ εK ∀ε < γ
+   Therefore, ε being sufficiently small means ε < γ
+
+ Thm
+  If ∇f(x*) ≠ 0, then for ε→0, min ‖p‖ = 1 {f(xᵏ + εp)} has optimum p* = -∇f(xᵏ)/‖∇f(xᵏ)‖₂
+
+  pf
+   Let x = xᵏ, p = -∇f(x)/‖∇f(x)‖₂, hence ∇f(x) = -p‖∇f(x)‖
+   let u ∈ Rⁿ: ‖u‖₂ = 1, u ≠ p, so ‖u - p‖ > δ > 0
+
+   Notice (u - p)~(u - p) > δ²
+   So u~u - u~p - p~u + p~p > δ²
+   2 - 2u~p > δ²
+   1 - u~p > δ²/2
+   u~p < 1 - δ²/2
+
+   By Taylor: 
+   f(x + εu) 
+   = f(x) + εu~∇f(x) + ϕ(εu), with lim ε→0 ϕ(εu)/ε = 0
+   = f(x) - ε‖∇f(x)‖u~p + ϕ(εu)
+   ≥ f(x) - ε‖∇f(x)‖(1 - δ²/2) + ϕ(εu)
+   = f(x) - ε‖∇f(x)‖ + εδ²/2‖∇f(x)‖ + ϕ(εu)
+
+   By Lemma, |ϕ(εu)| ≤ ε‖∇f(x)‖δ²/4     # can use any arbitrary constant
+   ϕ(εu) ≥ -ε‖∇f(x)‖δ²/4
+
+   f(x + εu) 
+   ≥ f(x) - ε‖∇f(x)‖ + εδ²/2‖∇f(x)‖ - ε‖∇f(x)‖δ²/4
+   = f(x) - ε‖∇f(x)‖ + εδ²/4‖∇f(x)‖
+   = f(x) + ε‖∇f(x)‖(δ²/4 - 1)      (1)
+
+   Also by Taylor: 
+   f(x + εp) 
+   = f(x) + εp~∇f(x) + ϕ(εp), with lim ε→0 ϕ(εp)/ε = 0
+   = f(x) - εp~p‖∇f(x)‖ + ϕ(εp)
+   = f(x) - ε‖∇f(x)‖ + ϕ(εp)
+
+   By Lemma, |ϕ(εp)| ≤ ε‖∇f(x)‖δ²/8
+   ϕ(εp) ≤ ε‖∇f(x)‖δ²/8
+   f(x + εp) 
+   ≤ f(x) - ε‖∇f(x)‖ + ε‖∇f(x)‖δ²/8
+   = f(x) + ε‖∇f(x)‖(δ²/8 - 1)      (2)
+
+   By (1) and (2), we get f(x + εp) ≤ f(x) + ε‖∇f(x)‖(δ²/8 - 1) < f(x) + ε‖∇f(x)‖(δ²/4 - 1) ≤ f(x + εu)
+
+ defn Descent Direction
+  In general, pᵏ is a descent direction if
+   f(xᵏ + εpᵏ) < f(xᵏ) ∀ε sufficiently small
+
+ Thm
+  Let xᵏ be such that ∇f(xᵏ) ≠ 0 If pᵏ~∇f(xᵏ) < 0, then pᵏ is a descent direction
+
+  pf
+   let p = pᵏ, assume wlog ‖p‖ = 1
+    f(xᵏ + εp) = f(xᵏ) + εp~∇f(xᵏ) + ϕ(εp), with usual requirements for residual ϕ(εp)
+    For sufficiently small ε |ϕ(εp)| ≤ ε|1/2p~∇f(xᵏ)| ≤ -εp~∇f(xᵏ)/2
+    f(xᵏ + εp) ≤ f(xᵏ) + εp~∇f(xᵏ)/2 < f(xᵏ)
+
+Line Search
+ Once pᵏ is chosen, determine αᵏ in xᵏ⁺¹ = xᵏ + αᵏpᵏ
+
+ Exact line search: αᵏ = argmin α ≥ 0 {f(xᵏ + αpᵏ)}
+ Define Φ(α) = f(xᵏ + αpᵏ)
+
+ Notes
+  Φ(0) = f(xᵏ)
+  once αᵏ is chosen, Φ(αᵏ) = f(xᵏ⁺¹)
+  Φ`(α) = d/dα Φ(α) = ∇f(xᵏ + αpᵏ)~pᵏ   (directional derivative)
+  Φ`(0) = ∇f(xᵏ)~pᵏ < 0, by assumption of pᵏ is a descent direction
