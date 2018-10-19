@@ -885,7 +885,63 @@ Line Search
  Define Φ(α) = f(xᵏ + αpᵏ)
 
  Notes
-  Φ(0) = f(xᵏ)
-  once αᵏ is chosen, Φ(αᵏ) = f(xᵏ⁺¹)
-  Φ`(α) = d/dα Φ(α) = ∇f(xᵏ + αpᵏ)~pᵏ   (directional derivative)
-  Φ`(0) = ∇f(xᵏ)~pᵏ < 0, by assumption of pᵏ is a descent direction
+  ψ(0) = f(xᵏ)
+  once αᵏ is chosen, ψ(αᵏ) = f(xᵏ⁺¹)
+  ψ`(α) = d/dα ψ(α) = ∇f(xᵏ + αpᵏ)~pᵏ   (directional derivative)
+  ψ`(0) = ∇f(xᵏ)~pᵏ < 0, by assumption of pᵏ is a descent direction
+
+=LEC16=
+ Sufficient decrease condition
+  fix 0 < σ < 1/2
+  α must satisfy
+   ψ(α) ≤ ψ(0) + σαψ'(0)
+
+ Curvature condition:
+  α as before
+  ψ(2α) > ψ(0) + σ2αψ'(0)
+
+ Armijo ("backtrack") inexact line search
+  let α := 1
+  if α fails sufficient decrease:
+   while α fails sufficient decrease:
+    α /= 2
+  elsif α fails curvature condition:
+   while α fails curvature condition:
+    α *= 2
+
+ Thm:
+  Let f ∈ C¹, ∇f(xᵏ) ≠ 0. and let pᵏ be a descent direction.
+  Either the armijo algorithm terminates, and α terminates both conditions, 
+  or α → ∞ and f is unbounded below, that is f(xᵏ) → -∞
+
+  pf
+   If the first loop terminates, α satisfies sufficient decrease and 2α fails it.
+   Therefore, α satisfies the curvature condition
+   To show the first loop terminates:
+    ψ(α) = ψ(0) + αψ'(0) + ϕ(α)
+   For α sufficiently small, 
+    |ϕ(α)| ≤ α|1/2ψ'(0)|
+    ϕ(α) ≤ -αψ'(0)/2, therefore ψ(α) ≤ ψ(0) + αψ'(0)/2, exactly the sufficient decrease condition
+
+   If the second loop terminates, α satisfies curvature condition, and α/2 does not, so α satisfies sufficient decrease
+   If second loop does not terminate, ψ(2ʲ) ≤ ψ(0) + 2ʲσψ'(0), ∀j ∈ Z, j ≥ 0
+   Thus, ψ(2ʲ) → -∞ for j → +∞
+
+   If neither loop occurs, then α = 1 satisfies both conditions.
+
+ defn Lipschitz Continuous
+  A function f: Rⁿ → R is Lipschitz continuous with constant L if
+   |f(y) - f(x)| ≤ ‖y - x‖L ∀x, y ∈ Rⁿ
+  Note that this does not apply C⁰ continuous.
+
+ Thm
+  Let f ∈ C¹(B_δ(0))
+  f is Lipschitz continuous with constant L on B_δ(0) iff ‖∇f(x)‖ ≤ L, ∀x ∈ B_δ(0)
+
+ Zoutendijk's Thm:
+  Let f: Rⁿ → R with f ∈ C¹(Rⁿ)
+  If ∇f is Lipschitz continuous
+
+  ∀k, pᵏ is a descent direction with ∇f(xᵏ)~pᵏ ≤ -μ‖∇f(xᵏ)‖₂ ‖pᵏ‖₂ for some 0 < μ ≤ 1
+  ∀k αᵏ satisfies both sufficient decrease and curvature contditions
+  Then either lim f(xᵏ) = -∞ or lim ∇f(xᵏ) = 0 as k → ∞
