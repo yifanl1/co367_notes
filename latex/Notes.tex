@@ -1,0 +1,307 @@
+\documentclass[titlepage]{article}
+\title{CO367, Course Notes}
+\author{Transcribed by Louis Castricato}
+\usepackage{amsmath,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{outlines}
+\usepackage{amsthm}
+\delimitershortfall-1sp
+
+\newcommand\abs[1]{\left|#1\right|}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem*{cor}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{exmp}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+\newtheorem*{note}{Note}
+
+
+\begin{document}
+\maketitle
+\section*{Introduction}
+
+Mathematical Optimization or Mathematical Programming
+
+Informally: Find a best solution to the model of a problem
+
+*best* according to a given objective/criterion
+
+Applications include
+\begin{outline}[enumerate]
+\1 Operations research
+\2 Scheduling + Planning
+\2 Supply Chain Management
+\2 Vehicular Routing
+\2 Power Grid Optimization
+\1 Statistics and Machine Learning
+\2 Curve FItting
+\2 Classification, Clustering, SVM,...
+\2 Deep Learning
+\1 Finance
+\1 Optimal Control
+\1 Biology
+\end{outline}
+(OPT) min f(x) s.t.
+\[g_i(x) \leq 0\text{, for } i \in\{1, 2, 3, \hdots, m\}\]
+Remarks
+\begin{itemize}
+\item a. $\text{max} f(x) = -(\text{min} -f(x))$
+\item b. $\{x \in \mathbb{R}^n:g(x) \geq 0\} = \{x \in \mathbb{R}^n : -g(x) \leq 0\}$
+\item c. $\{x \in \mathbb{R}^n : g(x) \geq b\} = \{ x \in \mathbb{R}^n : -g(x) -  b \leq 0\}$
+\end{itemize}
+\subsection*{Classification of Problems - 1}
+\begin{itemize}
+\item if $f(x) = 0, \forall x  \in \mathbb{R}^n \implies$(OPT) is a feasibility
+problem
+\item if we have $m = 0$ constraints $\implies$ (OPT) is an unconstrained
+optimization problem
+\end{itemize}
+\subsection*{Classification of Problems - 2}
+Q: Why do we need f and g?
+A: In abscence of hyp. on f and g, (OPT) is unsolvable.
+
+\subsection*{Note: "Black box" optimization framework}
+All that is given is an oracle function that can compute values of $f(x)$ $\forall
+x$ in the domain of $f$\\\\
+Example: consider
+\begin{align*}
+\text{min} f(x)\\
+\text{s.t.} g(x) &\leq 0, \text{ for } i \in [1,m] \cap \mathbb{N}\\
+h(x) &\leq 0\\
+h(x), \text{ when } &x \in \mathbb{Z}^n\text{, do: } 0\\
+h(x)\text{, do: } &1\\
+\end{align*}
+in other words, we only want integral solutions.
+\begin{defn}
+\textbf{Discrete Optimization: } When the constraint of OPT restrict to a lattice,
+we have a discrete optimization problem
+\end{defn}
+\begin{defn}
+\textbf{Continuous: } A function $f: D\mapsto \mathbb{R}$ is continuous over $D$
+$(f \in C^k(D))$ if all its $k^{\text{th}}$ derivatives are continuous over $D$.
+\end{defn}
+Consider the following examples
+
+\begin{align*}
+f(x) \text{ when } x \geq 2 \text{, do: } 1\\
+f(x)\text{, do: } -1
+\end{align*}
+Then $f(x)$ is not continuous.
+
+In another example we have $g(x)$, do: abs$(x - 2)$. Then $g(x) \in C^0$.
+
+\begin{defn}
+\textbf{Gradient: } Let $f \in C^1(D)$ for $D \subseteq \mathbb{R}^n$. The
+gradient is $\nabla f: D \mapsto \mathbb{R}^n$ if it satifies $\nabla f \in
+C^0(D)$ and is given by $\nabla f(x) = \left[ \begin{array}{cc} \frac{\delta
+f}{\delta x_1(x)} \hdots \ \frac{\delta f}{ \delta x_n(x)} \end{array} \right]$.
+\end{defn}
+
+\begin{defn}
+\textbf{Hessian: } Let $f \in C^2(D)$ for $D\subseteq \mathbb{R}^n$. Its Hessian
+is $\nabla^2 f: D\mapsto \mathbb{R}^n$. It satisfies $\nabla^2 f \in C^0(D)$ and
+is given by
+\[\nabla^2 f =\begin{bmatrix} \frac{\delta f(x)}{\delta x_1 \delta
+x_1} & \hdots & \frac{\delta f(x)}{\delta x_n \delta x_1} \\ \vdots & \ddots &
+\vdots \\ \frac{\delta f(x)}{\delta x_1 \delta x_n} & \hdots & \frac{\delta
+f(x)}{\delta x_n \delta x_n}\end{bmatrix}\]
+\end{defn}
+\begin{defn}
+\textbf{Linear: } A function $f: D \mapsto \mathbb{R}$, $D \subseteq \mathbb{R}^n$
+is linear if $\exists c \in \mathbb{R}^n$ where $f(x) = c^T x, \forall x \in D$.
+Then $\nabla f(x) = c$ and $\nabla^2 f(x) = 0$.
+\end{defn}
+
+\textbf{remark: } if $f, g_i$ are linear, then OPT is a linear programming
+function.
+
+\section{Linear Algebra}
+
+A vector and matrix norm.
+
+\begin{defn}
+\textbf{Norm: } A norm $\|\cdot \|$ on $\mathbb{R}^n$ assigns a scalar $\|x\|$
+to every $x \in \mathbb{R}^n$ $s.t.$
+\begin{outline}[enumerate]
+\1 $\|x\| \geq 0, \forall x \in \mathbb{R}^n$
+\1 $\|cx\| = |c|\|x\|, \forall x \in \mathbb{R}^n \forall c \in \mathbb{R}$
+\1 $\|x\| = 0 \iff x = 0$
+\1 $\|x + y\| \leq \|x\| + \|y\|$ $\forall x,y \in \mathbb{R}^n$
+\end{outline}
+\end{defn}
+\noindent $L^k$ norm $\|x\| = \big(\sum (x_i)^k\big)^{\frac{1}{k}}$ in particular,
+\begin{outline}[enumerate]
+\1 Manhattan Norm = $L_1$
+\1 Euclidean Norm = $L_2$
+\1 Infinite Norm = $L_{\infty} = \text{max}(|x_i|)$
+\end{outline}
+\noindent Schwartz inequaloty: $\forall x,y \in \mathbb{R}^n$
+
+$|x^T y| \leq \|x\|_2 \cdot \|y\|_2$
+\begin{thm}
+\textbf{Pythagorean Theorem: } If $x,y \in \mathbb{R}$ are orthogonal then $\|x
++ y\|^2 = \|x\|^2 + \|y\|^2$ under $L_2$.
+\end{thm}
+\begin{defn}
+\textbf{Matrix Norm: } Given a vector norm $\| \cdot \|$, the induced magtrix
+norm associates a scalar $\|x\|$ to all $A \in \mathbb{R}^{n \times n}$
+
+$\|A\| = \text{max} \|Ax\|$ where $\|x\| = 1$
+\end{defn}
+
+\noindent \textbf{Property of Matrix norm:}
+
+$\|A\|_2 = \text{max}\|Ax\|_2 = \text{max}|y^TAx|$, where $\|x\|_2 = 1$ and $\|y\|_2
+= 1$.
+
+\indent \indent Proof is trivial by schwartz inequality.
+
+$\|A\| = \|A^T\|_2$
+
+\noindent
+\textbf{TFAE: }\footnote{The following are equivalent}
+\begin{outline}[enumerate]
+\1 $A$ is nonsingular
+\1 $A^T$ is nonsingular
+\1 $\forall x \in \mathbb{R}^n$ if $x \not = 0$ then $Ax \not = 0$.
+\1 $\forall b \in \mathbb{R}^n$, $\exists x \in \mathbb{R}^n$ $s.t.$ $Ax = b$
+and $x$ is unique
+\1 The columns of $A$ are linearly independent
+\1 The rows of $A$ are linearly independent
+\1 A unique inverse of $A$ exists
+\1 If $B$ is a matrix $s.t.$ an inverse of $B$ exists, then $(AB)^{-1} = A^{-1}
+B^{-1}$
+\end{outline}
+\begin{defn}
+\textbf{Eigenvalue: } The characteristic polynomial $\Phi: \mathbb{R} \mapsto
+\mathbb{R}$ of $A \in \mathbb{R}^{n\times n}$ is $\Phi(\lambda) = \text{det}(A -
+\lambda I)$. It has $n$ complex roots, the eigenvalues of $A$. GIven an
+eigenvalue $\lambda$ of $A$, $x \in \mathbb{R}^n$ is its corresponding
+eigenvector of $A$ if $Ax = \lambda x$.
+\end{defn}
+
+\noindent \textbf{Properties : } Given $A \in \mathbb{R}^{n \times n}$
+\begin{outline}[enumerate]
+\1 $\lambda$ is an eigenvalue $\iff$ $\exists$ a corresponding eigenvector $x$.
+\1 $A$ is simuglar $\iff$ it has a zero eigenvalue
+\1 If $A$ is triangular, then its eigenvalues are its diagonal elements
+\1 If $S \in \mathbb{R}^{n \times n}$ is nonsingular and $B = SAS^{-1}$ then $A$
+and $B$ have the same eigenvalues.
+\1 If the eigenvalues of $A$ are $\{\lambda_1,\hdots, \lambda_n\}$ then
+\2 the eigenvalues of $A + c I$ are $c + \lambda_1, \hdots, c + \lambda_n$.
+\2 the eigenvalues of $A^k$ are $\lambda_1^k,\hdots, \lambda_n^k$. This
+also holds for $k = -1$.
+\2 the eigenvalues of $A^T$ are the same as the eigenvalues of $A$.
+\end{outline}
+
+\begin{defn}
+\textbf{Spectral Radius: } The spectral radius $\rho(A)$ of $A \in \mathbb{R}^{n
+\times n}$ is the maximum magnitude of its eigenvalues.
+\end{defn}
+\noindent \textbf{Property: }
+
+\begin{lem}
+For any induced norm, $\| \cdot \|$, $\rho(A) \leq \|A^k\|^{\frac{1}{k}}$
+$\forall k \in \mathbb{N}$
+\end{lem}
+
+\noindent \textbf{Proof: } By defn, $\|A^k\| = \text{max}\|A^k y\| =
+\text{max}\frac{\|A^k y\|}{\|y\|}$, where $\|y\| = 1$.
+
+Let $\lambda$ be an eigenvalue of $A$, and $x$ its eigenvector. Then
+\[    \|A^k\| \geq \frac{\|A^kx\|}{\|x\|} = \frac{\|A^{k-1}Ax\|}{\|x\|} =
+\frac{A^{k-1}\lambda x}{\|x\|} = \hdots = \frac{\|\lambda^kx\|}{\|x\|} =
+\frac{(|\lambda^k|\|x\|)}{\|x\|} = \|\lambda^k\|\]
+
+So for any eigenvalue, $\|A^k\| \geq | \lambda^k | \implies
+\|A^k\|^{\frac{1}{k}} \geq \lambda \implies \rho(A) \leq \|A^k\|^{\frac{1}{k}}$.
+
+\begin{lem}
+For any induced norm, $\| \cdot \|$, $\lim_{k \to \infty} \|A^k\|^{\frac{1}{k}}
+= \rho(A)$. Furthermore, $\lim_{k \to \infty} A^k = A$ iff $\rho(A) \leq 1$.
+\end{lem}
+
+\noindent \textbf{Proof: } Exercise!\\\\
+\textbf{Symmetrix Matricies: }
+
+\noindent \textbf{Property: } Let $A \in \mathbb{R}^{n\times n}$ be a symmetric matrix.
+\begin{outline}[enumerate]
+\1 its eigenvalues are real
+\1 its eigenvectors are mutually orthongal
+\1 assume its eigenvectors are normalized. Let $(\lambda_i, v_i)$ refer to an
+eigenpair. Then $A = \sum \lambda_i x_i x_i^T$.
+\end{outline}
+
+\noindent \textbf{Proof: } Exercise!
+
+\begin{lem}
+Let $A \in \mathbb{R}^{n \times n}$ be a symmetric matrix, then $\|A\|_2 =
+p(A)$.\\
+\end{lem}
+\noindent \textbf{Proof: } from before, $\rho(A) \leq \|A^k\|^{\frac{1}{k}}$ and
+in particular we have that $p(A) \leq \|A\|_2$. Now all we need to do is show
+that $p(A) \geq \|A\|_2$.
+
+\noindent As the eigenvectors $x_i$ $i = 1, \hdots, n$ of C are mutually
+orthogonal we can write any $y \in \mathbb{R}^n$ as $y = \sum \beta_i x_i$ for
+some $\beta \in \mathbb{R}^n$.\\\\
+
+\noindent By pythagoras' theorem, $\|y\|_2 = \sum \beta_i^2 \cdot \|x\|_2^2$.
+Hence $Ay = A \sum \beta_i^2 \cdot \|x\|_2^2 = \sum \beta_i \lambda_i x_i$.
+Again we can apply pythagoras'
+\begin{align*}
+\|Ay\|_2^2 &= \|\sum \beta_i \lambda_i x_i\|_2^2\\
+&= \sum \beta_i \lambda_i^2 \|x\|_2^2\\
+&= \sum |\lambda_i|^2 \cdot |\beta_i|^2 \cdot \|x\|_2^2\\
+&\leq \sum\rho(A)^2 |\beta_i|^2 \|x\|_2^2\\
+&= \rho(A)^2 \sum |\beta_i|^2 \|x\|_2^2\\
+&= \rho(A)^2 \|y\|_2^2
+\end{align*}
+This then implies that
+\begin{align*}
+&\|A\|_2 \leq \rho(A) \|y\|_2\\
+\implies &A  = \text{max} \frac{\|Ay\|_2}{\|y\|_2} \leq \frac{(\rho(A)
+\|y\|_2)}{\|y\|_2} \text{, where $y \not = 0$}\\
+\implies &\|A\|_2 \leq \rho(A)
+\end{align*}
+Therefore $\|A\|_2 = \rho(A)$.\\\\
+\begin{lem}
+Let $A \in \mathbb{R}^{n \times n}$ be symmetric, with eigen values $\lambda_1
+\leq \hdots \leq \lambda_n \in \mathbb{R}$. Then $\forall y \in \mathbb{R}^n$ we
+have that $\lambda_1 \|y\|_2^2 \leq y^T A y \leq \lambda_n \|y\|_2^2$.
+\end{lem}
+
+\noindent \textbf{Proof: } Express y as $\sum \beta_i x_i$, $i = 1,\hdots,n$
+where $\beta_i \in \mathbb{R}$, $x_i$ are orthongal eigenvectors of $A$.
+Firstly:
+
+\[y^TAy = (\sum \beta_i x_i)^T (\sum \beta_i \lambda_i x_i) = \sum \beta_i^2
+\lambda_i \|x_i\|_2^2\]
+WLOG, assume that $\|x_i\|_2 = 1$ by normalization. So $y^T A y = \sum \lambda
+\beta_i^2$. Secondly:
+
+$\|y\|_2^2 = \sum \beta_i^2$\\
+
+$\sum \lambda_1 \beta_1^2 \leq \sum \lambda_i \beta_i^2 \leq \sum \lambda_n
+\beta_n^2 \implies \lambda_1 \|y\|_2^2 \leq y^T A y \leq \lambda_n \|y\|_2^2$.
+\begin{lem}
+Let $A \in \mathbb{R}^{n\times n}$ be symmetric, then $\|A^k\|_2 = \|A\|_2^k$.
+\end{lem}
+
+\noindent \textbf{Proof: }
+
+Since $A$ is symmetric, we have that $(A^k)^T = A^k$ and $\|A^k\|_2 =
+\rho(A^k)$. So $\rho(A^k) = \rho(A)^k$. Therefore $\|A\|_2^k =\|A^k\|_2$.
+\end{document}
