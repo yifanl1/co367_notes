@@ -882,23 +882,22 @@ Line Search
  Once pᵏ is chosen, determine αᵏ in xᵏ⁺¹ = xᵏ + αᵏpᵏ
 
  Exact line search: αᵏ = argmin α ≥ 0 {f(xᵏ + αpᵏ)}
- Define Φ(α) = f(xᵏ + αpᵏ)
+ Define Ψ(α) = f(xᵏ + αpᵏ)
 
  Notes
-  ψ(0) = f(xᵏ)
-  once αᵏ is chosen, ψ(αᵏ) = f(xᵏ⁺¹)
-  ψ`(α) = d/dα ψ(α) = ∇f(xᵏ + αpᵏ)~pᵏ   (directional derivative)
-  ψ`(0) = ∇f(xᵏ)~pᵏ < 0, by assumption of pᵏ is a descent direction
+  Ψ(0) = f(xᵏ)
+  once αᵏ is chosen, Ψ(αᵏ) = f(xᵏ⁺¹)
+  Ψ'(α) = d/dα Ψ(α) = ∇f(xᵏ + αpᵏ)~pᵏ   (directional derivative)
+  Ψ'(0) = ∇f(xᵏ)~pᵏ < 0, by assumption of pᵏ is a descent direction
 
-=LEC16=
+=LEC16= 2018-10-19
  Sufficient decrease condition
   fix 0 < σ < 1/2
   α must satisfy
-   ψ(α) ≤ ψ(0) + σαψ'(0)
+   Ψ(α) ≤ Ψ(0) + σαΨ'(0)
 
  Curvature condition:
-  α as before
-  ψ(2α) > ψ(0) + σ2αψ'(0)
+  Ψ(2α) > Ψ(0) + σ2αΨ'(0)
 
  Armijo ("backtrack") inexact line search
   let α := 1
@@ -918,14 +917,14 @@ Line Search
    If the first loop terminates, α satisfies sufficient decrease and 2α fails it.
    Therefore, α satisfies the curvature condition
    To show the first loop terminates:
-    ψ(α) = ψ(0) + αψ'(0) + ϕ(α)
+    Ψ(α) = Ψ(0) + αΨ'(0) + ϕ(α)
    For α sufficiently small, 
-    |ϕ(α)| ≤ α|1/2ψ'(0)|
-    ϕ(α) ≤ -αψ'(0)/2, therefore ψ(α) ≤ ψ(0) + αψ'(0)/2, exactly the sufficient decrease condition
+    |ϕ(α)| ≤ α|1/2Ψ'(0)|
+    ϕ(α) ≤ -αΨ'(0)/2, therefore Ψ(α) ≤ Ψ(0) + αψ'(0)/2, exactly the sufficient decrease condition
 
    If the second loop terminates, α satisfies curvature condition, and α/2 does not, so α satisfies sufficient decrease
-   If second loop does not terminate, ψ(2ʲ) ≤ ψ(0) + 2ʲσψ'(0), ∀j ∈ Z, j ≥ 0
-   Thus, ψ(2ʲ) → -∞ for j → +∞
+   If second loop does not terminate, Ψ(2ʲ) ≤ Ψ(0) + 2ʲσψ'(0), ∀j ∈ Z, j ≥ 0
+   Thus, Ψ(2ʲ) → -∞ for j → +∞
 
    If neither loop occurs, then α = 1 satisfies both conditions.
 
@@ -939,9 +938,130 @@ Line Search
   f is Lipschitz continuous with constant L on B_δ(0) iff ‖∇f(x)‖ ≤ L, ∀x ∈ B_δ(0)
 
  Zoutendijk's Thm:
-  Let f: Rⁿ → R with f ∈ C¹(Rⁿ)
-  If ∇f is Lipschitz continuous
+  Let f: Rⁿ → R with f ∈ C¹(Rⁿ), if
+   1. ∇f is Lipschitz continuous
+   2. ∀k, pᵏ is a descent direction with ∇f(xᵏ)~pᵏ ≤ -μ‖∇f(xᵏ)‖₂ ‖pᵏ‖₂ for some 0 < μ ≤ 1
+   3. ∀k, αᵏ satisfies both sufficient decrease and curvature conditions
+  Then either (a) lim f(xᵏ) = -∞ or (b) lim ∇f(xᵏ) = 0 as k → ∞
 
-  ∀k, pᵏ is a descent direction with ∇f(xᵏ)~pᵏ ≤ -μ‖∇f(xᵏ)‖₂ ‖pᵏ‖₂ for some 0 < μ ≤ 1
-  ∀k αᵏ satisfies both sufficient decrease and curvature contditions
-  Then either lim f(xᵏ) = -∞ or lim ∇f(xᵏ) = 0 as k → ∞
+=LEC17= 2018-10-22
+
+  pf:
+   We want to prove that if (b) does not hold, then (a) does.
+   Note that (b) is equivalent to
+    ∀ε > 0, ∃K > 0, ∀k ≥ K, ‖∇f(xᵏ)‖ < ε, by the definition of a limit
+   If instead lim k → ∞ ∇f(xᵏ) ∄ or ≠ 0, then 
+    ∃ε > 0, ∀K > 0, ∃k ≥ K ‖∇f(xᵏ)‖ ≥ ε  (1)
+
+   We will show that (1) implies f(xᵏ⁺¹) ≤ f(xᵏ) - δ for some constant δ > 0
+   thus, f(xᵏ) → -∞
+
+   A)
+    Curvature condition: 
+     Ψ(2αᵏ) > Ψ(0) + 2αᵏσΨ'(0), for 0 < σ ≤ 1/2
+    Mean value theorem: 
+     ∃ 0 ≤ γ ≤ 2αᵏ: Ψ(2αᵏ) = Ψ(0) + 2αᵏΨ'(γ)
+    Together
+    Ψ(0) + 2αᵏΨ'(γ) > Ψ(0) + 2αᵏσΨ'(0)
+    Ψ'(γ) > σΨ'(0)                      (2)
+
+   B)
+    Lipschitz: 
+     ‖∇f(xᵏ + γpᵏ) - ∇f(xᵏ)‖ ≤ Lγ‖pᵏ‖
+    Cauchy-Schwartz inequality: 
+     [∇f(xᵏ + γpᵏ) - ∇f(xᵏ)]~pᵏ ≤ ‖∇f(xᵏ + γpᵏ) - ∇f(xᵏ)‖ ‖pᵏ‖ ≤ Lγ‖pᵏ‖²
+    Therefore,
+    ∇f(xᵏ + γpᵏ)~pᵏ ≤ ∇f(xᵏ)~pᵏ + Lγ‖pᵏ‖²  (3)
+
+   C)
+    By (1) and (2)
+    ∇f(xᵏ)~pᵏ + Lγ‖pᵏ‖² > σ∇f(xᵏ)~pᵏ
+    Lγ‖pᵏ‖² > (σ-1)∇f(xᵏ)~pᵏ = (σ-1)Ψ'(0) = (1 - σ)(-Ψ'(0))
+    γ = (1 - σ)(-Ψ'(0)) / L‖pᵏ‖²
+    recalling that 0 ≤ γ ≤ 2αᵏ, therefore αᵏ ≥ γ/2
+
+    αᵏ ≥ (1 - σ)(-Ψ'(0)) / 2L‖pᵏ‖²
+
+   D)
+    Sufficient decrease condition:
+     Ψ(αᵏ)
+     ≤ Ψ(0) + σαᵏΨ'(0)
+     ≤ Ψ(0) + σ[(1 - σ)(-Ψ'(0)) / 2L‖pᵏ‖²]Ψ'(0)
+     = Ψ(0) - [σ(1-σ)/2L][Ψ'(0)²/‖pᵏ‖²]
+
+   By hypothesis, 
+    [Ψ'(0)]² = [∇f(xᵏ)~pᵏ]² ≥ [μ‖∇f(xᵏ)‖.‖pᵏ‖]²
+   
+   Ψ(αᵏ) 
+   ≤ Ψ(0) - [σ(1-σ)/2L][(μ‖∇f(xᵏ)‖.‖pᵏ‖)²/‖pᵏ‖²]
+   = Ψ(0) - [σ(1-σ)/2L]μ²‖∇f(xᵏ)‖²
+
+   By (1), ‖∇f(xᵏ)‖ ≥ ε
+   so 
+    Ψ(αᵏ) ≤ Ψ(0) - (σ(1-σ)μ²ε²)/2L
+    f(xᵏ + αᵏpᵏ) ≤ f(xᵏ) - (σ(1-σ)μ²ε²)/2L
+  
+   Now we have a complete algorithm
+   Start at arbitrary x⁰ ∈ Rⁿ
+   for k = 1, 2, ...
+    choose pᵏ s.t. ∇f(xᵏ)~pᵏ ≤ -μ‖∇f(xᵏ)‖.‖pᵏ‖ for some 0 < μ ≤ 1
+     e.g. pᵏ = -∇f(xᵏ) [steepest descent]
+    choose αᵏ with Armijo inexact line search
+    let xᵏ⁺¹ = xᵏ + αᵏpᵏ
+    if (f(xᵏ⁺¹) < -M) or (‖∇f(xᵏ⁺¹‖ < ε):
+     STOP
+
+=LEC18= 2018-10-22
+Convergence of Descent Algorithms
+ 
+ defn Convergence
+  A sequence s⁰, s¹, ... converges with degree d to zero if |sᵏ⁺¹| ≤ C|sᵏ|ᵈ for some constant C
+  Convergence is linear if d = 1, quadratic if d = 2
+
+ defn Strongly Convex
+  (substituting l from lecture for c for readability purposes)
+
+  A function f ∈ C¹(Rⁿ) is strongly convex if it satisfies
+   (∇f(y) - ∇f(x))~(y-x) ≥ c‖y - x‖² ∀x, y ∈ Rⁿ for some c > 0
+
+  Lemma: If f is strongly convex, then
+   ‖∇f(y) - ∇f(x)‖₂² ≥ c|f(y) - f(x)|, ∀x,y ∈ Rⁿ
+  Lemma: Let f ∈ C²(Rⁿ), f is strongly convex iff
+   ∇²f(x) - cI is psd for all x ∈ Rⁿ
+  Lemma: Any strongly convex function is strictly convex
+
+
+ Thm:
+  Assuming the same conditions as Zoutendijk's theorem:
+  Let f: Rⁿ → R with f ∈ C¹(Rⁿ), if
+   1. ∇f is Lipschitz continuous
+   2. ∀k, pᵏ is a descent direction with ∇f(xᵏ)~pᵏ ≤ -μ‖∇f(xᵏ)‖₂ ‖pᵏ‖₂ for some 0 < μ ≤ 1
+   3. ∀k, αᵏ satisfies both sufficient decrease and curvature conditions
+   AND
+   4. f is strongly convex
+  Then f(xᵏ) converges linearly to a local minimum f(x*)
+
+  pf: 
+   from Zoutendijk proof, we have
+    f(xᵏ⁺¹) ≤ f(xᵏ) - σ(1-σ)/2L ‖∇f(xᵏ)‖² 
+    f(xᵏ⁺¹) - f(x*) ≤ f(xᵏ) - f(x*) - σ(1-σ)/2L ‖∇f(xᵏ)‖² 
+   By Lemma
+    ‖f(xᵏ⁺¹) - f(x*)‖₂² ≥ c|f(xᵏ) - f(x*)|
+    ‖f(xᵏ⁺¹)‖² ≥ c(f(xᵏ) - f(x*)), as ∇f(x*) = 0
+
+   so
+    f(xᵏ⁺¹) - f(x*) 
+    ≤ f(xᵏ) - f(x*) - σ(1-σ)c(f(xᵏ) - f(x*))/2L 
+    = f(xᵏ) - f(x*) (1 - σ(1-σ)c/2L)
+   Note that 0 < σ(1-σ)c/2L < 1
+   so f(xᵏ⁺¹) - f(x*) ≤ f(xᵏ) - f(x*)
+   Thus f(xᵏ) - f(x*) converges linearly to zero.
+
+ Thm:
+  For a strongly convex, quadratic function, the steepest descent method with exact linear search has ‖xᵏ - x*‖ converge linearly to zero, on a tight bound (d > 1 does not converge)
+
+ Newton step
+  Consider a quadratic approximation of f at xᵏ
+  f(xᵏ + h) ≈ q(h) = f(xᵏ) + h~∇f(xᵏ) + h~∇²f(x)h/2
+  iff ∇²f(xᵏ) is pd, q(h) has a unique minimizer h = -[∇²f(xᵏ)]`∇f(xᵏ)
+  The Newton step is given by taking pᵏ = -[∇²f(xᵏ)]`∇f(xᵏ), only when ∇²f(xᵏ) is pd
