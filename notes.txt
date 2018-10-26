@@ -1108,11 +1108,11 @@ Convergence of Descent Algorithms
    = L ‖xᵏ-x*‖² ₀∫¹((1 - t)dt
    = 1/2L‖xᵏ - x*‖²
    
-   ‖xᵏ - x*‖ 
+   ‖xᵏ⁺¹ - x*‖ 
    ≤ ‖∇²f(xᵏ)‖ ‖₀∫¹ *** ‖
    ≤ 2‖∇²f(x*)‖ 1/2L ‖xᵏ - x*‖²
 
    By induction, ‖xᵏ - x*‖ ≤ r, and by d, r ≤ 1/2L‖∇²f(x*)`‖
    So, ‖∇²f(x*)`‖ ≤ 1/2Lr
-   So, ‖xᵏ - x*‖ ≤ 1/2r ‖xᵏ - x*‖², thus convergence, if it exists, is quadratic.
+   So, ‖xᵏ⁺¹ - x*‖ ≤ 1/2r ‖xᵏ - x*‖², thus convergence, if it exists, is quadratic.
    Since ‖xᵏ - x*‖ ≤ r, we have ‖xᵏ⁺¹ - x*‖ ≤ 1/2‖xᵏ - x*‖, so convergence exists.
