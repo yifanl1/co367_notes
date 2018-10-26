@@ -1011,12 +1011,14 @@ Line Search
     if (f(xᵏ⁺¹) < -M) or (‖∇f(xᵏ⁺¹‖ < ε):
      STOP
 
-=LEC18= 2018-10-22
+=LEC18= 2018-10-24
 Convergence of Descent Algorithms
  
  defn Convergence
   A sequence s⁰, s¹, ... converges with degree d to zero if |sᵏ⁺¹| ≤ C|sᵏ|ᵈ for some constant C
   Convergence is linear if d = 1, quadratic if d = 2
+  For linear convergence, 0 < C < 1
+  For quadratic convergence, 0 < C
 
  defn Strongly Convex
   (substituting l from lecture for c for readability purposes)
@@ -1065,3 +1067,52 @@ Convergence of Descent Algorithms
   f(xᵏ + h) ≈ q(h) = f(xᵏ) + h~∇f(xᵏ) + h~∇²f(x)h/2
   iff ∇²f(xᵏ) is pd, q(h) has a unique minimizer h = -[∇²f(xᵏ)]`∇f(xᵏ)
   The Newton step is given by taking pᵏ = -[∇²f(xᵏ)]`∇f(xᵏ), only when ∇²f(xᵏ) is pd
+
+=LEC19= 2018-10-26
+ Notation: f` = inverse of f
+
+ According to Newton's method, xᵏ⁺¹ = xᵏ - ∇f(xᵏ)/∇²f(xᵏ)
+
+ Lemma: Let F: Rⁿ → Rᵐˣᵐ be continuous over B_r(x⁰) for some x⁰ ∈ Rⁿ, s.t. F(x⁰) is nonsingular
+  Then there exists x¹ > 0 s.t. F(x) is invertible for all x ∈ B_r(x⁰) and F(x)` is continuous over B_r(x⁰)
+
+  pf: 
+   Given A ∈ Rᵐˣᵐ, det(A) is a polynomial in A₁₁, ... Aₘₘ, the entries of A.
+   Since det(F(x₀)) ≠ 0, ∃r¹ > 0 s.t. det(F(x)) ≠ 0, ∀x ∈ B_r¹(x⁰)
+   Note that A`ᵢⱼ = p(A₁₁, ..., Aₘₘ)/det(A), for some polynomial p
+   Thus, F(x)` is a polynomial in F(x) divided by another nonzero polymial, so it is continuous
+
+ Thm:
+  Let f: Rⁿ → R be such that f∈ C²(B_r(x*))
+  If
+   a. ∇²f is Lipschitz continuous over B_r(x*), ‖∇²f(y) - ∇²f(x)‖₂ ≤ L‖y-x‖₂
+   b. ∇f(x*) = 0 and ∇²f(x*) is pd [2nd order necessary conditions for local opt]
+   c. ‖∇²f(x)`‖ ≤ 2‖∇²f(x*)`‖ ∀x ∈ B_r(x*) [by Lemma above, ∃r sufficiently small s.t. d is satisfied]
+   d. r ≤ 1/2L‖∇²f(x*)`‖
+  Then Newton's method converges quadratically to x* if x⁰ ∈ B_r(x*)
+
+  pf
+   Assume that xᵏ ∈ B_r(x*) (by induction)
+   xᵏ⁺¹ - x* 
+   = xᵏ - ∇f(xᵏ)/∇²f(xᵏ) - x*
+   = ∇²f(xᵏ)`[∇²f(xᵏ)(xᵏ - x*) - ∇f(xᵏ) - ∇f(x*)]    # by part b of hypothesis, ∇f(x*) = 0
+   = ∇²f(xᵏ)`[₀∫¹ ∇²f(xᵏ)(xᵏ - x*)dt - ₀∫¹ ∇²f(x* + t(xᵏ - x*))(xᵏ - x*)dt]
+   = ∇²f(xᵏ)`₀∫¹ ∇²f(xᵏ)(xᵏ - x*) - ₀∫¹ ∇²f(x* + t(xᵏ - x*))(xᵏ - x*)dt
+
+   ‖∇²f(xᵏ)`‖ ≤ 2‖∇²f(x*)`‖ by c
+   ‖₀∫¹ [∇²f(xᵏ) - ∇²f(x* + t(xᵏ - x*))](xᵏ - x*)dt‖ 
+   ≤ ₀∫¹‖[∇²f(xᵏ) - ∇²f(x* + t(xᵏ - x*))](xᵏ - x*)‖ dt   # extending triangle inequality to integrals
+   ≤ ₀∫¹‖∇²f(xᵏ) - ∇²f(x* + t(xᵏ - x*))‖. ‖(xᵏ - x*)‖ dt
+   ≤ ₀∫¹L‖(xᵏ - x* - t(xᵏ - x*))‖. ‖(xᵏ - x*)‖ dt
+   = L ₀∫¹‖((1 - t)(xᵏ - x*))‖. ‖(xᵏ - x*)‖ dt
+   = L ‖xᵏ-x*‖² ₀∫¹((1 - t)dt
+   = 1/2L‖xᵏ - x*‖²
+   
+   ‖xᵏ - x*‖ 
+   ≤ ‖∇²f(xᵏ)‖ ‖₀∫¹ *** ‖
+   ≤ 2‖∇²f(x*)‖ 1/2L ‖xᵏ - x*‖²
+
+   By induction, ‖xᵏ - x*‖ ≤ r, and by d, r ≤ 1/2L‖∇²f(x*)`‖
+   So, ‖∇²f(x*)`‖ ≤ 1/2Lr
+   So, ‖xᵏ - x*‖ ≤ 1/2r ‖xᵏ - x*‖², thus convergence, if it exists, is quadratic.
+   Since ‖xᵏ - x*‖ ≤ r, we have ‖xᵏ⁺¹ - x*‖ ≤ 1/2‖xᵏ - x*‖, so convergence exists.
