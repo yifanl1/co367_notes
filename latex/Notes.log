@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.6.2)  19 OCT 2018 16:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.6.2)  27 OCT 2018 15:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -576,20 +576,65 @@ Underfull \hbox (badness 10000) in paragraph at lines 295--296
 
  []
 
-[5] [6] (./Notes.aux) ) 
+[5] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 422--427
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 434--435
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 442--443
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 456--459
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 484--487
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 490--492
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 493--498
+
+ []
+
+
+Overfull \hbox (5.40015pt too wide) in paragraph at lines 511--511
+[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 511--513
+
+ []
+
+[10] (./Notes.aux) ) 
 Here is how much of TeX's memory you used:
- 3392 strings out of 494447
- 43186 string characters out of 6166767
- 111171 words of memory out of 5000000
- 6641 multiletter control sequences out of 15000+600000
- 17119 words of font info for 63 fonts, out of 8000000 for 9000
+ 3395 strings out of 494447
+ 43219 string characters out of 6166767
+ 113171 words of memory out of 5000000
+ 6643 multiletter control sequences out of 15000+600000
+ 17817 words of font info for 65 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 38i,13n,26p,238b,306s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,13n,26p,238b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Notes.pdf (7 pages, 204286 bytes).
+Output written on Notes.pdf (11 pages, 222401 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 72 compressed objects within 1 object stream
+ 112 PDF objects out of 1000 (max. 8388607)
+ 80 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
