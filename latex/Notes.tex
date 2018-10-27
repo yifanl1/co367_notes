@@ -301,7 +301,224 @@ Let $A \in \mathbb{R}^{n\times n}$ be symmetric, then $\|A^k\|_2 = \|A\|_2^k$.
 \end{lem}
 
 \noindent \textbf{Proof: }
-
 Since $A$ is symmetric, we have that $(A^k)^T = A^k$ and $\|A^k\|_2 =
 \rho(A^k)$. So $\rho(A^k) = \rho(A)^k$. Therefore $\|A\|_2^k =\|A^k\|_2$.
+\begin{lem}
+Let $A \in \mathbb{R}^{n\times n}$, then $\|A\|_2^2 = \|A^T A\|_2 = \|AA^T\|_2$.
+\end{lem}
+
+\noindent \textbf{Proof: } According to the schwartz inequality, $x^Ty \leq
+\|x\|_2 \cdot \|y\|_2$
+\begin{align*}
+\|Ax\|_2^2 &= (Ax)^T(Ax) = (x^TA^T)(Ax) = x^T \cdot A^TAx\\
+&\leq \|x\|_2  \cdot \|A\cdot  Ax\|_2\\
+&\leq \|x\|_2 \cdot \|A^T A\|_2 \cdot \|x\|_2, \forall x \in \mathbb{R}^n
+\end{align*}
+\begin{rem}
+\begin{align*}
+\|A\|_2^2 &= \text{max}\frac{\|Ax\|_2^2}{\|X\|_2^2} \leq \|A^TA\|_2\\
+\|A^TA\| &=\text{max} \|y^T A^T\|_2 \cdot \|Ax\|_2\\
+&=(\text{max} \|y^TA^T\|_2)(\text{max}\|Ax\|_2)\\
+&= \|A\|_2
+\end{align*}
+So we have that $\|A\|_2^2 = \|A^TA\|$. For $\|A\|_2^2= \|A A^T\|$ repeat steps
+with $A$ amd $A^T$ swapped.
+\end{rem}
+\begin{lem}
+For any $A \in \mathbb{R}^{m \times n}$, $A^TA$ is psd and $A^TA$ is pd iff
+rank$(A) = n$
+\end{lem}
+\textbf{Proof: } The proof of this follows from the fact that a matrix with all positive
+eigenvalues is pd, and a matrix with all positive/zero eigenvalues is psd.
+Notice that $A^TA$ has all positive eigenvalues if rank$(A) = n$, and $A^TA$ has
+all positive/zero eigenvalues otherwise. If required, showing that $A^TA$ has
+all positive/zero eigenvalues can be done by multiplying their orthogonal
+decompositions.
+\begin{cor}
+If $A$ is a square matrix, $A^TA$ is pd iff A is nonsingular.
+\end{cor}
+\textbf{Properties: }
+\begin{outline}[enumerate]
+\1 A square symmetric matrix is psd iff all of its eigenvalues are $\geq 0$
+\1 A square symmetric matrix is pd iff all of its eigenvalues are $> 0$
+\end{outline}
+\textbf{Proof (For statement 1): } Let $\lambda$ be an eigenvalue of a psd
+matrix $A$ and let $x$ be its corresponding nonzero eigenvector. Notice that
+\begin{align*}
+x^T A x &\geq 0, \text{ so } x^T \lambda x = \lambda \|x\|_2^2 \geq 0\\
+\implies \lambda &\geq 0
+\end{align*}
+
+Let $\{\lambda_i\}$ refer to the set of eigenvalues of $A$ and let $\{x_i\}$
+refer to its eigenvectors. As such, $\forall y \in \mathbb{R}^n$ $y$ is a
+linear combination of $\{x_i\}$. Namely notice that we can write
+\begin{align*}
+y &= \sum \beta_i x_i\\
+y^T A y &= (\sum \beta_i x_i)^T \sum \beta_i A x_i\\
+&= (\sum \beta_i x_i)^T \sum \beta_i \lambda_i x_i\\
+&= \sum \beta_i^2 \lambda \|x_i\|_2^2 \geq 0
+\end{align*}
+Statement 2 is left as an exercise to the reader.
+\begin{cor}
+The inverse of a pd matrix is also pd
+\end{cor}
+\noindent \textbf{Proof: } Trivial
+\section{Convexity}
+\begin{defn}
+A set $C$ is called convex if it is closed under convex combinations. Namely
+$\forall x,y \in C$, $\forall t \in [0,1]$ we have that $t x + (1 - t)y \in C$.
+\end{defn}
+\begin{defn}
+A function $f$ is said to be convex if $f(\lambda x + (1 - \lambda)y) \leq
+\lambda f(x) + (1 - \lambda)f(y)$ $\forall x,y \in D$, $\forall \lambda \in
+[0,1]$.  A function $f$ is said to be strictly convex if $f(\lambda x + (1 -
+\lambda)y) < \lambda f(x) + (1 - \lambda)f(y)$ $\forall x,y \in D$, $\forall \lambda \in
+[0,1]$.
+\end{defn}
+\begin{defn}
+A function $f$ is said to be concave if $f(\lambda x + (1 - \lambda)y) \geq
+\lambda f(x) + (1 - \lambda)f(y)$ $\forall x,y \in D$, $\forall \lambda \in
+[0,1]$. A function $f$ is said to be strictly convex if $f(\lambda x + (1 -
+\lambda)y) > \lambda f(x) + (1 - \lambda)f(y)$ $\forall x,y \in D$, $\forall \lambda \in
+[0,1]$.
+\end{defn}
+\begin{rem}
+Notice that convex sets are closed under intersections. The Minkowski sum of
+convex sets is convex. The image of a convex set under a linear transformation
+is convex. The proof of all three properties is left as an exercise to the
+reader.
+\end{rem}
+\begin{defn}
+Let $f$ refer to a function with a convex domain $C$. The level sets of $f$ are
+$\{x  \in C : f(x) \leq \alpha\}, \text{ } \forall \alpha \in R$.
+\end{defn}
+\begin{defn}
+Same $f$ as above. The epigraph of $f$ is a subset of $\mathbb{R}^{n+1}$ given
+by $\text{epi}(f) = \{(x,\alpha) : x \in C, \alpha \in R, f(x) \leq \alpha\}$.
+\end{defn}
+\begin{defn}
+Same $f$ as above. The hypograph of $f$ is a subset of $\mathbb{R}^{n+1}$ given
+by $\text{hypo}(f) = \{(x,\alpha) : x \in C, \alpha \in R, f(x) \geq \alpha\}$.
+\end{defn}
+\begin{rem} Some intuition. Notice that the intersection of the epi and hypo graph of a function is quite
+literally the graph of said function. Furthermore the epigraph of a function
+can be viewed as the region above the graph, inclusive, where as the hypograph
+of a function can be viewed as the region below the graph, inclusive.
+\end{rem}
+\textbf{Properties}
+\begin{outline}[enumerate]
+\1 If $f: C \to R$ is convex, then its level sets are also convex. The converse
+is not true
+\2 Consider the example of $f(x) = \sqrt{|x|}$.
+\1 $f: C \to R$ is convex iff its epigraph is a convex set.
+\1 $f: C \to R$ is concave iff its hypograph is a concave set.
+\1 $f: C \to R$ is linear iff its both concave and convex.
+\1 The sum of two convex functions is also convex
+\1 The sum of two concave functions is also concave
+\1 The max of two convex functions is a convex (piecewise) function
+\1 The max of two concave functions is a concave (piecewise) function
+\1 Any vector norm is convex
+\end{outline}
+We'll prove the last statement and leave the rest as an exercise to the
+reader.\\\\
+\noindent \textbf{Proof: } This proof relies on the fact that norms satisfy the
+triangle inequality. Let $f(x) = \|x\|$. Then notice that $\forall x,y \in
+D$, $\forall \lambda \in [0,1]$ we have that
+\begin{align*}
+&f(\lambda x + (1 - \lambda) y)\\
+&= \|\lambda x + (1 - \lambda) y\|\\
+&\leq \lambda\|x\| + (1 - \lambda)\|y\|\\
+&= \lambda f(x) + (1 - \lambda) f(y)
+\end{align*}
+\begin{thm}
+Taylor's theorem for univariate functions.\\\\ Let $f:D\to R$.
+\[f(x + h) = \sum\frac{h_i}{i!} f^i(x)+ \Phi(h)\]
+where $\Phi$ refers to the residual function. Namely
+\[\Phi(h) = \frac{h^{k + 1}}{(k + 1)!} f^{k + 1}(x + \lambda h)\]
+for some $\lambda \in [0,1]$. Furthermore
+\[\lim_{h \to 0} \frac{\Phi(h)}{h^k} = 0\]
+\end{thm}
+\begin{thm}
+Taylor's theorem for multivariate functions.\\\\ Let $f:D^m \to R$.
+\[f(x + h) = f(x) + h^T \nabla f(x) + \Phi(h)\]
+where $\Phi$ refers to the residual function. Namely
+\[\Phi(h) = \frac{1}{2} h^T \nabla^2 f(x + \lambda h) h\]
+for some $\lambda \in [0,1]$. Furthermore
+\[\lim_{h \to 0} \frac{\Phi(h)}{\|h\|} = 0\]
+\end{thm}
+\begin{thm}
+2nd order
+\[f(x + h) = f(x) + h^T \nabla f(x) + \frac{1}{2} h^T \nabla^2 f(x)h + \Phi(h)\]
+\[\lim_{h \to 0} \frac{\Phi(h)}{\|h\|} = 0\]
+\end{thm}
+Notice that Taylor's theorem for univariate functions can be easily derived from
+Taylor's theorem for multivariate functions and vice versa.
+\begin{thm} Mean value Theorem\\\\
+Let $f : D \to R$ be $C^1$ smooth. Then $\forall x,y \in D$ $\exists z \in
+[x,y]$ suuch that $f(y) = f(x) + \nabla f(z)(y - x)$.
+\end{thm}
+\noindent \textbf{Proof: } follows from the zeroth order taylor expansion
+\begin{defn}
+The directional derivative of $f$ in direction $y$ is given by
+\[\nabla_y f(x) = \lim_{\alpha \to 0} \frac{f(x + \alpha y) - f(x)}{\alpha}\]
+\end{defn}
+\begin{defn}
+The gradient of $f$ is given by
+\[\nabla f = (\nabla_{e_1} f(x), \hdots, \nabla_{e_k} f(x))\]
+\end{defn}
+\begin{cor}
+If $f$ is $C^1$ smooth, the directional derivative of $f$ in direction $y$ can be computed as
+\[\nabla_y f = y \cdot \nabla f\]
+\end{cor}
+\noindent \textbf{Proof: } Left as an exercise to the reader.
+\begin{lem}
+Let $C$ be convex. and let $f$ be differentiable over $C$. $f$ is convex iff
+\[f \geq f(x) + (z - x)^T \nabla f(x), \text{ } \forall x,y \in C\]
+\end{lem}
+\begin{rem}
+This is the most important theorem of this chapter!! Make sure you understand
+it.
+\end{rem}
+\noindent \textbf{Proof: }
+
+$(\implies)$ \\\\
+As $C$ is convex, $x + (z - x)\alpha = \alpha z  + (1 - \alpha)x \in C,$ $\forall
+\alpha \in [0,1]$
+\[\lim_{\alpha \to 0} \frac{f(x + \alpha(z - x)) - f(x)}{\alpha} = (z - x)\nabla
+f(x)\]
+But by convexity
+\[{f(x + \alpha(z - x)) - f(x)}{\alpha} \leq f(z) - f(x)\]
+Taking the limit of $\alpha \to 0$ of both sides gets us the desired result.\\
+
+$(\impliedby)$\\\\
+Assume that $f(z) \geq f(x) + (z - x)^T \nabla f(x)$. Let $a,b \in C$ be any
+points in the domain of $f$ and let $c = \alpha a + (1 - \alpha) b$. We can
+write
+\begin{outline}[enumerate]
+\1 $f(a) \geq f(c) + (a - c)^T \nabla f(c)$
+\1 $f(b) \geq f(c) + (b - c)^T \nabla f(c)$
+\end{outline}
+Multiply 1 by $\alpha$ and 2 by $(1 - \alpha)$ and sum them
+\begin{align*}
+\alpha f(a) + (1 - \alpha) f(b) &\geq \alpha (f(c) + (a - c)^T \nabla f(c)) + (1 -
+\alpha) (f(c) + (b - c)^T \nabla f(c))\\
+\alpha f(a) + (1 - \alpha) f(b) &\geq f(c) + \alpha (a - c)^T \nabla f(c) + (1 -
+\alpha) (b - c)^T \nabla f(c)\\
+\alpha f(a) + (1 - \alpha) f(b) &\geq f(c) + (\alpha a - \alpha c + b - \alpha b
+- c + \alpha c)^T \nabla f(c)\\
+\alpha f(a) + (1 - \alpha) f(b) &\geq f(c)\\
+\alpha f(a) + (1 - \alpha) f(b) &\geq f(\alpha a + (1 - \alpha) b)
+\end{align*}
+Therefore, f is convex over $C$.\\
+\begin{rem} Drawing out what this theorem is describing aids in forming an
+intuition.
+\end{rem}
+\noindent \textbf{Properties: } Assume that $f$ is $C^2$ smooth.
+\begin{outline}[enumerate]
+\1 If $\nabla^2 f$ is psd, then $f$ is convex
+\1 If $\nabla^2 f$ is pd, then $f$ is strictly convex.
+\1 If the domain of $f$ is $\mathbb{R}^n$ and $f$ is convex over $D$, then
+$\nabla^2 f(x)$ is psd $\forall x \in D$
+\end{outline}
+The proof of these properties is left as an exercise to the reader.
 \end{document}
