@@ -1116,3 +1116,59 @@ Convergence of Descent Algorithms
    So, ‖∇²f(x*)`‖ ≤ 1/2Lr
    So, ‖xᵏ⁺¹ - x*‖ ≤ 1/2r ‖xᵏ - x*‖², thus convergence, if it exists, is quadratic.
    Since ‖xᵏ - x*‖ ≤ r, we have ‖xᵏ⁺¹ - x*‖ ≤ 1/2‖xᵏ - x*‖, so convergence exists.
+
+=LEC20= 2018-10-29
+_CH7-Trust Region Methods_
+Algorithm:
+ Choose starting point x⁰ arbitrarily
+ let δ⁰ = 1
+ for k = 0, 1, ...
+  Le q(x) be a quadratic approximation of f that is accurate around xᵏ
+  TEST(x) = arg min x{q(x): ‖x - xᵏ‖ ≤ δᵏ}
+  ρ = f(xᵏ) - f(TEST(x))/q(xᵏ) - q(TEST(x))
+
+  if ρ ≥ 1/δᵏ:
+   xᵏ⁺¹ = TEST(x)
+  else:
+   xᵏ⁺¹ = xᵏ
+
+  if ρ ≤ 1/4:
+   δᵏ⁺¹ = δᵏ/2
+  else if ρ ≥ 3/4 and ‖TEST(x)-xᵏ‖ = δᵏ
+   δᵏ⁺¹ = 2δᵏ
+  else:
+   δᵏ⁺¹ = δᵏ
+
+ There are other possible choices, but we consider 
+  q(x) = f(xᵏ) + (x - xᵏ)~∇f(xᵏ) + 1/2(x - xᵏ)~∇²f(xᵏ)(x - xᵏ)
+ ρ is the ratio Δf/Δq from xᵏ to TEST(x)
+ The decrease in q is ≥ 0, since q(xᵏ) is considered in the argmin.
+ If TEST(x) = xᵏ, then 2nd order sufficient conditions are satisfied, so STOP
+ δᵏ is the trust region radius
+ We consdder that q is a good approximation of f in B_δᵏ(xᵏ), If ρ is small, then approximation is bad, so we decrease δᵏ
+
+ Thm
+  Let f∈ C²(Rⁿ) and assume that ∇²f is Lipschitz continuous in a ball that contains the level set of x⁰.
+  Then, for the trust region method,
+   1. either f(xᵏ) → -∞ or ∇f(xᵏ) → 0
+   2. if xᵏ → x*, then x* satisfies 1st and 2nd order necessary conditions for local optimality
+   3. if xᵏ → x* and x* satisfies the 2nd order sufficient conditions for local optimality,
+      then for sufficiently large k, ‖TEST(x) - xᵏ‖ < δᵏ, each step is a newton step, so convergence is quadratic
+
+ The trust region subproblem (TRS)
+  arg min x{f(xᵏ) + (x - xᵏ)~∇f(xᵏ) + 1/2(x - xᵏ)~∇²f(xᵏ)(x - xᵏ): ‖x - xᵏ‖ ≤ δᵏ}
+  f(xᵏ) is constant, so can remove, doesn't affect arg min at all
+
+  For simplicity, let x̅ = (x - xᵏ)/δᵏ
+  We get 
+    argmin {x̅ ~. (δᵏ1/2∇²f(xᵏ)) . x̅ + (δᵏ∇f(xᵏ))~x̅ : ‖x̅ ‖ ≤ 1}
+  = argmin {x̅ ~ Ax̅ + b~x̅ : ‖x̅ ‖ ≤ 1}, where A = δᵏ1/2∇²f(xᵏ), b = δᵏ∇f(xᵏ)
+
+  To solve TRS?
+   min x~Ax + b~x: ‖x‖ = 1
+  If A is pd, then can compute x^ = -1/2A`b
+
+  Case 1: A is pd and ‖x^‖ ≤ 1
+   Then x^ is optimal.
+
+  Case 2: A is not pd OR ‖x^‖ > 1
