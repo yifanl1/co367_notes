@@ -1145,7 +1145,7 @@ Algorithm:
  The decrease in q is ≥ 0, since q(xᵏ) is considered in the argmin.
  If TEST(x) = xᵏ, then 2nd order sufficient conditions are satisfied, so STOP
  δᵏ is the trust region radius
- We consdder that q is a good approximation of f in B_δᵏ(xᵏ), If ρ is small, then approximation is bad, so we decrease δᵏ
+ We consider that q is a good approximation of f in B_δᵏ(xᵏ), If ρ is small, then approximation is bad, so we decrease δᵏ
 
  Thm
   Let f∈ C²(Rⁿ) and assume that ∇²f is Lipschitz continuous in a ball that contains the level set of x⁰.
@@ -1169,6 +1169,70 @@ Algorithm:
   If A is pd, then can compute x^ = -1/2A`b
 
   Case 1: A is pd and ‖x^‖ ≤ 1
-   Then x^ is optimal.
+   Then x^ is optimal, very easy case.
 
   Case 2: A is not pd OR ‖x^‖ > 1
+
+=LEC21=
+   Let x^(λ) = -1/2(A + λI)`b
+
+   x^(0) would be optimal in case 1
+   x^(λ) is a global minimizer for x~(A + λI)x + b~x
+   Let λ₁ ≤ ... ≤ λₙ be the eigenvalues of A, x^ is defined for all λ > -λ₁
+
+   Thm: ‖x^(λ₁)‖ is a decreasing function of λ over (-λ, ∞), and lim ‖x^(λ)‖ = 0
+   pf
+    Let A = QDQ~ where Q is orthogonal and D = diag(λ₁, ..., λₙ)
+    Observe that ∀z ∈ R\&n , ‖Qz‖ = ‖z‖ as ‖Qz‖² = (Qz)~(Qz) = z~Q~Qz = z~z = ‖z‖²
+
+    Therefore, 
+     x^(λ) 
+     = -1/2(QDQ~ + λI)`b
+     = -1/2(QDQ~ + λQIQ~)\b
+     = -1/2(Q(D+λI)Q~)`b
+     = -1/2 Q~`(D+λI)`Q`b
+     = -1/2 Q(D+λI)`Q~b
+
+     ‖x^(λ)‖
+     = 1/2‖Q(D+λI)`Q~b‖
+     = 1/2‖(D+λI)`Q~b‖      # by observation above
+     = 1/2‖(D+λI)`c‖        # c = Q~b
+     = 1/2√(∑cᵢ²/(λᵢ + λ)²)
+     = 1/2 ‖[c₁/(λ₁ + λ), ..., cₙ/(λₙ + λ)]~‖
+
+     notice that cᵢ is a nonnegative constant and 1/(λᵢ + λ) is decreasing for increasing λ, λ ≥ -λ₁
+     So, ‖x^(λ)‖ is a decreasing function
+     So, lim ‖x^(λ)‖ = 0
+
+
+   Case 2A: c₁ ≠ 0, and λ₁ ≠ 0
+    c₁ = (Q~b)₁ = v₁~b, v₁ is the eigenvactor of ∇²f(xᵏ) for λ₁
+    if c₁ ≠ 0, then ∇f(xᵏ) is not orthogonal to v₁
+
+    In this case, lim ‖x^(λ)‖ = ∞ as λ → -λ₁
+    Then, ∃λ* : ‖x^(λ*)‖ = 1
+
+   Lemma: If x^ is a global minimizer for TRS in case 2A, then ‖x^‖ = 1
+    pf: if ‖x^‖ < 1, then ∃B_δ(x^) ⊆ B₁(0)
+     since x^ is a global minimizer, it is also a local minimizer for x~Ax + b~x
+     If λ₁ < 0, A is not psd and x~Ax + b~x has no local minimizers
+     If λ₁ = 0, not allowed by hypothesis for case 2A
+     If λ₁ > 1, A is pd and x~Ax + b~x has a unique local + global minimizer, and by case 2 hypothesis ‖x^‖ > 1
+   
+   Thm: 
+    x^(λ*) is a global minimizer for TRS in case 2A.
+    pf
+     recall that x^(λ*) is a global minimizer for x~(A + λ*I)x + b~x
+     If we restrict ‖x‖ = 1,
+     x^(λ*) 
+     = argmin {x~(A + λ*I)x + b~x: ‖x‖ = 1}
+     = argmin {x~Ax + λ*x~x + b~x, ‖x‖ = 1}
+     = argmin {x~Ax + b~x}                  # x~x = 1, so constant λ* doesnt change the argmin
+
+   Case 2B: c₁ = 0 OR λ₁ = 0
+    Thm:
+     A global minimzer for TRS in case 2B is given by
+      x^ = ∑ v₁~b/(λᵢ - λ₁) + τv₁, for all i such that λᵢ ≠ λ₁,
+      ‖vᵢ‖ = 1, and τ is chosen such that ‖x^‖ = 1
+
+     pf: Nocedal-Wright, "the hard case"
