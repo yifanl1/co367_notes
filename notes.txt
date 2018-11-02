@@ -1173,7 +1173,7 @@ Algorithm:
 
   Case 2: A is not pd OR ‖x^‖ > 1
 
-=LEC21=
+=LEC21= 2018-10-31
    Let x^(λ) = -1/2(A + λI)`b
 
    x^(0) would be optimal in case 1
@@ -1236,3 +1236,69 @@ Algorithm:
       ‖vᵢ‖ = 1, and τ is chosen such that ‖x^‖ = 1
 
      pf: Nocedal-Wright, "the hard case"
+
+MIDTERM 2: Monday November 12th
+ASSIGNMENT 2: Due November 12th
+
+=LEC22= 2018-11-02
+_CH8-Optimality Conditions for Constrained Optimization_
+
+defn Constrained Local Minimizer
+ Consider min {f(x): x ∈ G}, where G ⊆ Rⁿ.
+ The point x* is a local minimzer if x* ∈ G and there exists ε > 0 s.t. ∀x ∈ B_ε(x*) ∩ G, f(x) ≥ f(x*)
+ 
+ Note: 
+  This does not require that B_ε(x*) ∩ G ≠ {x*}
+  Equivalently, ∄d ∈ B_ε(0): x* + d ∈ G and f(x* + d) < f(x*)
+  such a d would be a feasible improving direction (or step)
+
+ Informally, consider min{f(x): h(x) = 0}
+  Let y ∈ Rⁿ s.t. h(y) = 0                        #using y instead of x̅ as on whiteboard for ease of notation
+  Is there an improving direction d at y?
+
+  If d is small h(y + d) ≈ h(y) + d~∇h(y)
+ 
+  d feasible if d~∇h(y) = 0
+  d improving if d~∇f(y) < 0
+
+  Take some arbitrary d orthogonal to ∇h(y)
+  if d~∇f(y) < 0, done.
+  if d~∇f(y) > 0, take -d, which will satisfy improving condition, still feasible
+  if d~∇f(y) = 0, choose another d
+
+  There are no feasible improving directions:
+   when ∀d ∈ Rⁿ: d~∇h(y) = 0, we have d~∇f(y) = 0
+   when all directions orthogonal to ∇h(y) are also orthogonal to ∇f(y)
+   when ∇h~(y) is parallel to ∇f(y)
+
+   Such a y is called a Karush-Kuhn-Tucker (KKT) point
+
+  Example:
+   min{x₁ + x₂: x₁² + x₂² - 2 = 0}
+
+   ∇f(x) = [1, 1]~
+   ∇h(x) = [2x₁, 2x₂]~
+   KKT points: x₁ = x₂ = [1, 1], [-1, -1]
+
+ Informally, consider min{f(x): g(x) ≤ 0}
+  Let y be such that g(y) ≤ 0
+
+  Case 1: g(y) < 0
+   Then for a sufficiently small ‖d‖, g(y + d) < 0
+   We want d~∇f(y) < 0, which exists iff ∇f(y) ≠ 0
+  Case 2: g(y) = 0
+   d feasible if g(y + d) + d~∇g(y), so we want d~∇g(y) ≤ 0
+   d improving if d~∇f(y) < 0
+
+  No feasible improving directions:
+  Case 1: ∇f(y) = 0
+  Case 2: ∀d: d~∇g(y) ≤ 0, d~∇f(y) ≥ 0
+
+  Lemma: Let a, b ∈ Rⁿ, the following are equivalent
+   1. ∀d∈ Rⁿ d~a ≤0 ⇒ d~b ≥ 0
+   2. ∃λ: b = -λa, λ ≥ 0
+
+  Case 1: ∇f(y) = 0
+  Case 2: ∇f(y) = -λ∇g(y) for some λ ≥ 0
+
+ KKT Points: ∇f(y) = -λ∇g(y) OR λg(y) = 0, λ ≥ 0
