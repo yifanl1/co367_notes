@@ -931,7 +931,7 @@ Line Search
  defn Lipschitz Continuous
   A function f: Rⁿ → R is Lipschitz continuous with constant L if
    |f(y) - f(x)| ≤ ‖y - x‖L ∀x, y ∈ Rⁿ
-  Note that this does not apply C⁰ continuous.
+  Note that this does not necessarily ensure f is C⁰ continuous.
 
  Thm
   Let f ∈ C¹(B_δ(0))
@@ -974,7 +974,7 @@ Line Search
     ∇f(xᵏ + γpᵏ)~pᵏ ≤ ∇f(xᵏ)~pᵏ + Lγ‖pᵏ‖²  (3)
 
    C)
-    By (1) and (2)
+    By (2) and (3)
     ∇f(xᵏ)~pᵏ + Lγ‖pᵏ‖² > σ∇f(xᵏ)~pᵏ
     Lγ‖pᵏ‖² > (σ-1)∇f(xᵏ)~pᵏ = (σ-1)Ψ'(0) = (1 - σ)(-Ψ'(0))
     γ = (1 - σ)(-Ψ'(0)) / L‖pᵏ‖²
@@ -1048,8 +1048,8 @@ Convergence of Descent Algorithms
     f(xᵏ⁺¹) ≤ f(xᵏ) - σ(1-σ)/2L ‖∇f(xᵏ)‖² 
     f(xᵏ⁺¹) - f(x*) ≤ f(xᵏ) - f(x*) - σ(1-σ)/2L ‖∇f(xᵏ)‖² 
    By Lemma
-    ‖f(xᵏ⁺¹) - f(x*)‖₂² ≥ c|f(xᵏ) - f(x*)|
-    ‖f(xᵏ⁺¹)‖² ≥ c(f(xᵏ) - f(x*)), as ∇f(x*) = 0
+    ‖∇f(xᵏ⁺¹) - ∇f(x*)‖₂² ≥ c|f(xᵏ) - f(x*)|
+    ‖∇f(xᵏ⁺¹)‖² ≥ c(f(xᵏ) - f(x*)), as ∇f(x*) = 0
 
    so
     f(xᵏ⁺¹) - f(x*) 
@@ -1276,9 +1276,9 @@ defn Constrained Local Minimizer
   Example:
    min{x₁ + x₂: x₁² + x₂² - 2 = 0}
 
-   ∇f(x) = [1, 1]~
-   ∇h(x) = [2x₁, 2x₂]~
-   KKT points: x₁ = x₂ = [1, 1], [-1, -1]
+   ∇f(x) = [1 1]~
+   ∇h(x) = [2x₁ 2x₂]~
+   KKT points: x₁ = x₂, so x ∈ {[1, 1], [-1, -1]}
 
  Informally, consider min{f(x): g(x) ≤ 0}
   Let y be such that g(y) ≤ 0
@@ -1302,3 +1302,82 @@ defn Constrained Local Minimizer
   Case 2: ∇f(y) = -λ∇g(y) for some λ ≥ 0
 
  KKT Points: ∇f(y) = -λ∇g(y) OR λg(y) = 0, λ ≥ 0
+
+=LEC23= 2018-11-05
+
+ Recap:
+  Given min{f(x): g(x) ≤ 0} KKT at y are:
+   Case g(y) < 0: ∇f(y) = 0
+   Case g(y) = 0: ∇f(y) = -λ∇g(y) for some positive λ
+ 
+ Example:
+  min {x₁ + x₂: x₁² + x₂² - 2 ≤ 0}
+
+  Case 1: x₁² + x₂² - 2 < 0
+   ∇f(y) = [1, 1]~ = 0 never holds
+
+  Case 2: x₁² + x₂² - 2 = 0
+   ∇f(y) = [1, 1]~ = -λg(y) = -λ[2y₁, 2y₂]~
+   [-λ/2, -λ/2]~ = [y₁, y₂]~
+   y = [-1, -1]~ is the only KKT point.
+
+  defn Non Linear Problem (NLP)
+   min f(x): 
+    gᵢ(x) ≤ 0 ∀i ∈ [1, 2, ..., m]
+    hᵢ(x) = 0 ∀i ∈ [1, 2, ..., p]
+
+  defn Linearized Feasible Direction
+   Let y be feasible for (NLP)
+   A linearized feasible direction is a vector d ∈ Rⁿ:
+    i)  ∀i ∈ [1, 2, ..., m]: if gᵢ(y) = 0, d~∇gᵢ(y) ≤ 0
+    ii) ∀i ∈ [1, 2, ..., p]: d~∇hᵢ(y) = 0
+
+   The cone of linearized feasible directions at y is the set of all such directions, denoted L_(NLP)(y)
+
+  defn KKT Point
+   Let y ∈ Rⁿ,
+   y is a KKT point if it satisfies the KKT conditions:
+    i)  y is feasible for (NLP)
+    ii) ∀d ∈ L_(NLP)(y), d~∇f(y) ≥ 0
+
+  Farkas' Lemma
+   Given A ∈ Rᵐˣⁿ, b ∈ Rᵐ
+   {Ax = b, x ≥ 0} is feasible iff {A~y ≥ 0, b~y < 0} is infeasible
+
+   pf:
+    (=>)
+        #notation: x in this section is x̅ in whiteboard notes 
+    Let x be such that Ax = b, x ≥ 0
+    Then ∀ y ∈ Rᵐ, if A~y ≥ 0: x~A~y ≥ x~0 ≥ 0
+    x~A~y ≥ 0
+    (Ax)~y ≥ 0
+    b~y ≥ 0
+    Therefore, {A~y ≥ 0, b~y < 0} is infeasible
+
+    (<=)
+    Consider the primal-dual pair
+    (P) = min {0~x: Ax = b, x ≥ 0}
+    (D) = max {b~y: A~y ≤ 0}
+    Note that (P) cannot be unbounded, as 0~x is always 0.
+    Note that (D) cannot be infeasible, as y = 0 is feasible.
+
+    {Ax = b, x ≥ 0} being infeasible 
+    ⇒ (P) is infeasible, 
+    ⇒ (D) is unbounded
+    ⇒ ∃d ∈ Rᵐ: A~d ≤ 0 and b~d > 0
+    Let y = -d, so A~y ≥ 0, and b~t < 0
+    ⇒ {A~y ≥ 0, b~y < 0} is feasible
+
+    The contrapositive proves this.
+
+ Thm:
+  Let A ∈ Rᵐˣⁿ, B ∈ Rᵐˣᵖ, b∈ Rᵐ
+  {Ax + Bw = b, x ≥ 0} is feasible iff {A~y ≥ 0, B~y = 0, b~y < 0} is infeasible
+
+  pf:
+   {Ax + Bw = b, x ≥ 0} is feasible
+   ⇔ {Ax + Bw⁺ - Bw⁻ = b, x, w⁺, w⁻ ≥ 0} is feasible
+   ⇔ {[A B -B][x w⁺ w⁻]~ = b, [x w⁺ w⁻]~ ≥ 0} is feasible
+   ⇔ {[A B -B]~y ≥ 0, b~y ≥ 0} is infeasible
+   ⇔ {A~y ≥ 0, B~y ≥ 0, -B~y ≥ 0 b~y ≥ 0} is infeasible
+   ⇔ {A~y ≥ 0, B~y = 0 b~y ≥ 0} is infeasible
