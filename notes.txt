@@ -133,7 +133,7 @@ _CH1-Linear Algebra_
   A norm ‖.‖ on Rⁿ assigns a scalar ‖x‖ to every x ∈ Rⁿ s.t.
    1) ‖x‖ ≥ 0, ∀x ∈ Rⁿ
    2) ‖cx‖ = |c|‖x‖, ∀c ∈ R, ∀x ∈ Rⁿ
-   3) ‖x‖ = 0 ⇔ x = 0 
+   3) ‖x‖ = 0 ⟺ x = 0 
    4) ‖x + y‖ ≤ ‖x‖ + ‖y‖ ∀x, y ∈ Rⁿ
 
   Lᵏ norm ‖x‖ₖ = (∑(x_i)ᵏ)^1/k 
@@ -313,10 +313,10 @@ _CH1-Linear Algebra_
      for any x ∈ Rⁿ, x~(A~A)x = (Ax)~(Ax) = ‖Ax‖₂² ≥ 0
     A~A is pd iff rank(A) = n:
      x~A~Ax > 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ ‖Ax‖₂² > 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ ‖Ax‖₂ > 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ Ax ≠ 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ rank(A) = n            by fundamental theory of linear algebra
+     ⟺ ‖Ax‖₂² > 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⟺ ‖Ax‖₂ > 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⟺ Ax ≠ 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⟺ rank(A) = n            by fundamental theory of linear algebra
 
   Corollary:
    If A ∈ Rⁿˣⁿ is square, A~A is pd iff A is nonsingular
@@ -1376,8 +1376,68 @@ defn Constrained Local Minimizer
 
   pf:
    {Ax + Bw = b, x ≥ 0} is feasible
-   ⇔ {Ax + Bw⁺ - Bw⁻ = b, x, w⁺, w⁻ ≥ 0} is feasible
-   ⇔ {[A B -B][x w⁺ w⁻]~ = b, [x w⁺ w⁻]~ ≥ 0} is feasible
-   ⇔ {[A B -B]~y ≥ 0, b~y ≥ 0} is infeasible
-   ⇔ {A~y ≥ 0, B~y ≥ 0, -B~y ≥ 0 b~y ≥ 0} is infeasible
-   ⇔ {A~y ≥ 0, B~y = 0 b~y ≥ 0} is infeasible
+   ⟺ {Ax + Bw⁺ - Bw⁻ = b, x, w⁺, w⁻ ≥ 0} is feasible
+   ⟺ {[A B -B][x w⁺ w⁻]~ = b, [x w⁺ w⁻]~ ≥ 0} is feasible
+   ⟺ {[A B -B]~y ≥ 0, b~y ≥ 0} is infeasible
+   ⟺ {A~y ≥ 0, B~y ≥ 0, -B~y ≥ 0, b~y ≥ 0} is infeasible
+   ⟺ {A~y ≥ 0, B~y = 0, b~y ≥ 0} is infeasible
+
+=LEC24= 2018-11-07
+  
+ KKT conditions at y feasible for (NLP):
+  Consider the system (1)
+  For all d s.t. 
+   d~∇gᵢ(y) ≤ 0, i = 1, ..., m: gᵢ(y) = 0
+   d~∇hᵢ(y) = 0, i = 1, ..., p
+  This implies d~∇f(y) ≥ 0
+
+  Consider the system (2)
+   -∇gᵢ(y)~d ≥ 0, i ∈ [1, 2, ..., p] gᵢ(y) = 0 
+   ∇hᵢ(y)~d  = 0, i ∈ [1, 2, ..., p]
+   ∇f(y)~d < 0
+
+  By Farka's Lemma, this is infeasible iff ∃λ ∈ Rᵐ, λ ≥ 0, μ ∈ Rᵐ:
+   -∑λᵢ∇gᵢ(y)     + ∑μ∇hᵢ(y) = ∇f(y)
+    i: gᵢ(x) = 0        
+
+ Thm:
+  Given (NLP), a feasible point y is a KKT point iff ∃λ ∈ Rᵐ, λ ≥ 0, μ ∈ Rᵖ:
+   -∑λᵢ∇gᵢ(y) + ∑μ∇hᵢ(y) = ∇f(y)                # differs from previous expression, first sum is now over all i's
+   λᵢgᵢ(y) = 0
+
+  Example
+   min {c~x: Ax = b, x ≥ 0}
+   equivalently
+   min {c~x: -Ix ≤ 0, Ax - b = 0}
+   gᵢ(x) = -xᵢ
+   ∇gᵢ(x) = -eᵢ
+   hᵢ(x) = Aᵢ~x - bᵢ
+   ∇hᵢ(x) = Aᵢ~
+
+   KKT conditions ∃λ ≥ 0, μ:
+    ∑λᵢeᵢ + ∑μᵢAᵢ~ = c, λ(-yᵢ) = 0
+    ⟺ {λI + A~μ = c, y~A = 0, λ ≥ 0}
+    ⟺ {A~μ ≤ c, (c - A~μ)~y = 0}          # choosing λ = c - A~μ
+
+
+ Let Ω = {x ∈ Rⁿ: gᵢ(x) ≤ 0 ∀i, hᵢ(x) = 0 ∀i} # feasible region of (NLP)
+
+ defn Feasible Arc
+  A feasible arc at x in the direction of d is a function ϕ: [0, c] → Rⁿ for some c > 0, where
+   1) ϕ(0) = x
+   2) ϕ ∈ C¹([0, c])
+   3) ϕ'(0) = d
+   4) ϕ(t) ∈ Ω ∀t ∈ [0, c]
+
+ defn Tangent Cone
+  given a feasible point x ∈ Rⁿ, the tangent cone to Ω at x is 
+   T_Ω(x) = {d ∈ Rⁿ: ∃ feasible arc at x with direction d}
+
+ Example:
+  Ω = {x ∈ R²: ‖x‖ ≤ 1} (unit circle)
+  choose point [-1, 0]~
+  T_Ω([-1, 0]~) = {[d₁, d₂]~: d₁ ≥ 0}
+
+ Thm:
+  Let x be feasible for (NLP) and assume L_(NLP) = T_Ω
+  Then if x is a local minimizer of (NLP), then it is a KKT point
