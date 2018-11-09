@@ -1441,3 +1441,77 @@ defn Constrained Local Minimizer
  Thm:
   Let x be feasible for (NLP) and assume L_(NLP) = T_Ω
   Then if x is a local minimizer of (NLP), then it is a KKT point
+
+=LEC25= 2018-11-09
+ Lemma: Let ϕ: R→Rⁿ and f: Rⁿ → R, with ϕᵢ ∈ C¹(R) for all i, and f ∈ C¹(Rⁿ)
+  [d/dt f(ϕ(t))](t₀) = ∇f(ϕ(t₀))~(d/dt ϕ)(t₀)
+
+  pf:
+   By chain rule, given functions a, b: 
+    a(b(x))'(x₀) = a'(b(x₀)) b'(x₀)
+   Also by chain rule, given a(y₁, y₂):
+    a(b(x), c(x))'(x₀) = δ/δy₁ a(b(x₀), c(x₀)) b'(x₀) + d/dy₂ a(b(x₀), c(x₀)) c'(x₀)
+
+   So
+    [d/dt f(ϕ(t))](t₀) 
+    = [d/dx₁ f(ϕ(t₀))](d/dt ϕ)(t₀) + ... + [d/dxₙ  f(ϕ(t₀))](d/dt ϕ)(tₙ)
+    = ∇f(t₀)~ϕ'(t₀)
+
+ Thm: (from last lecture)
+  Let x be feasible for (NLP) and assume L_(NLP) = T_Ω
+  Then if x is a local minimizer of (NLP), then it is a KKT point
+
+  pf:
+   By definition of a KKT point, we want a feasible x and all d ∈ L_(NLP)(x): d~∇f(x) ≥ 0
+   Let d ∈ L_(NLP)(x), then d ∈ T_Ω(x) so ∃ϕ feasible arc at x with direction d
+
+   Let γ(t) = f(ϕ(t)), for t ≥ 0
+
+   γ'(0) = lim (γ(t) - γ(0))/t
+           t → 0, t > 0
+   By definition of γ, γ(t) = f(ϕ(t)) and γ(0) = f(ϕ(0)) = f(x)
+   Since x is a local minimzer, γ(t) - γ(0) = f(ϕ(t)) - f(x) ≥ 0, thus γ'(0) ≥ 0
+
+   By Lemma (chain rule), γ'(0) = ∇f(ϕ(0))~ϕ'(0) = ∇f(x)~d
+   Therefore, ∇f(x)~d ≥ 0
+
+ Example where minimizer is not a KKT point:
+  min x₁ + x₂
+        - x₂ ≤ 0
+   -x₁³ + x₂ ≤ 0
+  Minimizer at [0, 0]~ = x*
+
+  f(x) = x₁ + x₂, ∇f(x) = [1, 1]~, ∇f(x*) = [1, 1]~
+  g₁(x) = -x₂, ∇g₁(x) = [0, -1]~, ∇g(x*) = [0, -1]~
+  g₂(x) = -x₁³ + x₂, ∇g₂(x) = [-3x₁², 1]~, ∇g₂(x*) = [0, 1]~
+
+  KKT gradient equation system: 
+   ∇f(x*) = -λ₁g₁(x*) - λ₂g₂(x*)
+   λ₁g₁(x*) = 0 
+   λ₂g₂(x*) = 0
+
+  ⟺ -λ₁[0, -1] - λ₂[0, 1] = [1, 1] which is infeasible, so x* cannot be a KKT point
+
+
+ Note:
+  In the example,
+  T_Ω(x*) = {x ∈ R²: x₁ ≥ 0, x₂ = 0}
+  L_(NLP)(x*) = {x ∈ R²: x₂ = 0}
+
+  These two cones are distinct, 
+   the tangent cone only cares about the feasible region, 
+   the cone of linearized feasible directions cares about the gradients of the specific problem
+
+ Example 2:
+  min x₁ + x₂
+        - x₂ ≤ 0
+   -x₁³ + x₂ ≤ 0
+   -x₁       ≤ 0
+  
+  g₃(x) = -x₁, ∇g₃(x) = [-1, 0]~, ∇g(x*) = [-1, 0]~
+  gradient equation:
+   ∇f(x*) = -λ₁[0, -1] - λ₂[0, 1] - λ₃[1, 0] = [1, 1], which is feasible
+   Therefore, x* is a KKT point!
+
+ Thm
+  ∀x ∈ Ω, T_Ω(x) ⊆ L_(NLP)(x)
