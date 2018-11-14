@@ -219,7 +219,7 @@ _CH1-Linear Algebra_
    Let A ∈ Rⁿˣⁿ be a symmetric matrix, then ‖A‖₂ = ρ(A)
 
    pf: 
-    from before, ρ(A) ≤ ‖Aᵏ‖^1\k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
+    from before, ρ(A) ≤ ‖Aᵏ‖^1/k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
     Now, need to prove ρ(A) ≥ ‖A‖₂
     As the eigenvectors xᵢ, i = 1...n of C are mutually orthogonal
     we can write any y ∈ Rⁿ as y = ∑ βᵢxᵢ, i=1...n, for some βᵢ ∈ R
@@ -920,10 +920,10 @@ Line Search
     Ψ(α) = Ψ(0) + αΨ'(0) + ϕ(α)
    For α sufficiently small, 
     |ϕ(α)| ≤ α|1/2Ψ'(0)|
-    ϕ(α) ≤ -αΨ'(0)/2, therefore Ψ(α) ≤ Ψ(0) + αψ'(0)/2, exactly the sufficient decrease condition
+    ϕ(α) ≤ -αΨ'(0)/2, therefore Ψ(α) ≤ Ψ(0) + αΨ'(0)/2, exactly the sufficient decrease condition
 
    If the second loop terminates, α satisfies curvature condition, and α/2 does not, so α satisfies sufficient decrease
-   If second loop does not terminate, Ψ(2ʲ) ≤ Ψ(0) + 2ʲσψ'(0), ∀j ∈ Z, j ≥ 0
+   If second loop does not terminate, Ψ(2ʲ) ≤ Ψ(0) + 2ʲσΨ'(0), ∀j ∈ Z, j ≥ 0
    Thus, Ψ(2ʲ) → -∞ for j → +∞
 
    If neither loop occurs, then α = 1 satisfies both conditions.
@@ -1183,12 +1183,12 @@ Algorithm:
    Thm: ‖x^(λ₁)‖ is a decreasing function of λ over (-λ, ∞), and lim ‖x^(λ)‖ = 0
    pf
     Let A = QDQ~ where Q is orthogonal and D = diag(λ₁, ..., λₙ)
-    Observe that ∀z ∈ R\&n , ‖Qz‖ = ‖z‖ as ‖Qz‖² = (Qz)~(Qz) = z~Q~Qz = z~z = ‖z‖²
+    Observe that ∀z ∈ Rⁿ , ‖Qz‖ = ‖z‖ as ‖Qz‖² = (Qz)~(Qz) = z~Q~Qz = z~z = ‖z‖²
 
     Therefore, 
      x^(λ) 
      = -1/2(QDQ~ + λI)`b
-     = -1/2(QDQ~ + λQIQ~)\b
+     = -1/2(QDQ~ + λQIQ~)`b
      = -1/2(Q(D+λI)Q~)`b
      = -1/2 Q~`(D+λI)`Q`b
      = -1/2 Q(D+λI)`Q~b
@@ -1206,7 +1206,7 @@ Algorithm:
 
 
    Case 2A: c₁ ≠ 0, and λ₁ ≠ 0
-    c₁ = (Q~b)₁ = v₁~b, v₁ is the eigenvactor of ∇²f(xᵏ) for λ₁
+    c₁ = (Q~b)₁ = v₁~b, v₁ is the eigenvector of ∇²f(xᵏ) for λ₁
     if c₁ ≠ 0, then ∇f(xᵏ) is not orthogonal to v₁
 
     In this case, lim ‖x^(λ)‖ = ∞ as λ → -λ₁
@@ -1324,13 +1324,13 @@ defn Constrained Local Minimizer
   defn Non Linear Problem (NLP)
    min f(x): 
     gᵢ(x) ≤ 0 ∀i ∈ [1, 2, ..., m]
-    hᵢ(x) = 0 ∀i ∈ [1, 2, ..., p]
+    hⱼ(x) = 0 ∀j ∈ [1, 2, ..., p]
 
   defn Linearized Feasible Direction
    Let y be feasible for (NLP)
    A linearized feasible direction is a vector d ∈ Rⁿ:
     i)  ∀i ∈ [1, 2, ..., m]: if gᵢ(y) = 0, d~∇gᵢ(y) ≤ 0
-    ii) ∀i ∈ [1, 2, ..., p]: d~∇hᵢ(y) = 0
+    ii) ∀j ∈ [1, 2, ..., p]: d~∇hⱼ(y) = 0
 
    The cone of linearized feasible directions at y is the set of all such directions, denoted L_(NLP)(y)
 
@@ -1388,16 +1388,16 @@ defn Constrained Local Minimizer
   Consider the system (1)
   For all d s.t. 
    d~∇gᵢ(y) ≤ 0, i = 1, ..., m: gᵢ(y) = 0
-   d~∇hᵢ(y) = 0, i = 1, ..., p
+   d~∇hⱼ(y) = 0, j = 1, ..., p
   This implies d~∇f(y) ≥ 0
 
   Consider the system (2)
    -∇gᵢ(y)~d ≥ 0, i ∈ [1, 2, ..., p] gᵢ(y) = 0 
-   ∇hᵢ(y)~d  = 0, i ∈ [1, 2, ..., p]
+   ∇hⱼ(y)~d  = 0, j ∈ [1, 2, ..., p]
    ∇f(y)~d < 0
 
-  By Farka's Lemma, this is infeasible iff ∃λ ∈ Rᵐ, λ ≥ 0, μ ∈ Rᵐ:
-   -∑λᵢ∇gᵢ(y)     + ∑μ∇hᵢ(y) = ∇f(y)
+  By Farka's Lemma, this is infeasible iff ∃λᵢ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
+   -∑λᵢ∇gᵢ(y)     + ∑μ∇hⱼ(y) = ∇f(y)
     i: gᵢ(x) = 0        
 
  Thm:
@@ -1407,12 +1407,11 @@ defn Constrained Local Minimizer
 
   Example
    min {c~x: Ax = b, x ≥ 0}
+   
    equivalently
    min {c~x: -Ix ≤ 0, Ax - b = 0}
-   gᵢ(x) = -xᵢ
-   ∇gᵢ(x) = -eᵢ
-   hᵢ(x) = Aᵢ~x - bᵢ
-   ∇hᵢ(x) = Aᵢ~
+   gᵢ(x) = -xᵢ, ∇gᵢ(x) = -eᵢ
+   hⱼ(x) = Aᵢ~x - bᵢ, ∇hⱼ(x) = Aᵢ~
 
    KKT conditions ∃λ ≥ 0, μ:
     ∑λᵢeᵢ + ∑μᵢAᵢ~ = c, λ(-yᵢ) = 0
@@ -1515,3 +1514,115 @@ defn Constrained Local Minimizer
 
  Thm
   ∀x ∈ Ω, T_Ω(x) ⊆ L_(NLP)(x)
+
+=LEC26= 2018-11-14
+ Constrained Optimization
+
+ Review:
+  Given NLP:
+   min f(x)
+    s.t. 
+    gᵢ(x) ≤ 0, i ∈ {1, .., m}
+    hⱼ(x) = 0, j ∈ {1, .., p}
+
+  T_Ω(x) = {d ∈ Rⁿ: ∃feasible arc Φ: Φ'(0) = d}
+  L_NLP(x) = {d ∈ Rⁿ: ∇gᵢ(x)~d ≤ 0, ∀i s.t. gᵢ(x) = 0, ∇hⱼ(x)~d = 0 ∀j}
+ 
+  KKT point:
+   x ∈ Ω is a KKT point if ∇f(x)~d ≥ 0, ∀d ∈ L_NLP(x)
+   ⟺ ∃λᵢ, μᵢ where all these hold:
+    -∑λᵢ∇gᵢ(x) + ∑μᵢhᵢ(x) = ∇f(x)
+    λᵢ ≥ 0
+    λᵢgᵢ(x) = 0 ∀i
+ 
+  Thm: Let x ∈ Ω st. T_Ω(x) = L_NLP(x) then
+   if x is a local minimizer, then x is a KKT point.
+
+
+ defn Constraint Qualification
+  A constraint qualification (CQ) is a condition on the feasible set of NLP s.t. T_Ω(x) = L_NLP(x)
+
+ Thm: Let x ∈ , then T_Ω(x) ⊆ L_NLP(x)
+  pf:
+   Let x ∈ Ω and let d ∈ T_Ω(x)
+   There exists c > 0 and Φ: [0, c] s.t. 
+    Φ(0) = x
+    Φ is C⁰ smooth and Φ'(0) = d
+    Φ(t) ∈ Ω ∀t ∈ [0, c]
+
+   we want d ∈ L_NLP(x):
+    ∇gᵢ(x)~d = 0, ∀i s.t. gᵢ(x) = 0
+    ∇hⱼ(x)~d = 0, ∀j
+
+   Suppose ∃i: gᵢ(x) = 0, consider Taylor epantion gᵢ∘Φ at 0 in the direction t ∈ [0, c]
+   #notation: t here is t̅ in whiteboard notes
+
+   define a function o(t) where lim t→0 o(t)/t = 0
+
+   gᵢ(Φ(t)) = gᵢ(Φ(0)) + gᵢ'(Φ(0))t + o(t)
+   Note that gᵢ(Φ(t)) ≤ 0 and that gᵢ(Φ(0)) = gᵢ(x) = 0
+   
+   0 ≥ gᵢ'(Φ(0))t + o(t)
+     = ∇gᵢ(Φ(0))~Φ'(0)t + o(t)
+     = ∇gᵢ(Φ(0))~dt + o(t)
+
+   divide both sides by t
+   0 ≥ ∇gᵢ(Φ(0))~d + o(t)/t
+
+   limit t towards 0 both sides
+   0 ≥ ∇gᵢ(Φ(0))~d + lim t → 0 o(t)/t
+     = ∇gᵢ(x)~d, by definition of o
+
+   Exercise: do for hⱼ(x)
+
+ defn Linear Independence CQ (LICQ)
+  The LICQ holds at x ∈ Ω if the set {∇gᵢ(x): gᵢ(x) = 0} ∪ {∇hⱼ(x): ∀j} is linearly independent
+
+ Thm: Let x ∈ Ω
+  if x satisfies LICQ, then T_Ω(x) = L_NLP(x)
+ 
+  pf: read up on it :) 
+
+ Note: h(x) = 0 ⟺ h(x) ≤ 0, -h(x) ≤ 0
+
+ Example:
+  min {x₁ + x₂: -x₂ ≤ 0, -x₁³ + x₂ ≤ 0}
+
+  x* = [0, 0]
+
+  Does the LICQ hold at x*?
+  ∇g₁(x) = [0, -1]
+  ∇g₂(x) = [-3x₁², 1]
+  at x*: {[0, -1], [0, 1]}
+  Clearly not linearly independent
+
+ defn Linear Programing CQ (LPCQ)
+  The LPCQ holds at x ∈ Ω if all the tight constraints are affine (of form ax - b)
+
+ Thm:
+  Let x ∈ Ω, if the LPCQ holds at x, then T_Ω(x) = L_NLP(x)
+
+  pf:
+   Let x ∈ Ω, where LPCQ holds at x.
+   Then by defintion of LPCQ, we have
+    gᵢ(x) < 0, i ∈ {1, ..., k} # for some k
+    gᵢ(x) = 0, i ∈ {k+1, ..., m} ⟹ gᵢ(x) = aᵢ~x + bᵢ
+
+    hⱼ(x) = 0 ∀j ⟹ hⱼ(x) = aⱼ~x -bⱼ
+
+   Let d ∈ L_NLP(x), we want to prove d ∈ T_Ω(x)
+   by definition of L_NLP, we have
+    0 ≥ ∇gᵢ(x)~d = aᵢ~d: i ∈ {k + 1, ..., m}
+    0 = ∇hⱼ(x)~d = aⱼ~d: ∀j
+
+   Consider Φ(t) = x + td, we have Φ(0) = x, smooth with Φ'(t) = d, Φ(t) ∈ Ω
+   ∀j: hⱼ(x + td) 
+    = aⱼ~(x + td) - bⱼ = aⱼ~x - bⱼ + aⱼ~td = aⱼ~x - bⱼ + 0 = aⱼ~x - bⱼ = 0
+   ∀i ∈ {k + + 1, .., m}: gᵢ(x + td)
+    = aᵢ~(x + td) - bⱼ = aᵢ~x - bᵢ + aᵢ~td = gᵢ(x) + t∇gᵢ(x)~d ≥ 0
+   ∀i ∈ {1, ..., k}: 
+    gᵢ(x + td) ≤ 0, ∀t ∈ [0, εᵢ), εᵢ > 0, by continuity of gᵢ
+   Then Φ is a feasible arc ∀t ≤ min{εᵢ}, so d ∈ T_Ω(x)
+
+ Thm:
+  Let x ∈ Ω s.t. a CQ holds at x, then if x is a local minimizer, x is also a KKT point.
