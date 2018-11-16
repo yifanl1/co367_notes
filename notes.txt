@@ -1626,3 +1626,89 @@ defn Constrained Local Minimizer
 
  Thm:
   Let x ∈ Ω s.t. a CQ holds at x, then if x is a local minimizer, x is also a KKT point.
+
+=LEC27= 2018-11-16
+ Constraint Qualifications cntd.
+
+ Example
+  min {x~Ax: ‖x‖² = 1} x ∈ Rⁿ, A ∈ Rⁿˣⁿ symmetric
+
+  We have LICQ satisfied
+  KKT satisfied at y if ∃μ: 
+   2Ay = μ2y
+   Ay = μy
+
+   at y, objective value is y~Ay = y~(μy) = μy~y = μ
+
+ 
+ Convex NLP (CP):
+  min f(x)
+   gᵢ(x) ≤ 0, i = 1..m
+   hⱼ(x) = 0, j = 1..p
+  f, gᵢ are convex
+  hⱼ are affine
+
+ defn Slater CQ
+  The Slater CQ holds for (CP) if ∃y: gᵢ(y) < 0 ∀i = {1..m} (also known as strict feasibility)
+
+ Thm:
+  If the Slater CQ holds for (CP), then T_Ω(x) = L_NLP(x) ∀x ∈ Ω
+
+ Thm: 
+  If x is a KKT point for (CP) then x is a global minimizer of (CP)
+
+  pf:
+   Let y ∈ Ω, we want f(x) ≤ f(y)
+
+   Since x is a KKT point, it follows that ∇f(x)~d ≥ 0 ∀d ∈L_NLP(x)
+   Now we want to show that d = (y - x) ∈ L_NLP(x)
+
+   Recall that if c ∈ C¹ and is a convex function, then
+    c(x) ≥ c(y) + ∇c(y)~(x - y) ∀x, y
+
+   Suppose some tight constraint gᵢ exists, that is gᵢ(x) = 0
+   Then by the above observation, 
+    gᵢ(y) ≥ gᵢ(x) + ∇gᵢ(x)~(y - x)
+   By choice, gᵢ(x) = 0
+   As y is a feasible point, gᵢ(y) ≤ 0
+   so, we get
+   0 ≥ ∇gᵢ(x)~(y - x)
+
+   Consider j ∈ {1..p}, we want ∇hⱼ(x)~(y - x) = 0
+   Since hⱼ is affine, hⱼ(x) = aⱼ~x + bⱼ
+   h(x) = 0 ⇒ aⱼ~x + bⱼ = 0
+   h(y) = 0 ⇒ aⱼ~y + bⱼ = 0
+   ∇h(x) = aⱼ
+
+   h(y) - h(x) = aⱼ~(y - x) = 0 = ∇h(x)~(y - x)
+
+   We have shown that d = (y - x) ∈ L_NLP(X)
+   by the kkt conditions:
+    ∇f(x)~d ≥ 0
+    ∇f(x)~(y - x) ≥ 0
+
+   Since f is convex, again by previous observation, we get
+   f(y) ≥ f(x) + ∇f(x)~(y - x)
+        ≥ f(x)
+
+   So, x must be a global minimizer. QED
+
+ Corollary
+  Suppose the Slater CQ holds for (CP), then x is a global minimizer iff x is a KKT point
+
+ Remark: All results for convex optimization also hold when the functions are not C¹
+
+ Example:
+  min ‖x - x⁰‖₂²
+   s.t. lᵢ ≤ xᵢ ≤ uᵢ, ∀i ∈ {1..n}, assume lᵢ < uᵢ 
+  
+  ∇f(x) = 2(x - x⁰), ∇²f(x) = 2I ≥ 0
+  gᵢ+ = xᵢ - uᵢ ≤ 0 ⇒ eᵢx - uᵢ ≤ 0
+  gᵢ- = -xᵢ + lᵢ ≤ 0 ⇒ -eᵢx + lᵢ ≤ 0
+  All convex, so this is (CP)
+  choose each xᵢ = 1/2(lᵢ + uᵢ) to satisfy Slater conditions
+ 
+  2(x - x⁰) = -∑λᵢ+~eᵢ + -∑λᵢ-~(-eᵢ)
+  x = 1/2(x⁰ - ∑(λᵢ- + λᵢ+)eᵢ)
+
+ Exercise: finish KKT conditions for example above.
