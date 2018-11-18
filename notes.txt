@@ -1069,12 +1069,12 @@ Convergence of Descent Algorithms
   The Newton step is given by taking pᵏ = -[∇²f(xᵏ)]`∇f(xᵏ), only when ∇²f(xᵏ) is pd
 
 =LEC19= 2018-10-26
- Notation: f` = inverse of f
+ #notation: A` = inverse of A
 
  According to Newton's method, xᵏ⁺¹ = xᵏ - ∇f(xᵏ)/∇²f(xᵏ)
 
  Lemma: Let F: Rⁿ → Rᵐˣᵐ be continuous over B_r(x⁰) for some x⁰ ∈ Rⁿ, s.t. F(x⁰) is nonsingular
-  Then there exists x¹ > 0 s.t. F(x) is invertible for all x ∈ B_r(x⁰) and F(x)` is continuous over B_r(x⁰)
+  Then there exists x > 0 s.t. F(x) is invertible for all x ∈ B_r(x⁰) and F(x)` is continuous over B_r(x⁰)
 
   pf: 
    Given A ∈ Rᵐˣᵐ, det(A) is a polynomial in A₁₁, ... Aₘₘ, the entries of A.
