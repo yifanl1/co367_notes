@@ -1386,18 +1386,17 @@ defn Constrained Local Minimizer
 =LEC24= 2018-11-07
   
  KKT conditions at y feasible for (NLP):
-  Consider the system
-  For all d s.t. 
+  Consider the system (1)
    d~∇gᵢ(y) ≤ 0, i = 1, ..., m: gᵢ(y) = 0
    d~∇hⱼ(y) = 0, j = 1, ..., p
-  then d~∇f(y) ≥ 0
+  If (1) holds, then d~∇f(y) ≥ 0
 
-  Consider the system (1)
+  Consider the system (2)
    -∇gᵢ(y)~d ≥ 0, i ∈ [1, 2, ..., p] gᵢ(y) = 0 
    ∇hⱼ(y)~d  = 0, j ∈ [1, 2, ..., p]
    ∇f(y)~d < 0
 
-  By Farka's Lemma, (1) is infeasible iff ∃λᵢ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
+  By Farka's Lemma, (2) is infeasible iff ∃λᵢ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
    -∑λᵢ∇gᵢ(y)     + ∑μ∇hⱼ(y) = ∇f(y)
     i: gᵢ(y) = 0        
 
@@ -1486,7 +1485,7 @@ defn Constrained Local Minimizer
   g₂(x) = -x₁³ + x₂, ∇g₂(x) = [-3x₁², 1]~, ∇g₂(x*) = [0, 1]~
 
   KKT gradient equation system: 
-   ∇f(x*) = -λ₁g₁(x*) - λ₂g₂(x*)
+   ∇f(x*) = -λ₁∇g₁(x*) - λ₂∇g₂(x*)
    λ₁g₁(x*) = 0 
    λ₂g₂(x*) = 0
 
