@@ -1713,3 +1713,79 @@ defn Constrained Local Minimizer
   x = 1/2(x⁰ - ∑(λᵢ- + λᵢ+)eᵢ)
 
  Exercise: finish KKT conditions for example above.
+
+=LEC27= 2018-11-19
+ Example: Projection onto a box
+ Given l, u, z ∈ Rⁿ, where l < u, solve
+  min ‖x-z‖₂²: l ≤ x ≤ u
+
+  f(x) = (x-z)~(x-z) = x~Ix - 2z~x + z~z
+  gᵢ⁻(x) = lᵢ - xᵢ ≤ 0
+  gᵢ⁺(x) = xᵢ - uᵢ ≤ 0
+
+  ∇f(x) = 2x - 2z
+  ∇gᵢ⁻(x) = -eᵢ
+  ∇gᵢ⁺(x) = eᵢ
+
+ Check for LICQ:
+  For all i, at most one of the equations gᵢ⁻(x) = 0, gᵢ⁺(x) = 0 holds, by the assumption l < u
+  Thus the gradients of the active constraints at any feasible x give a subset of the columns of the identity matrix - trivially linearly independent.
+
+ Check for LPCQ:
+  All gᵢ(x) can be seen as affine
+
+ Check for Slater: The Slater point is at (l + u) / 2
+
+ KKT Necessary conditions: f convex, Ω convex
+
+ feasibility: l ≤ x ≤ u
+
+ KKT gradient equation: 
+  -∑λᵢ⁻(-eᵢ) - ∑λᵢ⁺(eᵢ) = 2(x - z)
+  λ⁻ - λ⁺ = 2(x - z), where λᵢ⁻, λᵢ⁺ ≥ 0 for all i.
+
+ Complementary:
+  (xᵢ - lᵢ)λᵢ⁻ = 0
+  (xᵢ - uᵢ)λᵢ⁺ = 0
+
+ For i = 1..n:
+ Case 1: zᵢ < lᵢ
+  For any x ∈ Ω, zᵢ < xᵢ, for λ⁻ - λ⁺ = 2(x - z) > 0, we must have λ⁻ > 0
+  Because (xᵢ - lᵢ)λᵢ⁻ = 0, we must have xᵢ = lᵢ
+
+ Case 2: zᵢ > uᵢ
+  For similar reasons as case 1, we must have λᵢ⁺ > 0, and thus xᵢ = uᵢ
+
+ Case 3: lᵢ ≤ zᵢ ≤ uᵢ
+  If zᵢ < xᵢ, then λᵢ⁻ > 0, then we get xᵢ - lᵢ ≤ zᵢ < xᵢ, which is a contradiction.
+  If zᵢ > xᵢ, then λᵢ⁺ > 0, and we have xᵢ - uᵢ ≥ zᵢ > xᵢ, which is also a contradiction.
+  So zᵢ = xᵢ
+
+ Algorithm: For all i, xᵢ = median(lᵢ, zᵢ, uᵢ)
+
+_CH9-Algorithms for Constrained Optimization_
+
+ A) Equality-constrained Optimization
+  min{f(x): hⱼ(x) = 0, j = 1..p}
+
+  Quadratic Penalty Method:
+   #notation: p and ρ(rho) are not the same
+
+   Choose an arbitrary starting point x⁰, ρ > 0
+   for k = 0, 1,..:
+    xᵏ⁺¹ = argmin{g_ρ(x)}        #g_ρ(x) = f(x) + ρ∑hᵢ(x)², i = 1..p
+    initialize unconstrained method at xᵏ
+    ρ = cρ, where c > 1
+
+  Why do we run the algorithm at all, just set ρ to be sufficiently large!
+   unconstrained algorithms do not give an exact x*, they only converge towards it
+   we don't want ρ to be in the same order as 1/ε
+
+ Thm:
+  Let f, hⱼ ∈ C¹(Rⁿ), j = 1..p
+  Let g(x) = ‖[h₁(x) ... hₚ(x)]~‖² = ∑[hⱼ(x)]²
+  Suppose xᵏ converges towards x* as k → ∞, and ∇hⱼ(x*) are lin independent for all j = 1..j
+
+  then either
+  a) ∇g(x*) = 0, and g(x*) > 0 OR
+  b) x* is a KKT point
