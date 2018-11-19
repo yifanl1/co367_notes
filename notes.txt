@@ -1180,29 +1180,30 @@ Algorithm:
    x^(λ) is a global minimizer for x~(A + λI)x + b~x
    Let λ₁ ≤ ... ≤ λₙ be the eigenvalues of A, x^ is defined for all λ > -λ₁
 
-   Thm: ‖x^(λ₁)‖ is a decreasing function of λ over (-λ, ∞), and lim ‖x^(λ)‖ = 0
-   pf
-    Let A = QDQ~ where Q is orthogonal and D = diag(λ₁, ..., λₙ)
-    Observe that ∀z ∈ Rⁿ , ‖Qz‖ = ‖z‖ as ‖Qz‖² = (Qz)~(Qz) = z~Q~Qz = z~z = ‖z‖²
+   Thm: ‖x^(λ₁)‖ is a decreasing function of λ over the interval (-λ, ∞), 
+    and further, lim λ → ∞ ‖x^(λ)‖ = 0
+    pf
+     Let A = QDQ~ where Q is orthogonal and D = diag(λ₁, ..., λₙ)
+     Observe that ∀z ∈ Rⁿ , ‖Qz‖ = ‖z‖ as ‖Qz‖² = (Qz)~(Qz) = z~Q~Qz = z~z = ‖z‖²
 
-    Therefore, 
-     x^(λ) 
-     = -1/2(QDQ~ + λI)`b
-     = -1/2(QDQ~ + λQIQ~)`b
-     = -1/2(Q(D+λI)Q~)`b
-     = -1/2 Q~`(D+λI)`Q`b
-     = -1/2 Q(D+λI)`Q~b
-
-     ‖x^(λ)‖
-     = 1/2‖Q(D+λI)`Q~b‖
-     = 1/2‖(D+λI)`Q~b‖      # by observation above
-     = 1/2‖(D+λI)`c‖        # c = Q~b
-     = 1/2√(∑cᵢ²/(λᵢ + λ)²)
-     = 1/2 ‖[c₁/(λ₁ + λ), ..., cₙ/(λₙ + λ)]~‖
-
-     notice that cᵢ is a nonnegative constant and 1/(λᵢ + λ) is decreasing for increasing λ, λ ≥ -λ₁
-     So, ‖x^(λ)‖ is a decreasing function
-     So, lim ‖x^(λ)‖ = 0
+     Therefore, 
+      x^(λ) 
+      = -1/2(QDQ~ + λI)`b
+      = -1/2(QDQ~ + λQIQ~)`b
+      = -1/2(Q(D+λI)Q~)`b
+      = -1/2 Q~`(D+λI)`Q`b
+      = -1/2 Q(D+λI)`Q~b
+ 
+      ‖x^(λ)‖
+      = 1/2‖Q(D+λI)`Q~b‖
+      = 1/2‖(D+λI)`Q~b‖      # by observation above
+      = 1/2‖(D+λI)`c‖        # c = Q~b
+      = 1/2√(∑cᵢ²/(λᵢ + λ)²)
+      = 1/2 ‖[c₁/(λ₁ + λ), ..., cₙ/(λₙ + λ)]~‖
+ 
+      notice that cᵢ is a nonnegative constant and 1/(λᵢ + λ) is decreasing for increasing λ, λ ≥ -λ₁
+      So, ‖x^(λ)‖ is a decreasing function
+      So, lim λ → ∞ ‖x^(λ)‖ = 0
 
 
    Case 2A: c₁ ≠ 0, and λ₁ ≠ 0
