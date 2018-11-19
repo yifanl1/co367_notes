@@ -1386,24 +1386,24 @@ defn Constrained Local Minimizer
 =LEC24= 2018-11-07
   
  KKT conditions at y feasible for (NLP):
-  Consider the system (1)
+  Consider the system
   For all d s.t. 
    d~∇gᵢ(y) ≤ 0, i = 1, ..., m: gᵢ(y) = 0
    d~∇hⱼ(y) = 0, j = 1, ..., p
-  This implies d~∇f(y) ≥ 0
+  then d~∇f(y) ≥ 0
 
-  Consider the system (2)
+  Consider the system (1)
    -∇gᵢ(y)~d ≥ 0, i ∈ [1, 2, ..., p] gᵢ(y) = 0 
    ∇hⱼ(y)~d  = 0, j ∈ [1, 2, ..., p]
    ∇f(y)~d < 0
 
-  By Farka's Lemma, this is infeasible iff ∃λᵢ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
+  By Farka's Lemma, (1) is infeasible iff ∃λᵢ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
    -∑λᵢ∇gᵢ(y)     + ∑μ∇hⱼ(y) = ∇f(y)
-    i: gᵢ(x) = 0        
+    i: gᵢ(y) = 0        
 
  Thm:
   Given (NLP), a feasible point y is a KKT point iff ∃λ ∈ Rᵐ, λ ≥ 0, μ ∈ Rᵖ:
-   -∑λᵢ∇gᵢ(y) + ∑μ∇hᵢ(y) = ∇f(y)                # differs from previous expression, first sum is now over all i's
+   -∑λᵢ∇gᵢ(y) + ∑μ∇hᵢ(y) = ∇f(y)          # differs from above expression, first sum now over all i's
    λᵢgᵢ(y) = 0
 
   Example
