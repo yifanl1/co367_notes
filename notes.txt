@@ -1743,7 +1743,7 @@ defn Constrained Local Minimizer
   -∑λᵢ⁻(-eᵢ) - ∑λᵢ⁺(eᵢ) = 2(x - z)
   λ⁻ - λ⁺ = 2(x - z), where λᵢ⁻, λᵢ⁺ ≥ 0 for all i.
 
- Complementary:
+ Complementary slackness:
   (xᵢ - lᵢ)λᵢ⁻ = 0
   (xᵢ - uᵢ)λᵢ⁺ = 0
 
@@ -1764,21 +1764,21 @@ defn Constrained Local Minimizer
 
 _CH9-Algorithms for Constrained Optimization_
 
- A) Equality-constrained Optimization
-  min{f(x): hⱼ(x) = 0, j = 1..p}
+A) Equality-constrained Optimization
+ min{f(x): hⱼ(x) = 0, j = 1..p}
 
-  Quadratic Penalty Method:
-   #notation: p and ρ(rho) are not the same
+ Quadratic Penalty Method:
+  #notation: p and ρ(rho) are not the same
 
-   Choose an arbitrary starting point x⁰, ρ > 0
-   for k = 0, 1,..:
-    xᵏ⁺¹ = argmin{g_ρ(x)}        #g_ρ(x) = f(x) + ρ∑hᵢ(x)², i = 1..p
-    initialize unconstrained method at xᵏ
-    ρ = cρ, where c > 1
+  Choose an arbitrary starting point x⁰, ρ > 0
+  for k = 0, 1,..:
+   xᵏ⁺¹ = argmin{g_ρ(x)}        #g_ρ(x) = f(x) + ρ∑hᵢ(x)², i = 1..p
+   initialize unconstrained method at xᵏ
+   ρ = cρ, where c > 1
 
-  Why do we run the algorithm at all, just set ρ to be sufficiently large!
-   unconstrained algorithms do not give an exact x*, they only converge towards it
-   we don't want ρ to be in the same order as 1/ε
+ Why do we run the algorithm at all, just set ρ to be sufficiently large!
+  unconstrained algorithms do not give an exact x*, they only converge towards it
+  we don't want ρ to be in the same order as 1/ε
 
  Thm:
   Let f, hⱼ ∈ C¹(Rⁿ), j = 1..p
@@ -1788,3 +1788,81 @@ _CH9-Algorithms for Constrained Optimization_
   then either
   a) ∇g(x*) = 0, and g(x*) > 0 OR
   b) x* is a KKT point
+
+=LEC28= 2018-11-21
+ Quadratic penalty method
+  g_ρ(x) = f(x) + ρ∑[hⱼ(x)]², j = 1..p
+
+  Drawbacks: 
+   For a large ρ, the unconstrained problem is bad numerically.
+   By design, ρ has to be large, as when hⱼ(xᵏ) ≈ 0, ∇[hⱼ(x)]² becomes small.
+
+ Exact penalty method
+  g_ρ(x) = f(x) + ρ∑|hⱼ(x)|, j = 1..p
+
+  Advantage:
+   When hⱼ(xᵏ) ≈ 0, ∇[|hⱼ(xᵏ)|] is constant
+   drawback: |hⱼ(x)| is not differentiable.
+
+ Augmented Lagrangian penalty method
+  Lagrangian relaxtion: L(x, μ) = f(x) - ∑μⱼ*hⱼ(x), j = 1..p
+
+  Thm:
+   #notation: using y and μ* instead of x̅ and μ̅
+   KKT points y of (NLP) with multipliers μ* coincide with stationary points (y, μ*) of L
+
+   pf: KKT conditions for (NLP)
+    feasbility:
+     hⱼ(x) = 0, ∀j = 1..p
+    gradient equation:
+     ∃μ: ∑μⱼ∇hⱼ(y) = ∇f(y)
+    Stationary point of L: 
+     ∇L(y, μ*) = 0
+     = [∇_x L(y, μ*)
+        ∇_μ L(y, μ*)]
+     = [∇f(y) - ∑μⱼ∇hⱼ(y)
+        h₁(y)
+        ...
+        hₚ(y)]
+     = 0
+   
+  remarks: 
+   y is a KKT point for (NLP) iff ∃μ*: ∇L(y, μ*) = 0
+   Important: The above does not imply that (y, μ*) is a local minimizer for L.
+   However, for any KKT point y, ∃μ*: y is a local minimizer for min{L(y, μ): μ = μ*}
+  
+  Finding μ* by Augmented Lagrangian method
+   Choose x⁰, μ⁰, ρ > 0
+   for k = 0, 1, ...:
+    xᵏ⁺¹ = argmin{L_A(x, μᵏ)} #  argmin of x
+    where L_A(x, μ) = f(x) - ∑μⱼ*hⱼ(x) + ρ[∑[hⱼ(x)²]]
+     (initialized at xᵏ)
+    μᵏ⁺¹ⱼ = μᵏⱼ - 2ρhⱼ(xᵏ⁺¹)      [*]
+    ρ = C*ρ
+
+  Why [*]:
+   At xᵏ⁺¹: 
+   ∇_x L_A(xᵏ⁺¹, μᵏ) = 0
+   = ∇f(xᵏ⁺¹) - ∑μⱼ*∇hⱼ(xᵏ⁺¹) + 2ρ∑hⱼ(xᵏ⁺¹)*∇hⱼ(xᵏ⁺¹)
+   Thus, ∇f(xᵏ⁺¹) = ∑([μᵏⱼ - 2ρhⱼ(xᵏ⁺¹)]∇hⱼ(xᵏ⁺¹))
+  setting μᵏ⁺¹ⱼ to [μᵏⱼ - 2ρhⱼ(xᵏ⁺¹)] lets us satisfy the gradient equation at xᵏ⁺¹
+
+  Keep in mind we are still missing feasibility of xᵏ⁺¹, so xᵏ⁺¹ is not necessarily KKT.
+
+  Advantages of Augmented Lagarangian:
+   L_A(x, μ) is differentiable
+   in practice, will usually converge before ρ grows too large
+
+B) Inequality constrained optimization
+ Focus on the closed convex cone
+
+ defn Closed Convex Cone
+  K is a closed convex cone if it is closed, convex, nontempty and x ∈ K, λ ≥ 0 ⟹ (λx) ∈ K
+
+ The three most important cones are 
+  The nonnegative orthant
+   Rⁿ₊ = {x ∈ Rⁿ, x ≥ 0}
+  The second order cone
+   Cⁿ⁺¹₂ = {(y, x) ∈ R x Rⁿ: y ≥ ‖x‖₂}
+  The semidefinite cone
+   Sⁿ₊ = {X ∈ Rⁿˣⁿ: X is psd}
