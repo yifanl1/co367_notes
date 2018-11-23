@@ -1866,3 +1866,68 @@ B) Inequality constrained optimization
    Cⁿ⁺¹₂ = {(y, x) ∈ R x Rⁿ: y ≥ ‖x‖₂}
   The semidefinite cone
    Sⁿ₊ = {X ∈ Rⁿˣⁿ: X is psd}
+
+=LEC29= 2018-11-23
+ Recall the cones from previous lecture (seen above)
+
+ Conic programming
+  min c~x
+  s.t. Ax = b
+        x ∈ K, where K is some closed convex cone
+
+ defn int(K)
+  int(K) = {x ∈ K: ∃δ > 0: B_δ(x) ⊆ K}
+ 
+ defn boundary(K)
+  boundary(K) = K \ int(K)
+
+ defn Barrier Function
+  A barrier function is a convex function Φ: int(K) → R, where
+   lim x→b Φ(x) = +∞ ∀b ∈ boundary(K)
+ 
+ The standard barrier functions:
+  Rⁿ₊: Φ(x) = -∑ log(xᵢ)
+  Cⁿ⁺¹₂: Φ(x) = -log[y² - ‖x‖₂²]
+  Sⁿ₊: Φ(X) = -log[det X]
+
+ primal interior point method
+  Choose x⁰ ∈ int(K): Ax⁰ = b, and a ρ⁰ > 0
+  
+  For k = 0, 1, ...:
+   xᵏ⁺¹ = argmin{g_ρ(x): Ax = b} [*]
+   where g_ρ(x) = c~x + ρᵏΦ(x), initialized at xᵏ
+   ρᵏ⁺¹ = c*ρᵏ, where c < 1 (decreaasing ρ)
+ 
+ The LP Case(K = Rⁿ₊)
+  We take a quadratic approximation of g_ρ(x) for [*] at xᵏ
+   g_ρ(x) = c~x + ρᵏΦ(x)
+   = c~xᵏ + ρᵏΦ(xᵏ) + ρᵏ(x - xᵏ)~∇Φ(xᵏ) + ρᵏ/2 * (x - xᵏ)~∇²Φ(xᵏ)(x - xᵏ)
+  letting h = x - xᵏ, [*] is now 
+   min c~xᵏ + c~h + ρᵏΦ(xᵏ) + ρᵏh~Φ(xᵏ) + ρᵏ/2 * h~Φ(xᵏ)h
+   s.t. A(xᵏ + h) = b
+    Φ(x) = -∑ log(xᵢ)
+    ∇Φ(x) = [-1/x₁
+             ...
+             -1/xₙ]
+    ∇²Φ(x) = diag(1/x₁², ..., 1/xₙ²)
+
+  so, min(c - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~)~h + ρᵏ/2 h~diag(1/xᵏ₁², ..., 1/xᵏₙ²)h
+  s.t. Ah = b - Axᵏ = 0, as xᵏ satisfies Axᵏ = b
+
+  KKT conditions:
+   gradient eq ∑μᵢ∇γ(x) = ∇f(h)
+   feasibility: Ah = 0
+
+  A~μ = c - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~ + ρᵏdiag(1/xᵏ₁², ..., 1/xᵏₙ²)h
+  Ah = 0
+
+  In matrix form
+  [-ρᵏdiag(...) A~ [h    = [c - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~
+   A            0]  μ]      0]
+  Easy to solve this numerically
+
+  Thm
+   For Rⁿ₊, Cⁿ⁺¹₂, Sⁿ₊, the primal interior point method satisfies 
+    ‖xᵏ - x*‖ ≤ ε 
+   after k = p(E, ε) iterations, where p is a polynomial and E is the encoding size of the problem
+   Therefore, it's a poly-time algorithm
