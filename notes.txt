@@ -1931,3 +1931,113 @@ B) Inequality constrained optimization
     ‖xᵏ - x*‖ ≤ ε 
    after k = p(E, ε) iterations, where p is a polynomial and E is the encoding size of the problem
    Therefore, it's a poly-time algorithm
+
+=LEC30= 2018-11-26
+ Given p closed convex cones K₁, ..., Kₚ, we have that K₁ x K₂ x ... x Kₚ = K is also a convex cone.
+ In practice, we can solve
+  min c~x
+  Ax = b
+  x ∈ K
+
+ Example: Euclidean facility location problem
+  Given b₁, ..., bₖ ∈ Rⁿ, find x ∈ Rⁿ find x ∈ Rⁿ that minimizes ∑‖bᵢ - x‖₂
+   #notation: bᵢ does not mean the ith element of vector b, each is a distinct vector
+
+  This problem is non-differentiable, and f(x) = ∑‖bᵢ - x‖₂ are not Lipschitz-continuous
+  Reformulating
+   min ∑tᵢ
+   tᵢ ≥ ‖bᵢ - x‖₂, for i = 1..k     (tᵢ, bᵢ - x) ∈ Cⁿ⁺¹₂
+
+  Reformulating again
+   min ∑tᵢ
+   tᵢ ≥ ‖yᵢ‖₂     i = 1..k          (tᵢ, y) ∈ Cⁿ⁺¹₂
+   yᵢ = bᵢ - x   i = 1..k
+
+  Once again
+   min ∑tᵢ
+   μ ≥ ‖x‖₂
+   tᵢ ≥ ‖yᵢ‖₂
+   yᵢ = bᵢ - x 
+
+  Finally
+   min 1~t
+   (μ, x, t₁, y₁, t₂, y₂, ..., tₖ, yₖ) ∈ Cⁿ⁺¹₂ x Cⁿ⁺¹₂ x Cⁿ⁺¹₂ x ... x Cⁿ⁺¹₂
+   yᵢ = bᵢ - x
+
+ defn Dual Cone
+  the dual cone of a closed convex cone K ⊆ Rⁿ is
+   K* = {s ∈ Rⁿ: s~x ≥ 0, ∀x ∈ K}
+
+ Thm
+  a. K* is a closed convex cone
+  b. K** = K
+  c. (Rⁿ₊)* = Rⁿ₊, (Cⁿ⁺¹₂)* = Cⁿ⁺¹₂, (Sⁿ₊)* = Sⁿ₊, these cones are self-dual
+
+ primal (P)          dual (D)
+  min c~x             max b~y
+  Ax = b              c - A~y ∈ K
+  x ∈ K
+
+ Thm [weak duality]
+  If x is feasible for (P) and y is feasible for (D), then c~x ≥ b~y
+
+  pf:
+   Let s = c - A~y ∈ K*, then clearly c = A~y + s
+   c~x 
+   = (A~y + s)~x
+   = y~Ax + s~x
+   = y~b + s~x
+   ≥ y~b 
+   = b~y
+
+   Note that s~x ≥ 0, by definition of the dual cone.
+
+ Thm [strong duality]
+  If (P) has a Slater point, i.e. ∃x ∈ int(K): Ax = b
+  and x* is optimal for (P) then ∃y* optimal for (D) where c~x* = b~y*
+
+ Recall that at each iteration, we solve min{g_ρ(x): Ax = b}, where g_ρ = f(x) + ρϕ(x)
+ Solutions to this problem for fixed ρ are central points
+  Together, taking all ρ > 0, they create the central path.
+ 
+ In the case of LP, (K = Rⁿ₊), g_ρ = f(x) - ρ∑log(xᵢ), and we can assume that there is a Slater point for any nontrivial case, so KKT conditions are sufficient for global optimality.
+
+ KKT conditions:
+  A~μ = ∇g_ρ(x)
+  Ax = b
+ reformulated as 
+  A~μ = ∇f(x) + ρ[-1/x₁, ..., -1/xₙ]~
+  Ax = b
+
+ Dual LP
+  max b~y
+  A~y ≤ c
+ equivalent to
+  -min -b~y
+  A~y + s = c
+  s ≥ 0
+ Adding a barrier:
+  -min -b~y -ρ∑log(sᵢ)      #denote this as F(y, s)
+  A~y + s = c
+
+ KKT conditions for modified dual
+  [A, I]~γ = [∇_yF(y, s), ∇_sF(y, s)]~ = [-b₁, ..., -bₙ, -ρ/s₁, ..., -ρ/sₙ]~
+  A~y + s = c
+ reformulated
+  Aγ = -b
+  γ = [-ρ/s₁, ..., -ρ/sₙ]~
+  A~y + s = c
+
+ By identifying μ = y and γ = -x, we get 
+  A~y = c + ρ[-1/x₁, ..., -1/xₙ]~
+  Ax = b
+  Ax = b
+  γ = [-ρ/s₁, ..., -ρ/sₙ]~
+  A~y + s = c ⟹ s = ρ[-1/x₁, ..., -1/xₙ]
+
+ primal-dual interior point method
+ Solve the system 
+  A~x = b
+  A~y + s = c
+  xᵢsᵢ = ρ ∀i = 1..n
+ using Newton's method (variant)
