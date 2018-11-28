@@ -2041,3 +2041,70 @@ B) Inequality constrained optimization
   A~y + s = c
   xᵢsᵢ = ρ ∀i = 1..n
  using Newton's method (variant)
+
+=LEC31= 2018-11-28
+ Identifying structure in data
+
+ Classification/Labelling problem
+  We are given N input vectors in [0, 1]ⁿ that are already labelled into categories (the "training set")
+  Can an algorithm assign "good" labels to more vectors?
+
+ Neural Networks (NN)
+  A trained NN provides a function F: Rⁿ → Rᵏ
+  If x ∈ Rⁿ is an input vector, j* = argmax j: {F(x)}ⱼ
+  
+  1. Given NN, how is F(x) computed?
+  2. How to get a NN that is a good classifier?
+
+ For a single neuron:
+  output = σ₁ (a linear combination of inputs)
+  Typical choices for σ₁(x): R → R
+   sigmoid function, σ₁(x) = 1/(1+e^(-x))
+   rectified linear unit(ReLU): σ₁(x) = 0, x ≤ 0
+                                        x, x > 0
+
+  examples: σ₁(1x + 0), normal sigmoid function
+            σ₁(3x + 15), shifts the 1/2 point to x = 5, transition is much sharper
+
+ defn Weight, Bias
+  in σ₁(w~x + b₁), w ∈ R^k_l is the weight and b ∈ R₁ is the bias
+
+ For a layer of neurons:
+  All k_l neurons in layer l have the same inputs x ∈ R^n_l
+  Together, their output is in R^k_l
+  The output of a layer l is σ(Wx + b)
+  W ∈ R^k_l*n_l, b ∈ R^k_l
+  We defined σ: R^k_l → R^k_l as σ(x) = [σ₁(x₁), ..., σ_k_l(x_k_l)]~
+
+ For a NN: 
+  x₁   *   *    * = F₁(x)
+           *
+  x₂   *   *    * = F₂(x)
+l=1    2   3    4
+ 
+ #Each node is sent as input to every node on next layer
+
+output
+ l=1 x
+ l=2 σ(W²x + b²)
+ l=3 σ(W³σ(W²x = b²) + b³)
+ l=4 σ(W⁴σ(W³σ(W²x = b²) + b³) + b⁴) = F(x)
+
+ A deep NN means the number of layers L is large
+ A hidden layer is a layer l with l ≠ 1, l ≠ L
+
+ defn Training
+  Training is the process of finding Wˡ, bˡ for l = 2, ..., L that give a "good" classifier
+ defn Cost Function
+  A cost function is a function fo the weights and biases that has a "low" value when the NN gives a "good" classification of the training data
+
+ Typical cost function:
+  cost(W², ..., Wᴸ, b², ..., bᴸ) = 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂
+  y(xʲ) is e_C if xʲ is labeled to category C
+  Training: min 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂, minimizing Wˡ, bˡ
+
+ Try Gradient Descent for NN
+  Define the parameter vector p ∈ Rᴾ
+  Typically, no line search
+  Fix a constant step size η, called the learning rate
+  η is one of many "hyperparameters": a constant chosen heuristically because they work
