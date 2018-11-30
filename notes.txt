@@ -1542,10 +1542,10 @@ defn Constrained Local Minimizer
  defn Constraint Qualification
   A constraint qualification (CQ) is a condition on the feasible set of NLP s.t. T_Ω(x) = L_NLP(x)
 
- Thm: Let x ∈ , then T_Ω(x) ⊆ L_NLP(x)
+ Thm: Let x ∈ Ω, then T_Ω(x) ⊆ L_NLP(x)
   pf:
    Let x ∈ Ω and let d ∈ T_Ω(x)
-   There exists c > 0 and Φ: [0, c] s.t. 
+   There exists c > 0 and Φ: [0, c] s.t.
     Φ(0) = x
     Φ is C⁰ smooth and Φ'(0) = d
     Φ(t) ∈ Ω ∀t ∈ [0, c]
@@ -2101,10 +2101,102 @@ output
  Typical cost function:
   cost(W², ..., Wᴸ, b², ..., bᴸ) = 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂
   y(xʲ) is e_C if xʲ is labeled to category C
-  Training: min 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂, minimizing Wˡ, bˡ
+  Training: min 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂, minimizing Wʲ, bʲ for all j = 2..L
 
  Try Gradient Descent for NN
   Define the parameter vector p ∈ Rᴾ
   Typically, no line search
   Fix a constant step size η, called the learning rate
   η is one of many "hyperparameters": a constant chosen heuristically because they work
+
+=LEC32= 2018-11-30
+ min 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂, minimizing W², b², ..., Wᴸ, bᴸ
+
+ gradient
+  1/N ∑∇(1/2‖y(xʲ) - F(xʲ‖²), j = 1..N
+
+ Note that N is relatively large.
+
+ Stochastic gradient descent
+  1/|S| ∑∇(1/2‖y(xʲ) - F(xʲ‖²), summing over all j ∈ S and S ⊆ {1, ..., N}
+
+ Single-sample(|S| = 1) or mini-batch (|S| > 1)
+ Done either with repetitions (at each iteration, choose a random S)
+ OR without repetitions ({1, ..., N} is partitioned into disjoint subsets and iterations cycle these subsets)
+
+ Backpropagation
+  for a given j ∈ {1, ..., N}, computer
+  δ/δwˡᵢₖ 1/2‖y(xʲ) - F(xʲ)‖², for all l, i, k
+  δ/δbˡᵢₖ 1/2‖y(xʲ) - F(xʲ)‖², for all l, i, k
+
+  denote y = y(xʲ), 
+  aˡ = output of layer l, 
+  zˡ = Wˡaˡ⁻¹ + bˡ # weighted input of layer l
+  thus, aˡ = σ(zˡ)
+
+  define δˡᵢ = δ/δzˡᵢ 1/2‖y - aᴸ‖²      #superset is l, not 1
+
+ Lemma 1
+  δᴸᵢ = σ'(2ᴸᵢ) * (aᴸᵢ - yᵢ)             #derivative of σ
+  pf
+   δᴸᵢ
+   = δ/δzᴸᵢ 1/2‖y - aᴸ‖²
+   = δ/δaᴸᵢ 1/2‖y - aᴸ‖² δaᴸᵢ/δzᴸᵢ
+   
+   δ/δaᵢᴸ 1/2‖y - aᴸ‖²
+   = δ/δaᵢᴸ 1/2 ∑(yₖ - aᴸₖ)²
+   = ∑δ/δaᴸᵢ 1/2(yₖ - aᴸₖ)²
+   = (-1)(yᵢ - aᴸᵢ)
+   = (aᴸᵢ - yᵢ)
+
+   aᴸᵢ = σ(zᴸᵢ)
+   δaᴸᵢ/δzᴸᵢ = σ'(zᴸᵢ)
+
+   δᴸᵢ = (aᴸᵢ - yᵢ)σ'(zᴸᵢ)
+
+ Lemma 2
+  δˡᵢ = σ'(zᵢˡ)*[(wˡ⁺¹)~δˡ⁺¹]ᵢ
+  pf
+   δˡᵢ 
+   = δ/δzˡᵢ 1/2 ‖y - aᴸ‖²
+   = ∑δ/δzˡᵢ 1/2 ‖yₖ - aᴸₖ‖²
+   = ∑δ/δzˡ⁺¹ₖ 1/2 ‖yₖ - aᴸₖ‖² δzˡ⁺¹ₖ/δzˡᵢ
+
+   zˡ⁺¹ₖ = ∑wⁱ⁺¹ₖₛσ(zˡₛ) + bˡ⁺¹ₖ
+   δzˡ⁺¹ₖ/δzˡᵢ = Wˡ⁺¹ₖᵢ σ'(zˡᵢ)
+
+   δˡᵢ
+   = ∑δˡ⁺¹ₖWˡ⁺¹ₖ*σ'(z'ˡᵢ)
+ 
+ Lemma 3
+  δ/δbˡᵢ 1/2‖y - aᴸ‖² = δˡᵢ
+  pf
+   δ/δbˡᵢ 1/2‖y - aᴸ‖²
+   = δ/δzˡᵢ 1/2‖y - aᴸ‖² δzˡᵢ/δbˡᵢ
+
+   # by definition, δ/δzˡᵢ 1/2‖y - aᴸ‖² = δˡᵢ
+
+   zˡᵢ = (Wˡσ(zˡ⁻¹))ᵢ + bˡᵢ
+   δzˡᵢ/δbˡᵢ = 1
+
+   δ/δbˡᵢ 1/2‖y - aᴸ‖² = δˡᵢ * 1, as required
+
+ Lemma 4
+  δ/δwₛₖ 1/2‖y - aᴸ‖² = δˡₛ*aˡ⁻¹ₖ
+  pf
+   δ/δwₛₖ 1/2‖y - aᴸ‖²
+   = ∑δ/δwₛₖ 1/2‖yᵢ - aᴸᵢ‖²
+   = ∑δ/δzˡᵢ 1/2‖yᵢ - aᴸᵢ‖² δzˡᵢ/δwₛₖ
+
+   zˡᵢ = (Wˡσ(zˡ⁻¹))ᵢ + bˡᵢ
+   = ∑wˡᵢₖσ(zˡ⁻¹) + bˡᵢ
+   = ∑wˡᵢₖaˡ⁻¹ₖ + bˡᵢ
+   so δzˡᵢ/δwₛₕ = 0 ∀s ≠ i, and δzˡᵢ/δwᵢₕ = aˡ⁻¹ₕ
+
+   δ/δwₛₖ 1/2‖y - aᴸ‖² = δˡₛ*aˡ⁻¹ₖ, as required
+
+ In summary
+  δᴸᵢ = σ'(zᴸᵢ)*(aᴸᵢ - yᵢ)
+  δˡᵢ = σ'(zᴸᵢ)*((Wˡ⁺¹)~ δˡ⁺¹)ᵢ, ∀l = L-1, L-2, ..., 2
+  δ/δbᵢ ‖y - aᴸ‖²= δˡᵢ
+  δ/δwₛₖ ‖y - aᴸ‖²= δˡₛ*aˡ⁻¹ₖ
