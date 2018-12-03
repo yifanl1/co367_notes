@@ -1922,7 +1922,11 @@ B) Inequality constrained optimization
   Ah = 0
 
   In matrix form
-  [-ρᵏdiag(...) A~ [h    = [c - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~
+  # notation:
+  # [...  indicates a multirow matrix with all elements within the left and right brackets as members
+  #  ***]                             
+
+  [-ρᵏdiag(...) A~ [h    = [c  - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~
    A            0]  μ]      0]
   Easy to solve this numerically
 
