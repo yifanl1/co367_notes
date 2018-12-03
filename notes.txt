@@ -2204,3 +2204,35 @@ output
   δˡᵢ = σ'(zᴸᵢ)*((Wˡ⁺¹)~ δˡ⁺¹)ᵢ, ∀l = L-1, L-2, ..., 2
   δ/δbᵢ ‖y - aᴸ‖²= δˡᵢ
   δ/δwₛₖ ‖y - aᴸ‖²= δˡₛ*aˡ⁻¹ₖ
+
+=LEC33= 2018-12-03
+Assignment hints
+ Try KKT conditions!
+ q3 is similar to facility location example
+
+Do the practice final
+Review proofs
+
+Course Summary
+ Chapter 1: psd/pd matrices
+ Chapter 2: convexity, strong convexity
+ Chapter 3: constraint optimization
+  ∇f(x*) = 0, ∇²f(x*) pd ⟹ x* is strict local minimizer ⟹ x* is local minimizer ⟹ ∇²f(x*) is psd
+  show a function is coercive
+ Chapter 4: quadratic optimization
+  newton's method
+ Chapter 5: least squares
+  direct application of Ch4
+ Chapter 6: descent algorithms
+  opposite of gradient = steepest direction
+  newton's method convergence
+ Chapter 7: trust region methods
+  trust region subproblem
+ Chapter 8: constrained optimization
+  KKT conditions
+  conic optimization, look for dual
+ Chapter 9: neural networks
+  no proofs on final
+  maybe some T/F
+
+Final on 14th
