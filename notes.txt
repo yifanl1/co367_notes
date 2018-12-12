@@ -133,7 +133,7 @@ _CH1-Linear Algebra_
   A norm ‖.‖ on Rⁿ assigns a scalar ‖x‖ to every x ∈ Rⁿ s.t.
    1) ‖x‖ ≥ 0, ∀x ∈ Rⁿ
    2) ‖cx‖ = |c|‖x‖, ∀c ∈ R, ∀x ∈ Rⁿ
-   3) ‖x‖ = 0 ⇔ x = 0 
+   3) ‖x‖ = 0 ⟺ x = 0 
    4) ‖x + y‖ ≤ ‖x‖ + ‖y‖ ∀x, y ∈ Rⁿ
 
   Lᵏ norm ‖x‖ₖ = (∑(x_i)ᵏ)^1/k 
@@ -219,7 +219,7 @@ _CH1-Linear Algebra_
    Let A ∈ Rⁿˣⁿ be a symmetric matrix, then ‖A‖₂ = ρ(A)
 
    pf: 
-    from before, ρ(A) ≤ ‖Aᵏ‖^1\k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
+    from before, ρ(A) ≤ ‖Aᵏ‖^1/k, in particular, ρ(A) ≤ ‖A^1‖₂^1/1 = ‖A‖₂
     Now, need to prove ρ(A) ≥ ‖A‖₂
     As the eigenvectors xᵢ, i = 1...n of C are mutually orthogonal
     we can write any y ∈ Rⁿ as y = ∑ βᵢxᵢ, i=1...n, for some βᵢ ∈ R
@@ -313,10 +313,10 @@ _CH1-Linear Algebra_
      for any x ∈ Rⁿ, x~(A~A)x = (Ax)~(Ax) = ‖Ax‖₂² ≥ 0
     A~A is pd iff rank(A) = n:
      x~A~Ax > 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ ‖Ax‖₂² > 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ ‖Ax‖₂ > 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ Ax ≠ 0 ∀x ∈ Rⁿ, x ≠ 0
-     ⇔ rank(A) = n            by fundamental theory of linear algebra
+     ⟺ ‖Ax‖₂² > 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⟺ ‖Ax‖₂ > 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⟺ Ax ≠ 0 ∀x ∈ Rⁿ, x ≠ 0
+     ⟺ rank(A) = n            by fundamental theory of linear algebra
 
   Corollary:
    If A ∈ Rⁿˣⁿ is square, A~A is pd iff A is nonsingular
@@ -920,10 +920,10 @@ Line Search
     Ψ(α) = Ψ(0) + αΨ'(0) + ϕ(α)
    For α sufficiently small, 
     |ϕ(α)| ≤ α|1/2Ψ'(0)|
-    ϕ(α) ≤ -αΨ'(0)/2, therefore Ψ(α) ≤ Ψ(0) + αψ'(0)/2, exactly the sufficient decrease condition
+    ϕ(α) ≤ -αΨ'(0)/2, therefore Ψ(α) ≤ Ψ(0) + αΨ'(0)/2, exactly the sufficient decrease condition
 
    If the second loop terminates, α satisfies curvature condition, and α/2 does not, so α satisfies sufficient decrease
-   If second loop does not terminate, Ψ(2ʲ) ≤ Ψ(0) + 2ʲσψ'(0), ∀j ∈ Z, j ≥ 0
+   If second loop does not terminate, Ψ(2ʲ) ≤ Ψ(0) + 2ʲσΨ'(0), ∀j ∈ Z, j ≥ 0
    Thus, Ψ(2ʲ) → -∞ for j → +∞
 
    If neither loop occurs, then α = 1 satisfies both conditions.
@@ -931,7 +931,7 @@ Line Search
  defn Lipschitz Continuous
   A function f: Rⁿ → R is Lipschitz continuous with constant L if
    |f(y) - f(x)| ≤ ‖y - x‖L ∀x, y ∈ Rⁿ
-  Note that this does not apply C⁰ continuous.
+  Note that this does not necessarily ensure f is C⁰ continuous.
 
  Thm
   Let f ∈ C¹(B_δ(0))
@@ -974,7 +974,7 @@ Line Search
     ∇f(xᵏ + γpᵏ)~pᵏ ≤ ∇f(xᵏ)~pᵏ + Lγ‖pᵏ‖²  (3)
 
    C)
-    By (1) and (2)
+    By (2) and (3)
     ∇f(xᵏ)~pᵏ + Lγ‖pᵏ‖² > σ∇f(xᵏ)~pᵏ
     Lγ‖pᵏ‖² > (σ-1)∇f(xᵏ)~pᵏ = (σ-1)Ψ'(0) = (1 - σ)(-Ψ'(0))
     γ = (1 - σ)(-Ψ'(0)) / L‖pᵏ‖²
@@ -1048,8 +1048,8 @@ Convergence of Descent Algorithms
     f(xᵏ⁺¹) ≤ f(xᵏ) - σ(1-σ)/2L ‖∇f(xᵏ)‖² 
     f(xᵏ⁺¹) - f(x*) ≤ f(xᵏ) - f(x*) - σ(1-σ)/2L ‖∇f(xᵏ)‖² 
    By Lemma
-    ‖f(xᵏ⁺¹) - f(x*)‖₂² ≥ c|f(xᵏ) - f(x*)|
-    ‖f(xᵏ⁺¹)‖² ≥ c(f(xᵏ) - f(x*)), as ∇f(x*) = 0
+    ‖∇f(xᵏ⁺¹) - ∇f(x*)‖₂² ≥ c|f(xᵏ) - f(x*)|
+    ‖∇f(xᵏ⁺¹)‖² ≥ c(f(xᵏ) - f(x*)), as ∇f(x*) = 0
 
    so
     f(xᵏ⁺¹) - f(x*) 
@@ -1069,12 +1069,12 @@ Convergence of Descent Algorithms
   The Newton step is given by taking pᵏ = -[∇²f(xᵏ)]`∇f(xᵏ), only when ∇²f(xᵏ) is pd
 
 =LEC19= 2018-10-26
- Notation: f` = inverse of f
+ #notation: A` = inverse of A
 
  According to Newton's method, xᵏ⁺¹ = xᵏ - ∇f(xᵏ)/∇²f(xᵏ)
 
  Lemma: Let F: Rⁿ → Rᵐˣᵐ be continuous over B_r(x⁰) for some x⁰ ∈ Rⁿ, s.t. F(x⁰) is nonsingular
-  Then there exists x¹ > 0 s.t. F(x) is invertible for all x ∈ B_r(x⁰) and F(x)` is continuous over B_r(x⁰)
+  Then there exists x > 0 s.t. F(x) is invertible for all x ∈ B_r(x⁰) and F(x)` is continuous over B_r(x⁰)
 
   pf: 
    Given A ∈ Rᵐˣᵐ, det(A) is a polynomial in A₁₁, ... Aₘₘ, the entries of A.
@@ -1116,3 +1116,1123 @@ Convergence of Descent Algorithms
    So, ‖∇²f(x*)`‖ ≤ 1/2Lr
    So, ‖xᵏ⁺¹ - x*‖ ≤ 1/2r ‖xᵏ - x*‖², thus convergence, if it exists, is quadratic.
    Since ‖xᵏ - x*‖ ≤ r, we have ‖xᵏ⁺¹ - x*‖ ≤ 1/2‖xᵏ - x*‖, so convergence exists.
+
+=LEC20= 2018-10-29
+_CH7-Trust Region Methods_
+Algorithm:
+ Choose starting point x⁰ arbitrarily
+ let δ⁰ = 1
+ for k = 0, 1, ...
+  Le q(x) be a quadratic approximation of f that is accurate around xᵏ
+  TEST(x) = arg min x{q(x): ‖x - xᵏ‖ ≤ δᵏ}
+  ρ = f(xᵏ) - f(TEST(x))/q(xᵏ) - q(TEST(x))
+
+  if ρ ≥ 1/δᵏ:
+   xᵏ⁺¹ = TEST(x)
+  else:
+   xᵏ⁺¹ = xᵏ
+
+  if ρ ≤ 1/4:
+   δᵏ⁺¹ = δᵏ/2
+  else if ρ ≥ 3/4 and ‖TEST(x)-xᵏ‖ = δᵏ
+   δᵏ⁺¹ = 2δᵏ
+  else:
+   δᵏ⁺¹ = δᵏ
+
+ There are other possible choices, but we consider 
+  q(x) = f(xᵏ) + (x - xᵏ)~∇f(xᵏ) + 1/2(x - xᵏ)~∇²f(xᵏ)(x - xᵏ)
+ ρ is the ratio Δf/Δq from xᵏ to TEST(x)
+ The decrease in q is ≥ 0, since q(xᵏ) is considered in the argmin.
+ If TEST(x) = xᵏ, then 2nd order sufficient conditions are satisfied, so STOP
+ δᵏ is the trust region radius
+ We consider that q is a good approximation of f in B_δᵏ(xᵏ), If ρ is small, then approximation is bad, so we decrease δᵏ
+
+ Thm
+  Let f∈ C²(Rⁿ) and assume that ∇²f is Lipschitz continuous in a ball that contains the level set of x⁰.
+  Then, for the trust region method,
+   1. either f(xᵏ) → -∞ or ∇f(xᵏ) → 0
+   2. if xᵏ → x*, then x* satisfies 1st and 2nd order necessary conditions for local optimality
+   3. if xᵏ → x* and x* satisfies the 2nd order sufficient conditions for local optimality,
+      then for sufficiently large k, ‖TEST(x) - xᵏ‖ < δᵏ, each step is a newton step, so convergence is quadratic
+
+ The trust region subproblem (TRS)
+  arg min x{f(xᵏ) + (x - xᵏ)~∇f(xᵏ) + 1/2(x - xᵏ)~∇²f(xᵏ)(x - xᵏ): ‖x - xᵏ‖ ≤ δᵏ}
+  f(xᵏ) is constant, so can remove, doesn't affect arg min at all
+
+  For simplicity, let x̅ = (x - xᵏ)/δᵏ
+  We get 
+    argmin {x̅ ~. (δᵏ1/2∇²f(xᵏ)) . x̅ + (δᵏ∇f(xᵏ))~x̅ : ‖x̅ ‖ ≤ 1}
+  = argmin {x̅ ~ Ax̅ + b~x̅ : ‖x̅ ‖ ≤ 1}, where A = δᵏ1/2∇²f(xᵏ), b = δᵏ∇f(xᵏ)
+
+  To solve TRS?
+   min x~Ax + b~x: ‖x‖ = 1
+  If A is pd, then can compute x^ = -1/2A`b
+
+  Case 1: A is pd and ‖x^‖ ≤ 1
+   Then x^ is optimal, very easy case.
+
+  Case 2: A is not pd OR ‖x^‖ > 1
+
+=LEC21= 2018-10-31
+   Let x^(λ) = -1/2(A + λI)`b
+
+   x^(0) would be optimal in case 1
+   x^(λ) is a global minimizer for x~(A + λI)x + b~x
+   Let λ₁ ≤ ... ≤ λₙ be the eigenvalues of A, x^ is defined for all λ > -λ₁
+
+   Thm: ‖x^(λ₁)‖ is a decreasing function of λ over the interval (-λ, ∞), 
+    and further, lim λ → ∞ ‖x^(λ)‖ = 0
+    pf
+     Let A = QDQ~ where Q is orthogonal and D = diag(λ₁, ..., λₙ)
+     Observe that ∀z ∈ Rⁿ , ‖Qz‖ = ‖z‖ as ‖Qz‖² = (Qz)~(Qz) = z~Q~Qz = z~z = ‖z‖²
+
+     Therefore, 
+      x^(λ) 
+      = -1/2(QDQ~ + λI)`b
+      = -1/2(QDQ~ + λQIQ~)`b
+      = -1/2(Q(D+λI)Q~)`b
+      = -1/2 Q~`(D+λI)`Q`b
+      = -1/2 Q(D+λI)`Q~b
+ 
+      ‖x^(λ)‖
+      = 1/2‖Q(D+λI)`Q~b‖
+      = 1/2‖(D+λI)`Q~b‖      # by observation above
+      = 1/2‖(D+λI)`c‖        # c = Q~b
+      = 1/2√(∑cᵢ²/(λᵢ + λ)²)
+      = 1/2 ‖[c₁/(λ₁ + λ), ..., cₙ/(λₙ + λ)]~‖
+ 
+      notice that cᵢ is a nonnegative constant and 1/(λᵢ + λ) is decreasing for increasing λ, λ ≥ -λ₁
+      So, ‖x^(λ)‖ is a decreasing function
+      So, lim λ → ∞ ‖x^(λ)‖ = 0
+
+
+   Case 2A: c₁ ≠ 0, and λ₁ ≠ 0
+    c₁ = (Q~b)₁ = v₁~b, v₁ is the eigenvector of ∇²f(xᵏ) for λ₁
+    if c₁ ≠ 0, then ∇f(xᵏ) is not orthogonal to v₁
+
+    In this case, lim ‖x^(λ)‖ = ∞ as λ → -λ₁
+    Then, ∃λ* : ‖x^(λ*)‖ = 1
+
+   Lemma: If x^ is a global minimizer for TRS in case 2A, then ‖x^‖ = 1
+    pf: if ‖x^‖ < 1, then ∃B_δ(x^) ⊆ B₁(0)
+     since x^ is a global minimizer, it is also a local minimizer for x~Ax + b~x
+     If λ₁ < 0, A is not psd and x~Ax + b~x has no local minimizers
+     If λ₁ = 0, not allowed by hypothesis for case 2A
+     If λ₁ > 1, A is pd and x~Ax + b~x has a unique local + global minimizer, and by case 2 hypothesis ‖x^‖ > 1
+   
+   Thm: 
+    x^(λ*) is a global minimizer for TRS in case 2A.
+    pf
+     recall that x^(λ*) is a global minimizer for x~(A + λ*I)x + b~x
+     If we restrict ‖x‖ = 1,
+     x^(λ*) 
+     = argmin {x~(A + λ*I)x + b~x: ‖x‖ = 1}
+     = argmin {x~Ax + λ*x~x + b~x, ‖x‖ = 1}
+     = argmin {x~Ax + b~x}                  # x~x = 1, so constant λ* doesnt change the argmin
+
+   Case 2B: c₁ = 0 OR λ₁ = 0
+    Thm:
+     A global minimzer for TRS in case 2B is given by
+      x^ = ∑ v₁~b/(λᵢ - λ₁) + τv₁, for all i such that λᵢ ≠ λ₁,
+      ‖vᵢ‖ = 1, and τ is chosen such that ‖x^‖ = 1
+
+     pf: Nocedal-Wright, "the hard case"
+
+MIDTERM 2: Monday November 12th
+ASSIGNMENT 2: Due November 12th
+
+=LEC22= 2018-11-02
+_CH8-Optimality Conditions for Constrained Optimization_
+
+defn Constrained Local Minimizer
+ Consider min {f(x): x ∈ G}, where G ⊆ Rⁿ.
+ The point x* is a local minimzer if x* ∈ G and there exists ε > 0 s.t. ∀x ∈ B_ε(x*) ∩ G, f(x) ≥ f(x*)
+ 
+ Note: 
+  This does not require that B_ε(x*) ∩ G ≠ {x*}
+  Equivalently, ∄d ∈ B_ε(0): x* + d ∈ G and f(x* + d) < f(x*)
+  such a d would be a feasible improving direction (or step)
+
+ Informally, consider min{f(x): h(x) = 0}
+  Let y ∈ Rⁿ s.t. h(y) = 0                        #using y instead of x̅ as on whiteboard for ease of notation
+  Is there an improving direction d at y?
+
+  If d is small h(y + d) ≈ h(y) + d~∇h(y)
+ 
+  d feasible if d~∇h(y) = 0
+  d improving if d~∇f(y) < 0
+
+  Take some arbitrary d orthogonal to ∇h(y)
+  if d~∇f(y) < 0, done.
+  if d~∇f(y) > 0, take -d, which will satisfy improving condition, still feasible
+  if d~∇f(y) = 0, choose another d
+
+  There are no feasible improving directions:
+   when ∀d ∈ Rⁿ: d~∇h(y) = 0, we have d~∇f(y) = 0
+   when all directions orthogonal to ∇h(y) are also orthogonal to ∇f(y)
+   when ∇h~(y) is parallel to ∇f(y)
+
+   Such a y is called a Karush-Kuhn-Tucker (KKT) point
+
+  Example:
+   min{x₁ + x₂: x₁² + x₂² - 2 = 0}
+
+   ∇f(x) = [1 1]~
+   ∇h(x) = [2x₁ 2x₂]~
+   KKT points: x₁ = x₂, so x ∈ {[1, 1], [-1, -1]}
+
+ Informally, consider min{f(x): g(x) ≤ 0}
+  Let y be such that g(y) ≤ 0
+
+  Case 1: g(y) < 0
+   Then for a sufficiently small ‖d‖, g(y + d) < 0
+   We want d~∇f(y) < 0, which exists iff ∇f(y) ≠ 0
+  Case 2: g(y) = 0
+   d feasible if g(y + d) + d~∇g(y), so we want d~∇g(y) ≤ 0
+   d improving if d~∇f(y) < 0
+
+  No feasible improving directions:
+  Case 1: ∇f(y) = 0
+  Case 2: ∀d: d~∇g(y) ≤ 0, d~∇f(y) ≥ 0
+
+  Lemma: Let a, b ∈ Rⁿ, the following are equivalent
+   1. ∀d∈ Rⁿ d~a ≤0 ⇒ d~b ≥ 0
+   2. ∃λ: b = -λa, λ ≥ 0
+
+  Case 1: ∇f(y) = 0
+  Case 2: ∇f(y) = -λ∇g(y) for some λ ≥ 0
+
+ KKT Points: ∇f(y) = -λ∇g(y) OR λg(y) = 0, λ ≥ 0
+
+=LEC23= 2018-11-05
+
+ Recap:
+  Given min{f(x): g(x) ≤ 0} KKT at y are:
+   Case g(y) < 0: ∇f(y) = 0
+   Case g(y) = 0: ∇f(y) = -λ∇g(y) for some positive λ
+ 
+ Example:
+  min {x₁ + x₂: x₁² + x₂² - 2 ≤ 0}
+
+  Case 1: x₁² + x₂² - 2 < 0
+   ∇f(y) = [1, 1]~ = 0 never holds
+
+  Case 2: x₁² + x₂² - 2 = 0
+   ∇f(y) = [1, 1]~ = -λg(y) = -λ[2y₁, 2y₂]~
+   [-λ/2, -λ/2]~ = [y₁, y₂]~
+   y = [-1, -1]~ is the only KKT point.
+
+  defn Non Linear Problem (NLP)
+   min f(x): 
+    gᵢ(x) ≤ 0 ∀i ∈ [1, 2, ..., m]
+    hⱼ(x) = 0 ∀j ∈ [1, 2, ..., p]
+
+  defn Linearized Feasible Direction
+   Let y be feasible for (NLP)
+   A linearized feasible direction is a vector d ∈ Rⁿ:
+    i)  ∀i ∈ [1, 2, ..., m]: if gᵢ(y) = 0, d~∇gᵢ(y) ≤ 0
+    ii) ∀j ∈ [1, 2, ..., p]: d~∇hⱼ(y) = 0
+
+   The cone of linearized feasible directions at y is the set of all such directions, denoted L_(NLP)(y)
+
+  defn KKT Point
+   Let y ∈ Rⁿ,
+   y is a KKT point if it satisfies the KKT conditions:
+    i)  y is feasible for (NLP)
+    ii) ∀d ∈ L_(NLP)(y), d~∇f(y) ≥ 0
+
+  Farkas' Lemma
+   Given A ∈ Rᵐˣⁿ, b ∈ Rᵐ
+   {Ax = b, x ≥ 0} is feasible iff {A~y ≥ 0, b~y < 0} is infeasible
+
+   pf:
+    (=>)
+        #notation: x in this section is x̅ in whiteboard notes 
+    Let x be such that Ax = b, x ≥ 0
+    Then ∀ y ∈ Rᵐ, if A~y ≥ 0: x~A~y ≥ x~0 ≥ 0
+    x~A~y ≥ 0
+    (Ax)~y ≥ 0
+    b~y ≥ 0
+    Therefore, {A~y ≥ 0, b~y < 0} is infeasible
+
+    (<=)
+    Consider the primal-dual pair
+    (P) = min {0~x: Ax = b, x ≥ 0}
+    (D) = max {b~y: A~y ≤ 0}
+    Note that (P) cannot be unbounded, as 0~x is always 0.
+    Note that (D) cannot be infeasible, as y = 0 is feasible.
+
+    {Ax = b, x ≥ 0} being infeasible 
+    ⇒ (P) is infeasible, 
+    ⇒ (D) is unbounded
+    ⇒ ∃d ∈ Rᵐ: A~d ≤ 0 and b~d > 0
+    Let y = -d, so A~y ≥ 0, and b~t < 0
+    ⇒ {A~y ≥ 0, b~y < 0} is feasible
+
+    The contrapositive proves this.
+
+ Thm:
+  Let A ∈ Rᵐˣⁿ, B ∈ Rᵐˣᵖ, b∈ Rᵐ
+  {Ax + Bw = b, x ≥ 0} is feasible iff {A~y ≥ 0, B~y = 0, b~y < 0} is infeasible
+
+  pf:
+   {Ax + Bw = b, x ≥ 0} is feasible
+   ⟺ {Ax + Bw⁺ - Bw⁻ = b, x, w⁺, w⁻ ≥ 0} is feasible
+   ⟺ {[A B -B][x w⁺ w⁻]~ = b, [x w⁺ w⁻]~ ≥ 0} is feasible
+   ⟺ {[A B -B]~y ≥ 0, b~y ≥ 0} is infeasible
+   ⟺ {A~y ≥ 0, B~y ≥ 0, -B~y ≥ 0, b~y ≥ 0} is infeasible
+   ⟺ {A~y ≥ 0, B~y = 0, b~y ≥ 0} is infeasible
+
+=LEC24= 2018-11-07
+  
+ KKT conditions at y feasible for (NLP):
+  Consider the system (1)
+   d~∇gᵢ(y) ≤ 0, i = 1, ..., m: gᵢ(y) = 0
+   d~∇hⱼ(y) = 0, j = 1, ..., p
+  If (1) holds, then d~∇f(y) ≥ 0
+
+  Consider the system (2)
+   -∇gᵢ(y)~d ≥ 0, i ∈ [1, 2, ..., p] gᵢ(y) = 0 
+   ∇hⱼ(y)~d  = 0, j ∈ [1, 2, ..., p]
+   ∇f(y)~d < 0
+
+  By Farka's Lemma, (2) is infeasible iff ∃λᵢ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
+   -∑λᵢ∇gᵢ(y)     + ∑μ∇hⱼ(y) = ∇f(y)
+    i: gᵢ(y) = 0        
+
+ Thm:
+  Given (NLP), a feasible point y is a KKT point iff ∃λ ∈ Rᵐ, λ ≥ 0, μ ∈ Rᵖ:
+   -∑λᵢ∇gᵢ(y) + ∑μ∇hᵢ(y) = ∇f(y)          # differs from above expression, first sum now over all i's
+   λᵢgᵢ(y) = 0
+
+  Example
+   min {c~x: Ax = b, x ≥ 0}
+   
+   equivalently
+   min {c~x: -Ix ≤ 0, Ax - b = 0}
+   gᵢ(x) = -xᵢ, ∇gᵢ(x) = -eᵢ
+   hⱼ(x) = Aᵢ~x - bᵢ, ∇hⱼ(x) = Aᵢ~
+
+   KKT conditions ∃λ ≥ 0, μ:
+    ∑λᵢeᵢ + ∑μᵢAᵢ~ = c, λ(-yᵢ) = 0
+    ⟺ {λI + A~μ = c, y~A = 0, λ ≥ 0}
+    ⟺ {A~μ ≤ c, (c - A~μ)~y = 0}          # choosing λ = c - A~μ
+
+
+ Let Ω = {x ∈ Rⁿ: gᵢ(x) ≤ 0 ∀i, hᵢ(x) = 0 ∀i} # feasible region of (NLP)
+
+ defn Feasible Arc
+  A feasible arc at x in the direction of d is a function ϕ: [0, c] → Rⁿ for some c > 0, where
+   1) ϕ(0) = x
+   2) ϕ ∈ C¹([0, c])
+   3) ϕ'(0) = d
+   4) ϕ(t) ∈ Ω ∀t ∈ [0, c]
+
+ defn Tangent Cone
+  given a feasible point x ∈ Rⁿ, the tangent cone to Ω at x is 
+   T_Ω(x) = {d ∈ Rⁿ: ∃ feasible arc at x with direction d}
+
+ Example:
+  Ω = {x ∈ R²: ‖x‖ ≤ 1} (unit circle)
+  choose point [-1, 0]~
+  T_Ω([-1, 0]~) = {[d₁, d₂]~: d₁ ≥ 0}
+
+ Thm:
+  Let x be feasible for (NLP) and assume L_(NLP) = T_Ω
+  Then if x is a local minimizer of (NLP), then it is a KKT point
+
+=LEC25= 2018-11-09
+ Lemma: Let ϕ: R→Rⁿ and f: Rⁿ → R, with ϕᵢ ∈ C¹(R) for all i, and f ∈ C¹(Rⁿ)
+  [d/dt f(ϕ(t))](t₀) = ∇f(ϕ(t₀))~(d/dt ϕ)(t₀)
+
+  pf:
+   By chain rule, given functions a, b: 
+    a(b(x))'(x₀) = a'(b(x₀)) b'(x₀)
+   Also by chain rule, given a(y₁, y₂):
+    a(b(x), c(x))'(x₀) = δ/δy₁ a(b(x₀), c(x₀)) b'(x₀) + d/dy₂ a(b(x₀), c(x₀)) c'(x₀)
+
+   So
+    [d/dt f(ϕ(t))](t₀) 
+    = [d/dx₁ f(ϕ(t₀))](d/dt ϕ)(t₀) + ... + [d/dxₙ  f(ϕ(t₀))](d/dt ϕ)(tₙ)
+    = ∇f(t₀)~ϕ'(t₀)
+
+ Thm: (from last lecture)
+  Let x be feasible for (NLP) and assume L_(NLP) = T_Ω
+  Then if x is a local minimizer of (NLP), then it is a KKT point
+
+  pf:
+   By definition of a KKT point, we want a feasible x and all d ∈ L_(NLP)(x): d~∇f(x) ≥ 0
+   Let d ∈ L_(NLP)(x), then d ∈ T_Ω(x) so ∃ϕ feasible arc at x with direction d
+
+   Let γ(t) = f(ϕ(t)), for t ≥ 0
+
+   γ'(0) = lim (γ(t) - γ(0))/t
+           t → 0, t > 0
+   By definition of γ, γ(t) = f(ϕ(t)) and γ(0) = f(ϕ(0)) = f(x)
+   Since x is a local minimzer, γ(t) - γ(0) = f(ϕ(t)) - f(x) ≥ 0, thus γ'(0) ≥ 0
+
+   By Lemma (chain rule), γ'(0) = ∇f(ϕ(0))~ϕ'(0) = ∇f(x)~d
+   Therefore, ∇f(x)~d ≥ 0
+
+ Example where minimizer is not a KKT point:
+  min x₁ + x₂
+        - x₂ ≤ 0
+   -x₁³ + x₂ ≤ 0
+  Minimizer at [0, 0]~ = x*
+
+  f(x) = x₁ + x₂, ∇f(x) = [1, 1]~, ∇f(x*) = [1, 1]~
+  g₁(x) = -x₂, ∇g₁(x) = [0, -1]~, ∇g(x*) = [0, -1]~
+  g₂(x) = -x₁³ + x₂, ∇g₂(x) = [-3x₁², 1]~, ∇g₂(x*) = [0, 1]~
+
+  KKT gradient equation system: 
+   ∇f(x*) = -λ₁∇g₁(x*) - λ₂∇g₂(x*)
+   λ₁g₁(x*) = 0 
+   λ₂g₂(x*) = 0
+
+  ⟺ -λ₁[0, -1] - λ₂[0, 1] = [1, 1] which is infeasible, so x* cannot be a KKT point
+
+
+ Note:
+  In the example,
+  T_Ω(x*) = {x ∈ R²: x₁ ≥ 0, x₂ = 0}
+  L_(NLP)(x*) = {x ∈ R²: x₂ = 0}
+
+  These two cones are distinct, 
+   the tangent cone only cares about the feasible region, 
+   the cone of linearized feasible directions cares about the gradients of the specific problem
+
+ Example 2:
+  min x₁ + x₂
+        - x₂ ≤ 0
+   -x₁³ + x₂ ≤ 0
+   -x₁       ≤ 0
+  
+  g₃(x) = -x₁, ∇g₃(x) = [-1, 0]~, ∇g(x*) = [-1, 0]~
+  gradient equation:
+   ∇f(x*) = -λ₁[0, -1] - λ₂[0, 1] - λ₃[1, 0] = [1, 1], which is feasible
+   Therefore, x* is a KKT point!
+
+ Thm
+  ∀x ∈ Ω, T_Ω(x) ⊆ L_(NLP)(x)
+
+=LEC26= 2018-11-14
+ Constrained Optimization
+
+ Review:
+  Given NLP:
+   min f(x)
+    s.t. 
+    gᵢ(x) ≤ 0, i ∈ {1, .., m}
+    hⱼ(x) = 0, j ∈ {1, .., p}
+
+  T_Ω(x) = {d ∈ Rⁿ: ∃feasible arc Φ: Φ'(0) = d}
+  L_NLP(x) = {d ∈ Rⁿ: ∇gᵢ(x)~d ≤ 0, ∀i s.t. gᵢ(x) = 0, ∇hⱼ(x)~d = 0 ∀j}
+ 
+  KKT point:
+   x ∈ Ω is a KKT point if ∇f(x)~d ≥ 0, ∀d ∈ L_NLP(x)
+   ⟺ ∃λᵢ, μᵢ where all these hold:
+    -∑λᵢ∇gᵢ(x) + ∑μᵢhᵢ(x) = ∇f(x)
+    λᵢ ≥ 0
+    λᵢgᵢ(x) = 0 ∀i
+ 
+  Thm: Let x ∈ Ω st. T_Ω(x) = L_NLP(x) then
+   if x is a local minimizer, then x is a KKT point.
+
+
+ defn Constraint Qualification
+  A constraint qualification (CQ) is a condition on the feasible set of NLP s.t. T_Ω(x) = L_NLP(x)
+
+ Thm: Let x ∈ Ω, then T_Ω(x) ⊆ L_NLP(x)
+  pf:
+   Let x ∈ Ω and let d ∈ T_Ω(x)
+   There exists c > 0 and Φ: [0, c] s.t.
+    Φ(0) = x
+    Φ is C⁰ smooth and Φ'(0) = d
+    Φ(t) ∈ Ω ∀t ∈ [0, c]
+
+   we want d ∈ L_NLP(x):
+    ∇gᵢ(x)~d = 0, ∀i s.t. gᵢ(x) = 0
+    ∇hⱼ(x)~d = 0, ∀j
+
+   Suppose ∃i: gᵢ(x) = 0, consider Taylor epantion gᵢ∘Φ at 0 in the direction t ∈ [0, c]
+   #notation: t here is t̅ in whiteboard notes
+
+   define a function o(t) where lim t→0 o(t)/t = 0
+
+   gᵢ(Φ(t)) = gᵢ(Φ(0)) + gᵢ'(Φ(0))t + o(t)
+   Note that gᵢ(Φ(t)) ≤ 0 and that gᵢ(Φ(0)) = gᵢ(x) = 0
+   
+   0 ≥ gᵢ'(Φ(0))t + o(t)
+     = ∇gᵢ(Φ(0))~Φ'(0)t + o(t)
+     = ∇gᵢ(Φ(0))~dt + o(t)
+
+   divide both sides by t
+   0 ≥ ∇gᵢ(Φ(0))~d + o(t)/t
+
+   limit t towards 0 both sides
+   0 ≥ ∇gᵢ(Φ(0))~d + lim t → 0 o(t)/t
+     = ∇gᵢ(x)~d, by definition of o
+
+   Exercise: do for hⱼ(x)
+
+ defn Linear Independence CQ (LICQ)
+  The LICQ holds at x ∈ Ω if the set {∇gᵢ(x): gᵢ(x) = 0} ∪ {∇hⱼ(x): ∀j} is linearly independent
+
+ Thm: Let x ∈ Ω
+  if x satisfies LICQ, then T_Ω(x) = L_NLP(x)
+ 
+  pf: read up on it :) 
+
+ Note: h(x) = 0 ⟺ h(x) ≤ 0, -h(x) ≤ 0
+
+ Example:
+  min {x₁ + x₂: -x₂ ≤ 0, -x₁³ + x₂ ≤ 0}
+
+  x* = [0, 0]
+
+  Does the LICQ hold at x*?
+  ∇g₁(x) = [0, -1]
+  ∇g₂(x) = [-3x₁², 1]
+  at x*: {[0, -1], [0, 1]}
+  Clearly not linearly independent
+
+ defn Linear Programing CQ (LPCQ)
+  The LPCQ holds at x ∈ Ω if all the tight constraints are affine (of form ax - b)
+
+ Thm:
+  Let x ∈ Ω, if the LPCQ holds at x, then T_Ω(x) = L_NLP(x)
+
+  pf:
+   Let x ∈ Ω, where LPCQ holds at x.
+   Then by defintion of LPCQ, we have
+    gᵢ(x) < 0, i ∈ {1, ..., k} # for some k
+    gᵢ(x) = 0, i ∈ {k+1, ..., m} ⟹ gᵢ(x) = aᵢ~x + bᵢ
+
+    hⱼ(x) = 0 ∀j ⟹ hⱼ(x) = aⱼ~x -bⱼ
+
+   Let d ∈ L_NLP(x), we want to prove d ∈ T_Ω(x)
+   by definition of L_NLP, we have
+    0 ≥ ∇gᵢ(x)~d = aᵢ~d: i ∈ {k + 1, ..., m}
+    0 = ∇hⱼ(x)~d = aⱼ~d: ∀j
+
+   Consider Φ(t) = x + td, we have Φ(0) = x, smooth with Φ'(t) = d, Φ(t) ∈ Ω
+   ∀j: hⱼ(x + td) 
+    = aⱼ~(x + td) - bⱼ = aⱼ~x - bⱼ + aⱼ~td = aⱼ~x - bⱼ + 0 = aⱼ~x - bⱼ = 0
+   ∀i ∈ {k + + 1, .., m}: gᵢ(x + td)
+    = aᵢ~(x + td) - bⱼ = aᵢ~x - bᵢ + aᵢ~td = gᵢ(x) + t∇gᵢ(x)~d ≥ 0
+   ∀i ∈ {1, ..., k}: 
+    gᵢ(x + td) ≤ 0, ∀t ∈ [0, εᵢ), εᵢ > 0, by continuity of gᵢ
+   Then Φ is a feasible arc ∀t ≤ min{εᵢ}, so d ∈ T_Ω(x)
+
+ Thm:
+  Let x ∈ Ω s.t. a CQ holds at x, then if x is a local minimizer, x is also a KKT point.
+
+=LEC27= 2018-11-16
+ Constraint Qualifications cntd.
+
+ Example
+  min {x~Ax: ‖x‖² = 1} x ∈ Rⁿ, A ∈ Rⁿˣⁿ symmetric
+
+  We have LICQ satisfied
+  KKT satisfied at y if ∃μ: 
+   2Ay = μ2y
+   Ay = μy
+
+   at y, objective value is y~Ay = y~(μy) = μy~y = μ
+
+ 
+ Convex NLP (CP):
+  min f(x)
+   gᵢ(x) ≤ 0, i = 1..m
+   hⱼ(x) = 0, j = 1..p
+  f, gᵢ are convex
+  hⱼ are affine
+
+ defn Slater CQ
+  The Slater CQ holds for (CP) if ∃y: gᵢ(y) < 0 ∀i = {1..m} (also known as strict feasibility)
+
+ Thm:
+  If the Slater CQ holds for (CP), then T_Ω(x) = L_NLP(x) ∀x ∈ Ω
+
+ Thm: 
+  If x is a KKT point for (CP) then x is a global minimizer of (CP)
+
+  pf:
+   Let y ∈ Ω, we want f(x) ≤ f(y)
+
+   Since x is a KKT point, it follows that ∇f(x)~d ≥ 0 ∀d ∈L_NLP(x)
+   Now we want to show that d = (y - x) ∈ L_NLP(x)
+
+   Recall that if c ∈ C¹ and is a convex function, then
+    c(x) ≥ c(y) + ∇c(y)~(x - y) ∀x, y
+
+   Suppose some tight constraint gᵢ exists, that is gᵢ(x) = 0
+   Then by the above observation, 
+    gᵢ(y) ≥ gᵢ(x) + ∇gᵢ(x)~(y - x)
+   By choice, gᵢ(x) = 0
+   As y is a feasible point, gᵢ(y) ≤ 0
+   so, we get
+   0 ≥ ∇gᵢ(x)~(y - x)
+
+   Consider j ∈ {1..p}, we want ∇hⱼ(x)~(y - x) = 0
+   Since hⱼ is affine, hⱼ(x) = aⱼ~x + bⱼ
+   h(x) = 0 ⇒ aⱼ~x + bⱼ = 0
+   h(y) = 0 ⇒ aⱼ~y + bⱼ = 0
+   ∇h(x) = aⱼ
+
+   h(y) - h(x) = aⱼ~(y - x) = 0 = ∇h(x)~(y - x)
+
+   We have shown that d = (y - x) ∈ L_NLP(X)
+   by the kkt conditions:
+    ∇f(x)~d ≥ 0
+    ∇f(x)~(y - x) ≥ 0
+
+   Since f is convex, again by previous observation, we get
+   f(y) ≥ f(x) + ∇f(x)~(y - x)
+        ≥ f(x)
+
+   So, x must be a global minimizer. QED
+
+ Corollary
+  Suppose the Slater CQ holds for (CP), then x is a global minimizer iff x is a KKT point
+
+ Remark: All results for convex optimization also hold when the functions are not C¹
+
+ Example:
+  min ‖x - x⁰‖₂²
+   s.t. lᵢ ≤ xᵢ ≤ uᵢ, ∀i ∈ {1..n}, assume lᵢ < uᵢ 
+  
+  ∇f(x) = 2(x - x⁰), ∇²f(x) = 2I ≥ 0
+  gᵢ+ = xᵢ - uᵢ ≤ 0 ⇒ eᵢx - uᵢ ≤ 0
+  gᵢ- = -xᵢ + lᵢ ≤ 0 ⇒ -eᵢx + lᵢ ≤ 0
+  All convex, so this is (CP)
+  choose each xᵢ = 1/2(lᵢ + uᵢ) to satisfy Slater conditions
+ 
+  2(x - x⁰) = -∑λᵢ+~eᵢ + -∑λᵢ-~(-eᵢ)
+  x = 1/2(x⁰ - ∑(λᵢ- + λᵢ+)eᵢ)
+
+ Exercise: finish KKT conditions for example above.
+
+=LEC27= 2018-11-19
+ Example: Projection onto a box
+ Given l, u, z ∈ Rⁿ, where l < u, solve
+  min ‖x-z‖₂²: l ≤ x ≤ u
+
+  f(x) = (x-z)~(x-z) = x~Ix - 2z~x + z~z
+  gᵢ⁻(x) = lᵢ - xᵢ ≤ 0
+  gᵢ⁺(x) = xᵢ - uᵢ ≤ 0
+
+  ∇f(x) = 2x - 2z
+  ∇gᵢ⁻(x) = -eᵢ
+  ∇gᵢ⁺(x) = eᵢ
+
+ Check for LICQ:
+  For all i, at most one of the equations gᵢ⁻(x) = 0, gᵢ⁺(x) = 0 holds, by the assumption l < u
+  Thus the gradients of the active constraints at any feasible x give a subset of the columns of the identity matrix - trivially linearly independent.
+
+ Check for LPCQ:
+  All gᵢ(x) can be seen as affine
+
+ Check for Slater: The Slater point is at (l + u) / 2
+
+ KKT Necessary conditions: f convex, Ω convex
+
+ feasibility: l ≤ x ≤ u
+
+ KKT gradient equation: 
+  -∑λᵢ⁻(-eᵢ) - ∑λᵢ⁺(eᵢ) = 2(x - z)
+  λ⁻ - λ⁺ = 2(x - z), where λᵢ⁻, λᵢ⁺ ≥ 0 for all i.
+
+ Complementary slackness:
+  (xᵢ - lᵢ)λᵢ⁻ = 0
+  (xᵢ - uᵢ)λᵢ⁺ = 0
+
+ For i = 1..n:
+ Case 1: zᵢ < lᵢ
+  For any x ∈ Ω, zᵢ < xᵢ, for λ⁻ - λ⁺ = 2(x - z) > 0, we must have λ⁻ > 0
+  Because (xᵢ - lᵢ)λᵢ⁻ = 0, we must have xᵢ = lᵢ
+
+ Case 2: zᵢ > uᵢ
+  For similar reasons as case 1, we must have λᵢ⁺ > 0, and thus xᵢ = uᵢ
+
+ Case 3: lᵢ ≤ zᵢ ≤ uᵢ
+  If zᵢ < xᵢ, then λᵢ⁻ > 0, then we get xᵢ - lᵢ ≤ zᵢ < xᵢ, which is a contradiction.
+  If zᵢ > xᵢ, then λᵢ⁺ > 0, and we have xᵢ - uᵢ ≥ zᵢ > xᵢ, which is also a contradiction.
+  So zᵢ = xᵢ
+
+ Algorithm: For all i, xᵢ = median(lᵢ, zᵢ, uᵢ)
+
+_CH9-Algorithms for Constrained Optimization_
+
+A) Equality-constrained Optimization
+ min{f(x): hⱼ(x) = 0, j = 1..p}
+
+ Quadratic Penalty Method:
+  #notation: p and ρ(rho) are not the same
+
+  Choose an arbitrary starting point x⁰, ρ > 0
+  for k = 0, 1,..:
+   xᵏ⁺¹ = argmin{g_ρ(x)}        #g_ρ(x) = f(x) + ρ∑hᵢ(x)², i = 1..p
+   initialize unconstrained method at xᵏ
+   ρ = cρ, where c > 1
+
+ Why do we run the algorithm at all, just set ρ to be sufficiently large!
+  unconstrained algorithms do not give an exact x*, they only converge towards it
+  we don't want ρ to be in the same order as 1/ε
+
+ Thm:
+  Let f, hⱼ ∈ C¹(Rⁿ), j = 1..p
+  Let g(x) = ‖[h₁(x) ... hₚ(x)]~‖² = ∑[hⱼ(x)]²
+  Suppose xᵏ converges towards x* as k → ∞, and ∇hⱼ(x*) are lin independent for all j = 1..j
+
+  then either
+  a) ∇g(x*) = 0, and g(x*) > 0 OR
+  b) x* is a KKT point
+
+=LEC28= 2018-11-21
+ Quadratic penalty method
+  g_ρ(x) = f(x) + ρ∑[hⱼ(x)]², j = 1..p
+
+  Drawbacks: 
+   For a large ρ, the unconstrained problem is bad numerically.
+   By design, ρ has to be large, as when hⱼ(xᵏ) ≈ 0, ∇[hⱼ(x)]² becomes small.
+
+ Exact penalty method
+  g_ρ(x) = f(x) + ρ∑|hⱼ(x)|, j = 1..p
+
+  Advantage:
+   When hⱼ(xᵏ) ≈ 0, ∇[|hⱼ(xᵏ)|] is constant
+   drawback: |hⱼ(x)| is not differentiable.
+
+ Augmented Lagrangian penalty method
+  Lagrangian relaxtion: L(x, μ) = f(x) - ∑μⱼ*hⱼ(x), j = 1..p
+
+  Thm:
+   #notation: using y and μ* instead of x̅ and μ̅
+   KKT points y of (NLP) with multipliers μ* coincide with stationary points (y, μ*) of L
+
+   pf: KKT conditions for (NLP)
+    feasbility:
+     hⱼ(x) = 0, ∀j = 1..p
+    gradient equation:
+     ∃μ: ∑μⱼ∇hⱼ(y) = ∇f(y)
+    Stationary point of L: 
+     ∇L(y, μ*) = 0
+     = [∇_x L(y, μ*)
+        ∇_μ L(y, μ*)]
+     = [∇f(y) - ∑μⱼ∇hⱼ(y)
+        h₁(y)
+        ...
+        hₚ(y)]
+     = 0
+   
+  remarks: 
+   y is a KKT point for (NLP) iff ∃μ*: ∇L(y, μ*) = 0
+   Important: The above does not imply that (y, μ*) is a local minimizer for L.
+   However, for any KKT point y, ∃μ*: y is a local minimizer for min{L(y, μ): μ = μ*}
+  
+  Finding μ* by Augmented Lagrangian method
+   Choose x⁰, μ⁰, ρ > 0
+   for k = 0, 1, ...:
+    xᵏ⁺¹ = argmin{L_A(x, μᵏ)} #  argmin of x
+    where L_A(x, μ) = f(x) - ∑μⱼ*hⱼ(x) + ρ[∑[hⱼ(x)²]]
+     (initialized at xᵏ)
+    μᵏ⁺¹ⱼ = μᵏⱼ - 2ρhⱼ(xᵏ⁺¹)      [*]
+    ρ = C*ρ
+
+  Why [*]:
+   At xᵏ⁺¹: 
+   ∇_x L_A(xᵏ⁺¹, μᵏ) = 0
+   = ∇f(xᵏ⁺¹) - ∑μⱼ*∇hⱼ(xᵏ⁺¹) + 2ρ∑hⱼ(xᵏ⁺¹)*∇hⱼ(xᵏ⁺¹)
+   Thus, ∇f(xᵏ⁺¹) = ∑([μᵏⱼ - 2ρhⱼ(xᵏ⁺¹)]∇hⱼ(xᵏ⁺¹))
+  setting μᵏ⁺¹ⱼ to [μᵏⱼ - 2ρhⱼ(xᵏ⁺¹)] lets us satisfy the gradient equation at xᵏ⁺¹
+
+  Keep in mind we are still missing feasibility of xᵏ⁺¹, so xᵏ⁺¹ is not necessarily KKT.
+
+  Advantages of Augmented Lagarangian:
+   L_A(x, μ) is differentiable
+   in practice, will usually converge before ρ grows too large
+
+B) Inequality constrained optimization
+ Focus on the closed convex cone
+
+ defn Closed Convex Cone
+  K is a closed convex cone if it is closed, convex, nontempty and x ∈ K, λ ≥ 0 ⟹ (λx) ∈ K
+
+ The three most important cones are 
+  The nonnegative orthant
+   Rⁿ₊ = {x ∈ Rⁿ, x ≥ 0}
+  The second order cone
+   Cⁿ⁺¹₂ = {(y, x) ∈ R x Rⁿ: y ≥ ‖x‖₂}
+  The semidefinite cone
+   Sⁿ₊ = {X ∈ Rⁿˣⁿ: X is psd}
+
+=LEC29= 2018-11-23
+ Recall the cones from previous lecture (seen above)
+
+ Conic programming
+  min c~x
+  s.t. Ax = b
+        x ∈ K, where K is some closed convex cone
+
+ defn int(K)
+  int(K) = {x ∈ K: ∃δ > 0: B_δ(x) ⊆ K}
+ 
+ defn boundary(K)
+  boundary(K) = K \ int(K)
+
+ defn Barrier Function
+  A barrier function is a convex function Φ: int(K) → R, where
+   lim x→b Φ(x) = +∞ ∀b ∈ boundary(K)
+ 
+ The standard barrier functions:
+  Rⁿ₊: Φ(x) = -∑ log(xᵢ)
+  Cⁿ⁺¹₂: Φ(x) = -log[y² - ‖x‖₂²]
+  Sⁿ₊: Φ(X) = -log[det X]
+
+ primal interior point method
+  Choose x⁰ ∈ int(K): Ax⁰ = b, and a ρ⁰ > 0
+  
+  For k = 0, 1, ...:
+   xᵏ⁺¹ = argmin{g_ρ(x): Ax = b} [*]
+   where g_ρ(x) = c~x + ρᵏΦ(x), initialized at xᵏ
+   ρᵏ⁺¹ = c*ρᵏ, where c < 1 (decreaasing ρ)
+ 
+ The LP Case(K = Rⁿ₊)
+  We take a quadratic approximation of g_ρ(x) for [*] at xᵏ
+   g_ρ(x) = c~x + ρᵏΦ(x)
+   = c~xᵏ + ρᵏΦ(xᵏ) + ρᵏ(x - xᵏ)~∇Φ(xᵏ) + ρᵏ/2 * (x - xᵏ)~∇²Φ(xᵏ)(x - xᵏ)
+  letting h = x - xᵏ, [*] is now 
+   min c~xᵏ + c~h + ρᵏΦ(xᵏ) + ρᵏh~Φ(xᵏ) + ρᵏ/2 * h~Φ(xᵏ)h
+   s.t. A(xᵏ + h) = b
+    Φ(x) = -∑ log(xᵢ)
+    ∇Φ(x) = [-1/x₁
+             ...
+             -1/xₙ]
+    ∇²Φ(x) = diag(1/x₁², ..., 1/xₙ²)
+
+  so, min(c - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~)~h + ρᵏ/2 h~diag(1/xᵏ₁², ..., 1/xᵏₙ²)h
+  s.t. Ah = b - Axᵏ = 0, as xᵏ satisfies Axᵏ = b
+
+  KKT conditions:
+   gradient eq ∑μᵢ∇γ(x) = ∇f(h)
+   feasibility: Ah = 0
+
+  A~μ = c - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~ + ρᵏdiag(1/xᵏ₁², ..., 1/xᵏₙ²)h
+  Ah = 0
+
+  In matrix form
+  # notation:
+  # [...  indicates a multirow matrix with all elements within the left and right brackets as members
+  #  ***]                             
+
+  [-ρᵏdiag(...) A~ [h    = [c  - ρᵏ[-1/xᵏ₁, ..., -1/xᵏₙ]~
+   A            0]  μ]      0]
+  Easy to solve this numerically
+
+  Thm
+   For Rⁿ₊, Cⁿ⁺¹₂, Sⁿ₊, the primal interior point method satisfies 
+    ‖xᵏ - x*‖ ≤ ε 
+   after k = p(E, ε) iterations, where p is a polynomial and E is the encoding size of the problem
+   Therefore, it's a poly-time algorithm
+
+=LEC30= 2018-11-26
+ Given p closed convex cones K₁, ..., Kₚ, we have that K₁ x K₂ x ... x Kₚ = K is also a convex cone.
+ In practice, we can solve
+  min c~x
+  Ax = b
+  x ∈ K
+
+ Example: Euclidean facility location problem
+  Given b₁, ..., bₖ ∈ Rⁿ, find x ∈ Rⁿ find x ∈ Rⁿ that minimizes ∑‖bᵢ - x‖₂
+   #notation: bᵢ does not mean the ith element of vector b, each is a distinct vector
+
+  This problem is non-differentiable, and f(x) = ∑‖bᵢ - x‖₂ are not Lipschitz-continuous
+  Reformulating
+   min ∑tᵢ
+   tᵢ ≥ ‖bᵢ - x‖₂, for i = 1..k     (tᵢ, bᵢ - x) ∈ Cⁿ⁺¹₂
+
+  Reformulating again
+   min ∑tᵢ
+   tᵢ ≥ ‖yᵢ‖₂     i = 1..k          (tᵢ, y) ∈ Cⁿ⁺¹₂
+   yᵢ = bᵢ - x   i = 1..k
+
+  Once again
+   min ∑tᵢ
+   μ ≥ ‖x‖₂
+   tᵢ ≥ ‖yᵢ‖₂
+   yᵢ = bᵢ - x 
+
+  Finally
+   min 1~t
+   (μ, x, t₁, y₁, t₂, y₂, ..., tₖ, yₖ) ∈ Cⁿ⁺¹₂ x Cⁿ⁺¹₂ x Cⁿ⁺¹₂ x ... x Cⁿ⁺¹₂
+   yᵢ = bᵢ - x
+
+ defn Dual Cone
+  the dual cone of a closed convex cone K ⊆ Rⁿ is
+   K* = {s ∈ Rⁿ: s~x ≥ 0, ∀x ∈ K}
+
+ Thm
+  a. K* is a closed convex cone
+  b. K** = K
+  c. (Rⁿ₊)* = Rⁿ₊, (Cⁿ⁺¹₂)* = Cⁿ⁺¹₂, (Sⁿ₊)* = Sⁿ₊, these cones are self-dual
+
+ primal (P)          dual (D)
+  min c~x             max b~y
+  Ax = b              c - A~y ∈ K
+  x ∈ K
+
+ Thm [weak duality]
+  If x is feasible for (P) and y is feasible for (D), then c~x ≥ b~y
+
+  pf:
+   Let s = c - A~y ∈ K*, then clearly c = A~y + s
+   c~x 
+   = (A~y + s)~x
+   = y~Ax + s~x
+   = y~b + s~x
+   ≥ y~b 
+   = b~y
+
+   Note that s~x ≥ 0, by definition of the dual cone.
+
+ Thm [strong duality]
+  If (P) has a Slater point, i.e. ∃x ∈ int(K): Ax = b
+  and x* is optimal for (P) then ∃y* optimal for (D) where c~x* = b~y*
+
+ Recall that at each iteration, we solve min{g_ρ(x): Ax = b}, where g_ρ = f(x) + ρϕ(x)
+ Solutions to this problem for fixed ρ are central points
+  Together, taking all ρ > 0, they create the central path.
+ 
+ In the case of LP, (K = Rⁿ₊), g_ρ = f(x) - ρ∑log(xᵢ), and we can assume that there is a Slater point for any nontrivial case, so KKT conditions are sufficient for global optimality.
+
+ KKT conditions:
+  A~μ = ∇g_ρ(x)
+  Ax = b
+ reformulated as 
+  A~μ = ∇f(x) + ρ[-1/x₁, ..., -1/xₙ]~
+  Ax = b
+
+ Dual LP
+  max b~y
+  A~y ≤ c
+ equivalent to
+  -min -b~y
+  A~y + s = c
+  s ≥ 0
+ Adding a barrier:
+  -min -b~y -ρ∑log(sᵢ)      #denote this as F(y, s)
+  A~y + s = c
+
+ KKT conditions for modified dual
+  [A, I]~γ = [∇_yF(y, s), ∇_sF(y, s)]~ = [-b₁, ..., -bₙ, -ρ/s₁, ..., -ρ/sₙ]~
+  A~y + s = c
+ reformulated
+  Aγ = -b
+  γ = [-ρ/s₁, ..., -ρ/sₙ]~
+  A~y + s = c
+
+ By identifying μ = y and γ = -x, we get 
+  A~y = c + ρ[-1/x₁, ..., -1/xₙ]~
+  Ax = b
+  Ax = b
+  γ = [-ρ/s₁, ..., -ρ/sₙ]~
+  A~y + s = c ⟹ s = ρ[-1/x₁, ..., -1/xₙ]
+
+ primal-dual interior point method
+ Solve the system 
+  A~x = b
+  A~y + s = c
+  xᵢsᵢ = ρ ∀i = 1..n
+ using Newton's method (variant)
+
+=LEC31= 2018-11-28
+ Identifying structure in data
+
+ Classification/Labelling problem
+  We are given N input vectors in [0, 1]ⁿ that are already labelled into categories (the "training set")
+  Can an algorithm assign "good" labels to more vectors?
+
+ Neural Networks (NN)
+  A trained NN provides a function F: Rⁿ → Rᵏ
+  If x ∈ Rⁿ is an input vector, j* = argmax j: {F(x)}ⱼ
+  
+  1. Given NN, how is F(x) computed?
+  2. How to get a NN that is a good classifier?
+
+ For a single neuron:
+  output = σ₁ (a linear combination of inputs)
+  Typical choices for σ₁(x): R → R
+   sigmoid function, σ₁(x) = 1/(1+e^(-x))
+   rectified linear unit(ReLU): σ₁(x) = 0, x ≤ 0
+                                        x, x > 0
+
+  examples: σ₁(1x + 0), normal sigmoid function
+            σ₁(3x + 15), shifts the 1/2 point to x = 5, transition is much sharper
+
+ defn Weight, Bias
+  in σ₁(w~x + b₁), w ∈ R^k_l is the weight and b ∈ R₁ is the bias
+
+ For a layer of neurons:
+  All k_l neurons in layer l have the same inputs x ∈ R^n_l
+  Together, their output is in R^k_l
+  The output of a layer l is σ(Wx + b)
+  W ∈ R^k_l*n_l, b ∈ R^k_l
+  We defined σ: R^k_l → R^k_l as σ(x) = [σ₁(x₁), ..., σ_k_l(x_k_l)]~
+
+ For a NN: 
+  x₁   *   *    * = F₁(x)
+           *
+  x₂   *   *    * = F₂(x)
+l=1    2   3    4
+ 
+ #Each node is sent as input to every node on next layer
+
+output
+ l=1 x
+ l=2 σ(W²x + b²)
+ l=3 σ(W³σ(W²x = b²) + b³)
+ l=4 σ(W⁴σ(W³σ(W²x = b²) + b³) + b⁴) = F(x)
+
+ A deep NN means the number of layers L is large
+ A hidden layer is a layer l with l ≠ 1, l ≠ L
+
+ defn Training
+  Training is the process of finding Wˡ, bˡ for l = 2, ..., L that give a "good" classifier
+ defn Cost Function
+  A cost function is a function fo the weights and biases that has a "low" value when the NN gives a "good" classification of the training data
+
+ Typical cost function:
+  cost(W², ..., Wᴸ, b², ..., bᴸ) = 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂
+  y(xʲ) is e_C if xʲ is labeled to category C
+  Training: min 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂, minimizing Wʲ, bʲ for all j = 2..L
+
+ Try Gradient Descent for NN
+  Define the parameter vector p ∈ Rᴾ
+  Typically, no line search
+  Fix a constant step size η, called the learning rate
+  η is one of many "hyperparameters": a constant chosen heuristically because they work
+
+=LEC32= 2018-11-30
+ min 1/N ∑1/2 ‖y(xʲ) - F(xʲ)‖²₂, minimizing W², b², ..., Wᴸ, bᴸ
+
+ gradient
+  1/N ∑∇(1/2‖y(xʲ) - F(xʲ‖²), j = 1..N
+
+ Note that N is relatively large.
+
+ Stochastic gradient descent
+  1/|S| ∑∇(1/2‖y(xʲ) - F(xʲ‖²), summing over all j ∈ S and S ⊆ {1, ..., N}
+
+ Single-sample(|S| = 1) or mini-batch (|S| > 1)
+ Done either with repetitions (at each iteration, choose a random S)
+ OR without repetitions ({1, ..., N} is partitioned into disjoint subsets and iterations cycle these subsets)
+
+ Backpropagation
+  for a given j ∈ {1, ..., N}, computer
+  δ/δwˡᵢₖ 1/2‖y(xʲ) - F(xʲ)‖², for all l, i, k
+  δ/δbˡᵢₖ 1/2‖y(xʲ) - F(xʲ)‖², for all l, i, k
+
+  denote y = y(xʲ), 
+  aˡ = output of layer l, 
+  zˡ = Wˡaˡ⁻¹ + bˡ # weighted input of layer l
+  thus, aˡ = σ(zˡ)
+
+  define δˡᵢ = δ/δzˡᵢ 1/2‖y - aᴸ‖²      #superset is l, not 1
+
+ Lemma 1
+  δᴸᵢ = σ'(2ᴸᵢ) * (aᴸᵢ - yᵢ)             #derivative of σ
+  pf
+   δᴸᵢ
+   = δ/δzᴸᵢ 1/2‖y - aᴸ‖²
+   = δ/δaᴸᵢ 1/2‖y - aᴸ‖² δaᴸᵢ/δzᴸᵢ
+   
+   δ/δaᵢᴸ 1/2‖y - aᴸ‖²
+   = δ/δaᵢᴸ 1/2 ∑(yₖ - aᴸₖ)²
+   = ∑δ/δaᴸᵢ 1/2(yₖ - aᴸₖ)²
+   = (-1)(yᵢ - aᴸᵢ)
+   = (aᴸᵢ - yᵢ)
+
+   aᴸᵢ = σ(zᴸᵢ)
+   δaᴸᵢ/δzᴸᵢ = σ'(zᴸᵢ)
+
+   δᴸᵢ = (aᴸᵢ - yᵢ)σ'(zᴸᵢ)
+
+ Lemma 2
+  δˡᵢ = σ'(zᵢˡ)*[(wˡ⁺¹)~δˡ⁺¹]ᵢ
+  pf
+   δˡᵢ 
+   = δ/δzˡᵢ 1/2 ‖y - aᴸ‖²
+   = ∑δ/δzˡᵢ 1/2 ‖yₖ - aᴸₖ‖²
+   = ∑δ/δzˡ⁺¹ₖ 1/2 ‖yₖ - aᴸₖ‖² δzˡ⁺¹ₖ/δzˡᵢ
+
+   zˡ⁺¹ₖ = ∑wⁱ⁺¹ₖₛσ(zˡₛ) + bˡ⁺¹ₖ
+   δzˡ⁺¹ₖ/δzˡᵢ = Wˡ⁺¹ₖᵢ σ'(zˡᵢ)
+
+   δˡᵢ
+   = ∑δˡ⁺¹ₖWˡ⁺¹ₖ*σ'(z'ˡᵢ)
+ 
+ Lemma 3
+  δ/δbˡᵢ 1/2‖y - aᴸ‖² = δˡᵢ
+  pf
+   δ/δbˡᵢ 1/2‖y - aᴸ‖²
+   = δ/δzˡᵢ 1/2‖y - aᴸ‖² δzˡᵢ/δbˡᵢ
+
+   # by definition, δ/δzˡᵢ 1/2‖y - aᴸ‖² = δˡᵢ
+
+   zˡᵢ = (Wˡσ(zˡ⁻¹))ᵢ + bˡᵢ
+   δzˡᵢ/δbˡᵢ = 1
+
+   δ/δbˡᵢ 1/2‖y - aᴸ‖² = δˡᵢ * 1, as required
+
+ Lemma 4
+  δ/δwₛₖ 1/2‖y - aᴸ‖² = δˡₛ*aˡ⁻¹ₖ
+  pf
+   δ/δwₛₖ 1/2‖y - aᴸ‖²
+   = ∑δ/δwₛₖ 1/2‖yᵢ - aᴸᵢ‖²
+   = ∑δ/δzˡᵢ 1/2‖yᵢ - aᴸᵢ‖² δzˡᵢ/δwₛₖ
+
+   zˡᵢ = (Wˡσ(zˡ⁻¹))ᵢ + bˡᵢ
+   = ∑wˡᵢₖσ(zˡ⁻¹) + bˡᵢ
+   = ∑wˡᵢₖaˡ⁻¹ₖ + bˡᵢ
+   so δzˡᵢ/δwₛₕ = 0 ∀s ≠ i, and δzˡᵢ/δwᵢₕ = aˡ⁻¹ₕ
+
+   δ/δwₛₖ 1/2‖y - aᴸ‖² = δˡₛ*aˡ⁻¹ₖ, as required
+
+ In summary
+  δᴸᵢ = σ'(zᴸᵢ)*(aᴸᵢ - yᵢ)
+  δˡᵢ = σ'(zᴸᵢ)*((Wˡ⁺¹)~ δˡ⁺¹)ᵢ, ∀l = L-1, L-2, ..., 2
+  δ/δbᵢ ‖y - aᴸ‖²= δˡᵢ
+  δ/δwₛₖ ‖y - aᴸ‖²= δˡₛ*aˡ⁻¹ₖ
+
+=LEC33= 2018-12-03
+Assignment hints
+ Try KKT conditions!
+ q3 is similar to facility location example
+
+Do the practice final
+Review proofs
+
+Course Summary
+ Chapter 1: psd/pd matrices
+ Chapter 2: convexity, strong convexity
+ Chapter 3: constraint optimization
+  ∇f(x*) = 0, ∇²f(x*) pd ⟹ x* is strict local minimizer ⟹ x* is local minimizer ⟹ ∇²f(x*) is psd
+  show a function is coercive
+ Chapter 4: quadratic optimization
+  newton's method
+ Chapter 5: least squares
+  direct application of Ch4
+ Chapter 6: descent algorithms
+  opposite of gradient = steepest direction
+  newton's method convergence
+ Chapter 7: trust region methods
+  trust region subproblem
+ Chapter 8: constrained optimization
+  KKT conditions
+  conic optimization, look for dual
+ Chapter 9: neural networks
+  no proofs on final
+  maybe some T/F
+
+Final on 14th
