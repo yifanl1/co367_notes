@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1540670032 "Notes.tex" "Notes.pdf" "Notes" 1540670033
+["pdflatex"] 1544573010 "Notes.tex" "Notes.pdf" "Notes" 1544573010
   "/usr/local/texlive/2016basic/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2016basic/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "/usr/local/texlive/2016basic/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm" 1246382020 1120 7f9f170e8aa57527ad6c49feafd45d54 ""
@@ -100,12 +100,12 @@
   "/usr/local/texlive/2016basic/texmf-dist/tex/latex/outlines/outlines.sty" 1480098836 4614 0e87f5d4bbe7b8f03b29c7941684b222 ""
   "/usr/local/texlive/2016basic/texmf-dist/tex/latex/tools/bm.sty" 1459635588 12357 b071cb9fa20a55b382209173a509533d ""
   "/usr/local/texlive/2016basic/texmf-dist/web2c/texmf.cnf" 1463093894 31953 b9489e6e586f798610c60aec1f5ec548 ""
-  "/usr/local/texlive/2016basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1537060620 80012 8595439c5b7809e715780ca9e23ffc8d ""
+  "/usr/local/texlive/2016basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1542212701 80204 6d263f6cf7390b727bcf7f5ed4d4861f ""
   "/usr/local/texlive/2016basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1496436281 2502198 5d43e707824ede036ce3cb9a254b6903 ""
   "/usr/local/texlive/2016basic/texmf.cnf" 1463981856 628 02e65753891144204a0c89f7fa5761b2 ""
-  "Notes.aux" 1540670033 313 5ad7f236018d003b710d739c9b89a413 ""
-  "Notes.tex" 1540670031 20211 c2df05d792fbfaeac8df406f7119bbc5 ""
+  "Notes.aux" 1544573010 396 542139afd6f8d14ab533438b7d2a367b ""
+  "Notes.tex" 1544573010 23787 e7fcafb681942e88e29d5d06f86ed73d ""
   (generated)
+  "Notes.pdf"
   "Notes.log"
   "Notes.aux"
-  "Notes.pdf"

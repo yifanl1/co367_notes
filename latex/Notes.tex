@@ -521,4 +521,76 @@ intuition.
 $\nabla^2 f(x)$ is psd $\forall x \in D$
 \end{outline}
 The proof of these properties is left as an exercise to the reader.
+\section{Optimality Condition}
+\begin{thm} First order necessary conditions for optimality.\\
+Let $f : \mathbb{R}^n \to \mathbb{R}$ be $C^1$ smooth. If $x_*$ is a local minimizer, then $\nabla f(x_*) = 0$
+\end{thm}
+\noindent \textbf{Proof: } Let $B = B_\delta(x_*)$ be an open ball around $x_*$. Since $x_*$
+is a local minimizer we have that $\forall x \in B$ $f(x) \geq f(x_*)$.\\\\
+Now $\forall i,$ $\forall h -\delta < h < \delta$ we have that $f(x_* + h e_i) -
+f(x_*) \geq 0$. Therefore
+\[\frac{f(x_* + h e_i) - f(x_*)}{h} \geq 0 \text{ if } h > 0\]
+\[\frac{f(x_* + h e_i) - f(x_*)}{h} \leq 0 \text{ if } h < 0\]
+Thus we can conclude $\nabla f(x_*) = 0$.
+\begin{defn} Critical/Stationary\\
+All $x$ such that $\nabla f(x) = 0$ are called critical points or stationary
+points. All local minimizers are critical points but the converse is not true.
+Critical points can also be maximizers and saddle points, which are both
+minimizers and maximizers.
+\end{defn}
+\begin{rem}
+Recall that since $\frac{\delta^2 f}{\delta x \delta y} = \frac{\delta^2
+f}{\delta y \delta x}$ we have that $\nabla^2 f$ is symmetric. Note that this
+only holds, and is infact equivalent, to saying that $f$ is $C^2$ smooth.
+\end{rem}
+\begin{thm} Second order necessary conditions for optimality.\\
+Let $f$ be $C^2$ smooth. If $x_*$ is a local minimizer then $\nabla f(x_*) = 0 $
+and $\nabla^2 f(x_*)$ is psd.
+\end{thm}
+\noindent \textbf{Proof: } Note that the first part of this proof promptly
+follows from the theorem given above.\\
+
+Let $H = \nabla^2 f(x_*)$ and $z \in \mathbb{R}^n - \{0\}$.
+We need that $z^T H z \geq 0$. Let $B = B_\delta(x_*)$ such that $\forall x \in
+B$ we have that $f(x) \geq f(x_*)$. Let $y = \frac{hz}{\|z\|}$ with $0 < h <
+\delta$.
+Now notice that
+\[f(x_* + y) - f(x_*) \geq 0\]
+\[f(x_*) + y \nabla f(x_*) + \frac{1}{2} y^T H y + \Phi(h) - f(x_*) \geq 0\]
+where $\lim_{y \to 0} \frac{\Phi(y)}{\|y\|^2} = 0, y\not = 0$ by first order
+condition $y^T \nabla f(x_*) = 0$
+\begin{align*}
+\frac{1}{2} y^T H y + \Phi(y) &\geq 0\\
+\frac{1}{2} \frac{h^2}{\|z\|^2} z^T f(x_*) z + \Phi\Big(\frac{hz}{\|z\|}\Big) &\geq 0\\
+z^T H z + 2 \frac{\|z\|^2}{h^2} \Phi\Big(\frac{hz}{\|z\|}\Big) &\geq 0\\
+z^T H z + 2 \|z\|^2,\text{ } \lim_{h \to 0} \frac{\Phi\Big(\frac{hz}{\|z\|}\Big)}{h^2} &
+\geq 0\\
+z^T H z &\geq 0
+\end{align*}
+\begin{thm} Second order sufficient conditions for local optimality.\\
+Let $f$ be $C^2$ smooth in an open ball around $x_*$ of radius $\delta$, for
+$x_* \in \mathbb{R}^n$ and $\delta > 0$. If $\nabla f(x_*) = 0$ and $H$ is pd,
+then $x_*$ is a strict local minimizer.
+\end{thm}
+\noindent \textbf{Proof (Although I do recommend this as an exercise to the
+reader): }\\
+
+By Taylor 2- order: $\forall h \in B$, $f(x_* + h) = f(x_*) + h^T \nabla f(x_*)
++ \frac{1}{2} h^T H h + \Phi(h)$.
+\section*{Lagrange Multipliers in terms of Diff Geo}
+Suppose $f_1, \hdots, f_k : U_k \to \mathbb{R}$, $S_i = f_i^{-1}(c)$, $S =
+\cap_{l = 1}^k S_i$.\\
+
+ Say that $\nabla f_i(q) \not = 0, \forall Q \in S_i$.
+Suppose that $g : U \to \mathbb{R}$ and $p \in S$ is a local max of $g$.
+Therefore $\nabla g(p) \in \text{span}(\nabla f_1(p), \hdots, \nabla f_k(p))$.
+The tangent space to $S$ is
+\[[\text{span}(\nabla f_1(p), \hdots \nabla f_k(p))]^{\bot}\]
+Now since $g$ is a local maximizer we have $D_v g(p) = 0$. Therefore
+$v \cdot \nabla g(p)$. Since $v \in T_p S$ we have that
+\[\nabla g(p) \in \text{span}(\nabla f_1(p), \hdots, \nabla f_k(p))\]
+Therefore
+\[\nabla g(p) = \begin{bmatrix} \nabla f_1(p) & \hdots & \nabla f_k(p)
+\end{bmatrix} \lambda\]
+Where $\lambda \in \mathbb{R}^k$
 \end{document}
