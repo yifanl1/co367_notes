@@ -1392,11 +1392,11 @@ defn Constrained Local Minimizer
   If (1) holds, then d~∇f(y) ≥ 0
 
   Consider the system (2)
-   -∇gᵢ(y)~d ≥ 0, i ∈ [1, 2, ..., p] gᵢ(y) = 0 
+   -∇gᵢ(y)~d ≥ 0, i ∈ [1, 2, ..., p]: gᵢ(y) = 0 
    ∇hⱼ(y)~d  = 0, j ∈ [1, 2, ..., p]
    ∇f(y)~d < 0
 
-  By Farka's Lemma, (2) is infeasible iff ∃λᵢ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
+  By Farka's Lemma, (2) is infeasible iff ∃λ ∈ Rᵐ, λᵢ ≥ 0, μ ∈ Rᵐ:
    -∑λᵢ∇gᵢ(y)     + ∑μ∇hⱼ(y) = ∇f(y)
     i: gᵢ(y) = 0        
 
@@ -1435,7 +1435,7 @@ defn Constrained Local Minimizer
  Example:
   Ω = {x ∈ R²: ‖x‖ ≤ 1} (unit circle)
   choose point [-1, 0]~
-  T_Ω([-1, 0]~) = {[d₁, d₂]~: d₁ ≥ 0}
+  T_Ω([-1, 0]~) = {[d₁, d₂]~: d₁ = 0}
 
  Thm:
   Let x be feasible for (NLP) and assume L_(NLP) = T_Ω
@@ -1554,7 +1554,7 @@ defn Constrained Local Minimizer
     ∇gᵢ(x)~d = 0, ∀i s.t. gᵢ(x) = 0
     ∇hⱼ(x)~d = 0, ∀j
 
-   Suppose ∃i: gᵢ(x) = 0, consider Taylor epantion gᵢ∘Φ at 0 in the direction t ∈ [0, c]
+   Suppose ∃i: gᵢ(x) = 0, consider Taylor expantion gᵢ∘Φ at 0 in the direction t ∈ [0, c]
    #notation: t here is t̅ in whiteboard notes
 
    define a function o(t) where lim t→0 o(t)/t = 0
